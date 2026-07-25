@@ -1,4 +1,4 @@
-import { DAYS, EVENT, VENUE } from '../data/festival.js'
+import { DAYS, EVENT, THEMES, VENUE } from '../data/festival.js'
 import Reveal from './Reveal.jsx'
 import { BarnIcon, ExternalIcon } from './icons.jsx'
 
@@ -19,20 +19,25 @@ export default function Footer() {
         </p>
 
         {/* Die drei Tage nochmal kompakt */}
-        <ul className="mt-7 flex justify-center gap-2">
-          {DAYS.map((day) => (
-            <li
-              key={day.id}
-              className="rounded-xl border border-white/12 bg-white/6 px-3 py-2 text-left"
-            >
-              <span className="block text-[0.6rem] font-bold uppercase tracking-[0.12em] text-sand-200/60">
-                {day.weekdayShort} {day.dayNumber}.09.
-              </span>
-              <span className="block text-[0.72rem] font-bold text-sand-50">
-                {day.shortTitle}
-              </span>
-            </li>
-          ))}
+        <ul className="mt-7 grid grid-cols-3 gap-2">
+          {DAYS.map((day) => {
+            const theme = THEMES[day.theme]
+            return (
+              <li
+                key={day.id}
+                className={`rounded-xl border px-2.5 py-2 text-left ${theme.chip}`}
+              >
+                <span
+                  className={`block text-[0.6rem] font-bold uppercase tracking-[0.12em] ${theme.chipLabel}`}
+                >
+                  {day.weekdayShort} {day.dayNumber}.09.
+                </span>
+                <span className="block hyphens-auto break-words text-[0.7rem] font-bold leading-tight text-sand-50">
+                  {day.shortTitle}
+                </span>
+              </li>
+            )
+          })}
         </ul>
 
         <p className="mx-auto mt-7 max-w-xs text-sm leading-relaxed text-sand-200/75">

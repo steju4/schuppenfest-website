@@ -47,14 +47,18 @@ werden.
 | `EVENT`   | Titel, Zeitraum, Claim, Schlusssatz, Veranstalter             |
 | `VENUE`   | Adresse und Koordinaten (Pin auf der Karte)                   |
 | `DAYS`    | Programm je Festtag – Basis für Hero-Chips, Zeitplan, Footer  |
-| `THEMES`  | Farbidentität je Tag (Samstag pink, Sonntag messing, Montag türkis) |
+| `THEMES`  | Farbidentität je Tag – Tageskarten, Hero-/Footer-Kacheln, aktive Sticky-Nav |
 | `PARTY`   | Samstagabend: DJ, Einlass, Eintritt, Specials, Party-Pass     |
 | `FACTS`   | Kacheln im Block „Gut zu wissen“                              |
 | `TRAVEL`  | Anfahrt-Hinweis Biberbahn                                     |
 
 Bei den Programmpunkten gilt: `ensemble` ist der ausgeschriebene Kapellenname
 (wird mit Noten-Icon angezeigt), `note` ein einfacher Zusatzhinweis.
-`shortTitle` ist die Kurzform für die engen Tages-Chips in Hero und Footer.
+`shortTitle` ist die Kurzform für die engen Tages-Kacheln in Hero und Footer.
+Lange Wörter dort mit einem weichen Trennzeichen (`\u00AD`) versehen – siehe
+„Feierabend\u00ADhock“. Das erzeugt beim Umbruch ein sauberes „Feierabend-“
+statt eines Bruchs mitten in der Silbe, unabhängig davon ob der Browser ein
+Silbentrenn-Wörterbuch für Deutsch hat.
 
 ## DJ-Logo
 
@@ -105,7 +109,11 @@ src/
 - **Rhythmus:** dunkle und helle Abschnitte wechseln sich ab (Hero dunkel →
   Programm hell → Mallorca Party dunkel → Anfahrt hell → Footer dunkel).
 - **Farbcodierung pro Tag:** Samstag pink/orange (Mallorca), Sonntag messing
-  (Blasmusik), Montag türkis (Ausklang) – siehe `THEMES`.
+  (Blasmusik), Montag türkis (Ausklang) – siehe `THEMES`. Sie zieht sich durch
+  Tageskarten, die Kacheln in Hero und Footer und den aktiven Punkt der
+  Sticky-Nav. Zusätzlich haben die Kacheln in „Gut zu wissen“ und die
+  Specials je einen eigenen gedämpften Akzent, damit die Seite nicht
+  einfarbig wirkt.
 - **Schlicht statt dekoriert:** der Hero trägt die Seite über Typografie,
   Countdown und die drei Tageskarten – ohne große Illustration.
 - **Grafiken sind Inline-SVG** (Icons, Specials). Einziges Bild ist das
@@ -148,7 +156,7 @@ Quelle belegt:
 
 - Sonntag: „Warme Küche für den großen Hunger“, „Große Auswahl an
   selbstgebackenen Kuchen“, „Auch am Abend wird durchgehend bewirtet“
-- Montag: „Der Klassiker zum Feierabend“ (zu Wurstsalat & Vesper)
+- Montag: „Der Klassiker zum Feierabend“ (zu Wurstsalat)
 - „Bei jedem Wetter“ im Block *Gut zu wissen*
 - Die Uhrzeiten der Bewirtung stehen bewusst als „mittags“, „nachmittags“ und
   „abends“ – konkrete Zeiten lagen nicht vor.

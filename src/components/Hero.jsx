@@ -1,4 +1,4 @@
-import { DAYS, EVENT, VENUE } from '../data/festival.js'
+import { DAYS, EVENT, THEMES, VENUE } from '../data/festival.js'
 import Countdown from './Countdown.jsx'
 import QuickActions from './QuickActions.jsx'
 import { ArrowDownIcon, BarnIcon, PinIcon } from './icons.jsx'
@@ -55,21 +55,28 @@ export default function Hero() {
 
         {/* Drei Tage auf einen Blick */}
         <ul className="mt-7 grid grid-cols-3 gap-2">
-          {DAYS.map((day) => (
-            <li key={day.id}>
-              <a
-                href={`#${day.id}`}
-                className="flex h-full flex-col gap-1 rounded-2xl border border-white/12 bg-white/6 p-3 transition hover:border-white/25 hover:bg-white/12"
-              >
-                <span className="text-[0.62rem] font-bold uppercase tracking-[0.14em] text-sand-200/60">
-                  {day.weekdayShort} {day.dayNumber}.09.
-                </span>
-                <span className="text-[0.8rem] font-bold leading-tight text-sand-50">
-                  {day.shortTitle}
-                </span>
-              </a>
-            </li>
-          ))}
+          {DAYS.map((day) => {
+            const theme = THEMES[day.theme]
+            return (
+              <li key={day.id}>
+                <a
+                  href={`#${day.id}`}
+                  className={`flex h-full flex-col gap-1 rounded-2xl border p-3 transition ${theme.chip}`}
+                >
+                  <span
+                    className={`text-[0.62rem] font-bold uppercase tracking-[0.14em] ${theme.chipLabel}`}
+                  >
+                    {day.weekdayShort} {day.dayNumber}.09.
+                  </span>
+                  {/* Trennung mit Bindestrich, sonst passt „Feierabendhock“
+                      nicht in die schmale Spalte */}
+                  <span className="hyphens-auto break-words text-[0.78rem] font-bold leading-tight text-sand-50">
+                    {day.shortTitle}
+                  </span>
+                </a>
+              </li>
+            )
+          })}
         </ul>
 
         {/* Aktionen */}

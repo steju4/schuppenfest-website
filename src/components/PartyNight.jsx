@@ -6,6 +6,13 @@ import { ClockIcon, PersonIcon, TicketIcon } from './icons.jsx'
 
 const saturday = DAYS.find((day) => day.theme === 'party')
 
+/** Leicht unterschiedliche Tönung je Special-Kachel. */
+const TINTS = {
+  sunset: 'border-sunset-300/25 bg-sunset-500/12',
+  brass: 'border-brass-400/25 bg-brass-400/12',
+  lagoon: 'border-lagoon-400/25 bg-lagoon-500/12',
+}
+
 /** Dezente Palmwedel-Silhouette für die Ecken. */
 function PalmFrond({ className }) {
   return (
@@ -106,7 +113,7 @@ export default function PartyNight() {
               return (
                 <li
                   key={special.title}
-                  className="flex flex-col items-center gap-2 rounded-2xl border border-white/12 bg-white/8 px-2 py-4 text-center backdrop-blur-sm"
+                  className={`flex flex-col items-center gap-2 rounded-2xl border px-2 py-4 text-center backdrop-blur-sm ${TINTS[special.tint]}`}
                 >
                   <Art className="size-12" />
                   <span className="text-[0.78rem] font-bold leading-tight text-sand-50">

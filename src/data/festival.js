@@ -73,8 +73,8 @@ export const DAYS = [
     dayNumber: '20',
     monthLabel: '09.2026',
     dateLabel: '20.09.2026',
-    title: 'Frühschoppen',
-    shortTitle: 'Frühschoppen',
+    title: 'Festsonntag',
+    shortTitle: 'Festsonntag',
     subtitle: 'Blasmusik und Bewirtung von mittags bis abends',
     items: [
       {
@@ -121,8 +121,8 @@ export const DAYS = [
     monthLabel: '09.2026',
     dateLabel: '21.09.2026',
     title: 'Feierabendhock',
-    shortTitle: 'Feierabend',
-    subtitle: 'Gemütlicher Festausklang mit Vesper',
+    shortTitle: 'Feierabend\u00ADhock',
+    subtitle: 'Gemütlicher Festausklang',
     items: [
       {
         time: 'ab 17:30 Uhr',
@@ -131,7 +131,7 @@ export const DAYS = [
       },
       {
         time: 'ab 17:30 Uhr',
-        title: 'Wurstsalat & Vesper',
+        title: 'Wurstsalat',
         kind: 'food',
         note: 'Der Klassiker zum Feierabend',
       },
@@ -151,21 +151,28 @@ export const THEMES = {
     accentText: 'text-berry-500',
     softBg: 'bg-berry-500/8',
     dot: 'bg-berry-500',
-    chipBg: 'bg-berry-500/10',
+    // Kachel auf dunklem Grund (Hero, Footer)
+    chip: 'border-berry-400/35 bg-berry-500/14 hover:border-berry-400/60 hover:bg-berry-500/22',
+    chipLabel: 'text-berry-400',
+    navActive: 'bg-berry-500 text-white',
   },
   brass: {
     label: 'Blasmusik',
     accentText: 'text-brass-600',
     softBg: 'bg-brass-400/12',
     dot: 'bg-brass-500',
-    chipBg: 'bg-brass-400/15',
+    chip: 'border-brass-400/35 bg-brass-400/14 hover:border-brass-400/60 hover:bg-brass-400/22',
+    chipLabel: 'text-brass-400',
+    navActive: 'bg-brass-500 text-white',
   },
   lagoon: {
     label: 'Ausklang',
     accentText: 'text-lagoon-600',
     softBg: 'bg-lagoon-500/8',
     dot: 'bg-lagoon-500',
-    chipBg: 'bg-lagoon-500/10',
+    chip: 'border-lagoon-400/35 bg-lagoon-500/14 hover:border-lagoon-400/60 hover:bg-lagoon-500/22',
+    chipLabel: 'text-lagoon-400',
+    navActive: 'bg-lagoon-500 text-white',
   },
 }
 
@@ -185,10 +192,25 @@ export const PARTY = {
     logo: '/dj-hasamohr.png',
   },
   specials: [
-    { icon: 'tower', title: '3-Liter-Säulen', note: 'Für die ganze Runde' },
-    { icon: 'stein', title: 'Mischen & Bier', note: 'Im Masskrug' },
+    {
+      icon: 'tower',
+      tint: 'sunset',
+      title: '3-Liter-Säulen',
+      note: 'Für die ganze Runde',
+    },
+    {
+      icon: 'stein',
+      tint: 'brass',
+      title: 'Mischen & Bier',
+      note: 'Im Masskrug',
+    },
     // Non-breaking hyphen: bricht nach „Special“ statt mitten im Wort.
-    { icon: 'shirt', title: 'Special T‑Shirts', note: 'Nur am Fest' },
+    {
+      icon: 'shirt',
+      tint: 'lagoon',
+      title: 'Special T‑Shirts',
+      note: 'Nur am Fest',
+    },
   ],
 }
 
@@ -196,21 +218,25 @@ export const PARTY = {
 export const FACTS = [
   {
     icon: 'ticket',
+    color: 'berry',
     title: 'Eintritt',
     text: 'Am Samstag ist der Eintritt bis 20:30 Uhr frei, danach kostet er 7 €.',
   },
   {
     icon: 'person',
+    color: 'sunset',
     title: 'Unter 18 Jahren',
     text: 'Zur Mallorca Party am Samstag ist der Einlass unter 18 Jahren nur mit Party-Pass möglich.',
   },
   {
     icon: 'plate',
+    color: 'brass',
     title: 'Bewirtung',
-    text: 'Am Sonntag gibt es Mittagstisch, Kaffee & Kuchen und Abendessen, am Montag Wurstsalat und Vesper.',
+    text: 'Am Sonntag gibt es Mittagstisch, Kaffee & Kuchen und Abendessen, am Montag Wurstsalat.',
   },
   {
     icon: 'barn',
+    color: 'lagoon',
     title: 'Bei jedem Wetter',
     text: 'Gefeiert wird im Menninger Schuppen – das Fest findet also auch bei Regen statt.',
   },

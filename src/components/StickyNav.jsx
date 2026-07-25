@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { DAYS, EVENT } from '../data/festival.js'
+import { DAYS, EVENT, THEMES } from '../data/festival.js'
 import { PinIcon } from './icons.jsx'
 
 /**
@@ -75,6 +75,7 @@ export default function StickyNav() {
         <ul className="flex items-center gap-1">
           {DAYS.map((day) => {
             const isActive = activeDay === day.id
+            const theme = THEMES[day.theme]
             return (
               <li key={day.id}>
                 <a
@@ -83,7 +84,7 @@ export default function StickyNav() {
                   aria-current={isActive ? 'true' : undefined}
                   className={`flex size-9 items-center justify-center rounded-full text-[0.78rem] font-bold transition ${
                     isActive
-                      ? 'bg-ink text-sand-50'
+                      ? theme.navActive
                       : 'bg-ink/6 text-ink-soft hover:bg-ink/12'
                   }`}
                 >

@@ -10,6 +10,14 @@ const ICONS = {
   barn: BarnIcon,
 }
 
+/** Jede Kachel bekommt einen eigenen, gedämpften Akzent. */
+const COLORS = {
+  berry: 'bg-berry-500/10 text-berry-500',
+  sunset: 'bg-sunset-500/12 text-sunset-500',
+  brass: 'bg-brass-400/15 text-brass-600',
+  lagoon: 'bg-lagoon-500/10 text-lagoon-600',
+}
+
 export default function Facts() {
   return (
     <section id="infos" className="px-5 py-14 sm:py-20">
@@ -33,8 +41,10 @@ export default function Facts() {
                 delay={index * 70}
                 className="card flex gap-3.5 p-4"
               >
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-sand-100">
-                  <Icon className="size-5 text-berry-500" />
+                <span
+                  className={`flex size-10 shrink-0 items-center justify-center rounded-full ${COLORS[fact.color]}`}
+                >
+                  <Icon className="size-5" />
                 </span>
                 <div>
                   <h3 className="text-[0.95rem] font-extrabold tracking-tight text-ink">
