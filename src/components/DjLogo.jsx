@@ -82,8 +82,8 @@ export default function DjLogo({ light = false }) {
       <img
         src={PARTY.dj.logo}
         alt={`Logo ${PARTY.dj.name}`}
-        width="480"
-        height="216"
+        width="760"
+        height="553"
         loading="lazy"
         onError={() => setHasFile(false)}
         className="mx-auto h-auto w-full max-w-[15rem]"

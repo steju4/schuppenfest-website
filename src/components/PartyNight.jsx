@@ -82,7 +82,9 @@ export default function PartyNight() {
 
         {/* DJ */}
         <Reveal delay={140} className="mt-4">
-          <div className="rounded-3xl bg-sand-50 p-6 text-center shadow-xl shadow-night/30">
+          {/* Weisse Karte: das Logo trägt eine weisse Sticker-Kontur,
+              die nur auf Weiss so wirkt wie gestaltet. */}
+          <div className="rounded-3xl bg-white p-6 text-center shadow-xl shadow-night/30">
             <p className="text-[0.66rem] font-bold uppercase tracking-[0.18em] text-ink-soft">
               An den Turntables
             </p>

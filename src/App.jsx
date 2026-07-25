@@ -1,3 +1,4 @@
+import Facts from './components/Facts.jsx'
 import Footer from './components/Footer.jsx'
 import Hero from './components/Hero.jsx'
 import Location from './components/Location.jsx'
@@ -15,6 +16,7 @@ export default function App() {
         <Programm />
         <PartyNight />
         <Location />
+        <Facts />
       </main>
       <Footer />
     </>

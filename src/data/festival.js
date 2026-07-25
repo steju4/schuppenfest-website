@@ -11,6 +11,8 @@ export const EVENT = {
   dateRangeShort: '19.–21.09.2026',
   claim: 'Drei Tage feiern im Menninger Schuppen',
   closing: 'Die Musikkapelle Menningen freut sich auf Euch!',
+  /** Beginn des Fests – Basis für den Countdown (Samstag, 20 Uhr). */
+  startsAt: '2026-09-19T20:00:00+02:00',
   organizer: {
     name: 'Musikkapelle Menningen e.V.',
     url: 'https://www.mk-menningen.de/',
@@ -30,8 +32,10 @@ export const VENUE = {
 /**
  * Programm je Festtag.
  * `theme` steuert die Farbidentität des Tages (siehe THEMES unten).
- * Pro Programmpunkt: `time`, `title` und optional
- *  - `ensemble`: ausgeschriebener Name der Kapelle (mit Noten-Icon)
+ *
+ * Programmpunkte haben `time`, `title` und optional:
+ *  - `kind`: 'music' (Standard) | 'food' | 'party' – steuert Icon und Farbe
+ *  - `ensemble`: ausgeschriebener Name der Kapelle
  *  - `note`: einfacher Zusatzhinweis
  */
 export const DAYS = [
@@ -50,11 +54,13 @@ export const DAYS = [
       {
         time: 'ab 20 Uhr',
         title: 'Einlass & Party-Start',
+        kind: 'party',
         note: 'Mallorca Party mit DJ Hasamohr',
       },
       {
         time: 'bis 20:30 Uhr',
         title: 'Eintritt frei',
+        kind: 'party',
         note: 'danach 7 € Eintritt',
       },
     ],
@@ -69,7 +75,7 @@ export const DAYS = [
     dateLabel: '20.09.2026',
     title: 'Frühschoppen',
     shortTitle: 'Frühschoppen',
-    subtitle: 'Blasmusik von mittags bis abends',
+    subtitle: 'Blasmusik und Bewirtung von mittags bis abends',
     items: [
       {
         time: 'ab 11:30 Uhr',
@@ -77,14 +83,32 @@ export const DAYS = [
         ensemble: 'Musikverein Emmingen',
       },
       {
+        time: 'mittags',
+        title: 'Reichhaltiger Mittagstisch',
+        kind: 'food',
+        note: 'Warme Küche für den großen Hunger',
+      },
+      {
         time: 'ab 14:30 Uhr',
         title: 'Unterhaltung mit dem MV Heudorf/Scheer',
         ensemble: 'Musikverein Heudorf/Scheer',
       },
       {
+        time: 'nachmittags',
+        title: 'Kaffee & Kuchen',
+        kind: 'food',
+        note: 'Große Auswahl an selbstgebackenen Kuchen',
+      },
+      {
         time: 'ab 17:30 Uhr',
         title: 'Unterhaltung mit der MK Buchheim',
         ensemble: 'Musikkapelle Eintracht Buchheim',
+      },
+      {
+        time: 'abends',
+        title: 'Abendessen',
+        kind: 'food',
+        note: 'Auch am Abend wird durchgehend bewirtet',
       },
     ],
   },
@@ -98,12 +122,18 @@ export const DAYS = [
     dateLabel: '21.09.2026',
     title: 'Feierabendhock',
     shortTitle: 'Feierabend',
-    subtitle: 'Gemütlicher Festausklang',
+    subtitle: 'Gemütlicher Festausklang mit Vesper',
     items: [
       {
         time: 'ab 17:30 Uhr',
         title: 'Feierabendhock mit der Jugendkapelle Meßkirch',
         ensemble: 'Jugendkapelle Meßkirch',
+      },
+      {
+        time: 'ab 17:30 Uhr',
+        title: 'Wurstsalat & Vesper',
+        kind: 'food',
+        note: 'Der Klassiker zum Feierabend',
       },
       {
         time: 'ab 18:30 Uhr',
@@ -119,29 +149,23 @@ export const THEMES = {
   party: {
     label: 'Party',
     accentText: 'text-berry-500',
-    accentBg: 'bg-berry-500',
     softBg: 'bg-berry-500/8',
-    ring: 'ring-berry-500/20',
-    gradient: 'from-sunset-400 to-berry-500',
     dot: 'bg-berry-500',
+    chipBg: 'bg-berry-500/10',
   },
   brass: {
     label: 'Blasmusik',
     accentText: 'text-brass-600',
-    accentBg: 'bg-brass-500',
-    softBg: 'bg-brass-400/10',
-    ring: 'ring-brass-500/20',
-    gradient: 'from-brass-400 to-sunset-500',
+    softBg: 'bg-brass-400/12',
     dot: 'bg-brass-500',
+    chipBg: 'bg-brass-400/15',
   },
   lagoon: {
     label: 'Ausklang',
     accentText: 'text-lagoon-600',
-    accentBg: 'bg-lagoon-500',
     softBg: 'bg-lagoon-500/8',
-    ring: 'ring-lagoon-500/20',
-    gradient: 'from-lagoon-400 to-lagoon-600',
     dot: 'bg-lagoon-500',
+    chipBg: 'bg-lagoon-500/10',
   },
 }
 
@@ -149,7 +173,7 @@ export const THEMES = {
 export const PARTY = {
   title: 'Mallorca Party',
   kicker: 'Samstagabend',
-  lead: 'Palmen, Party-Hits und Sangria-Stimmung im Menninger Schuppen.',
+  lead: 'Party-Hits, kühle Getränke und Urlaubsstimmung im Menninger Schuppen.',
   doorsOpen: 'ab 20 Uhr',
   admissionFree: 'frei bis 20:30 Uhr',
   admissionPaid: '7 €',
@@ -158,7 +182,6 @@ export const PARTY = {
     name: 'DJ Hasamohr',
     // Schreibweise wie auf Flyer und Logo („usm Ländle“, nicht „vom Ländle“)
     tagline: 'Der Party DJ usm Ländle',
-    /** Echtes Logo hier ablegen – sonst greift die SVG-Sperrmarke. */
     logo: '/dj-hasamohr.png',
   },
   specials: [
@@ -168,6 +191,30 @@ export const PARTY = {
     { icon: 'shirt', title: 'Special T‑Shirts', note: 'Nur am Fest' },
   ],
 }
+
+/** Kompakter Infoblock „Gut zu wissen“. */
+export const FACTS = [
+  {
+    icon: 'ticket',
+    title: 'Eintritt',
+    text: 'Am Samstag ist der Eintritt bis 20:30 Uhr frei, danach kostet er 7 €.',
+  },
+  {
+    icon: 'person',
+    title: 'Unter 18 Jahren',
+    text: 'Zur Mallorca Party am Samstag ist der Einlass unter 18 Jahren nur mit Party-Pass möglich.',
+  },
+  {
+    icon: 'plate',
+    title: 'Bewirtung',
+    text: 'Am Sonntag gibt es Mittagstisch, Kaffee & Kuchen und Abendessen, am Montag Wurstsalat und Vesper.',
+  },
+  {
+    icon: 'barn',
+    title: 'Bei jedem Wetter',
+    text: 'Gefeiert wird im Menninger Schuppen – das Fest findet also auch bei Regen statt.',
+  },
+]
 
 export const TRAVEL = {
   biberbahn: {

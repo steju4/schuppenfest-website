@@ -109,3 +109,53 @@ export function BarnIcon(props) {
     </svg>
   )
 }
+
+export function PlateIcon(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M7 3v7.5a2.5 2.5 0 0 1-5 0V3" />
+      <path d="M4.5 3v18" />
+      <path d="M17 21v-8" />
+      <path d="M17 13c2.2 0 3.5-1.8 3.5-5S19.2 3 17 3s-3.5 1.8-3.5 5 1.3 5 3.5 5Z" />
+    </svg>
+  )
+}
+
+export function CalendarIcon(props) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3.5" y="5" width="17" height="15.5" rx="3" />
+      <path d="M3.5 9.5h17" />
+      <path d="M8 3v4M16 3v4" />
+      <path d="M8 14h3" />
+    </svg>
+  )
+}
+
+export function ShareIcon(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 3.5v11" />
+      <path d="M8 7.5 12 3.5l4 4" />
+      <path d="M5.5 12.5V19a1.5 1.5 0 0 0 1.5 1.5h10a1.5 1.5 0 0 0 1.5-1.5v-6.5" />
+    </svg>
+  )
+}
+
+export function CheckIcon(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="m5 12.5 4.5 4.5L19 7.5" />
+    </svg>
+  )
+}
+
+/** Plattenspieler – für die Party-Programmpunkte */
+export function DiscIcon(props) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="12" r="8.5" />
+      <circle cx="12" cy="12" r="2.25" />
+    </svg>
+  )
+}

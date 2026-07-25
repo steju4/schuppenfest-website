@@ -49,30 +49,30 @@ werden.
 | `DAYS`    | Programm je Festtag – Basis für Hero-Chips, Zeitplan, Footer  |
 | `THEMES`  | Farbidentität je Tag (Samstag pink, Sonntag messing, Montag türkis) |
 | `PARTY`   | Samstagabend: DJ, Einlass, Eintritt, Specials, Party-Pass     |
+| `FACTS`   | Kacheln im Block „Gut zu wissen“                              |
 | `TRAVEL`  | Anfahrt-Hinweis Biberbahn                                     |
 
 Bei den Programmpunkten gilt: `ensemble` ist der ausgeschriebene Kapellenname
 (wird mit Noten-Icon angezeigt), `note` ein einfacher Zusatzhinweis.
 `shortTitle` ist die Kurzform für die engen Tages-Chips in Hero und Footer.
 
-## DJ-Logo austauschen
+## DJ-Logo
 
-Der DJ-Block zeigt derzeit eine **in SVG nachgebaute Sperrmarke**
-(`src/components/DjLogo.jsx`): Kopfhörerbügel mit orangen Hörmuscheln, „DJ“ im
-Bügel, darunter „HASAMOHR“ und der Claim – Farben und Aufbau entsprechen dem
-Original, die Schrift ist Anton statt der Original-Poster-Type. Es ist also eine
-Annäherung, kein Faksimile.
+Das echte Logo liegt unter `public/dj-hasamohr.png` und wird angezeigt.
 
-Sobald die echte Logodatei unter
+Es wurde beim Einbau aufbereitet: auf den sichtbaren Inhalt zugeschnitten (die
+Vorlage hatte breite leere Ränder), auf 760 px Breite skaliert und auf eine
+64-Farben-Palette reduziert – **von 292 kB auf 24 kB**, ohne sichtbaren
+Qualitätsverlust.
 
-```
-public/dj-hasamohr.png
-```
+Das Logo trägt gestalterisch eine **weiße Sticker-Kontur**. Auf farbigem Grund
+wirkt die wie ein Halo – deshalb steht es auf einer **weißen Karte**, dort
+verschwindet die Kontur und das Logo sieht aus wie gedacht. Die transparente
+Vorlage war also in Ordnung; sie braucht nur den passenden Untergrund.
 
-liegt, wird **automatisch sie** angezeigt – ohne Code-Änderung. Bei anderem
-Dateinamen oder Format nur `PARTY.dj.logo` in `src/data/festival.js` anpassen.
-Fehlt die Datei, bleibt die SVG-Sperrmarke stehen; die Seite sieht also in
-keinem Fall unfertig aus.
+Fehlt die Datei einmal, greift automatisch eine in SVG nachgebaute Sperrmarke
+(`src/components/DjLogo.jsx`), damit die Seite nie kaputt aussieht. Anderer
+Dateiname? Nur `PARTY.dj.logo` in `src/data/festival.js` anpassen.
 
 ## Komponenten
 
@@ -81,15 +81,18 @@ src/
 ├── App.jsx                     Seitenaufbau
 ├── index.css                   Schriften, Design-Tokens, Utilities
 ├── data/festival.js            alle Inhalte
+├── lib/calendar.js             erzeugt die .ics-Datei zum Termin merken
 └── components/
     ├── StickyNav.jsx           Quick-Access-Leiste mit Sprung zu Sa/So/Mo
-    ├── Hero.jsx                Titelbereich: Fest, Datum, Ort, drei Tage
-    ├── HeroScene.jsx           Titelbild-SVG: Sonnenuntergang, Schuppen, Palmen
+    ├── Hero.jsx                Titelbereich: Fest, Datum, Ort, Countdown
+    ├── Countdown.jsx           Restzeit bis zum Festbeginn
+    ├── QuickActions.jsx        Termin merken (.ics) und Teilen
     ├── Programm.jsx            Zeitplan: drei Tageskarten mit Farbidentität
     ├── PartyNight.jsx          Samstagabend: Mallorca Party, DJ, Specials
     ├── Location.jsx            Adresse, Karte, Anfahrt
+    ├── Facts.jsx               „Gut zu wissen“
     ├── Footer.jsx              Schlusssatz und Veranstalter
-    ├── DjLogo.jsx              DJ-Sperrmarke mit Auto-Swap auf die echte Datei
+    ├── DjLogo.jsx              DJ-Logo mit SVG-Fallback
     ├── SpecialArt.jsx          farbige Illustrationen der Specials
     ├── Reveal.jsx              sanftes Einblenden beim Scrollen
     └── icons.jsx               Linien-Icons als Inline-SVG
@@ -103,8 +106,10 @@ src/
   Programm hell → Mallorca Party dunkel → Anfahrt hell → Footer dunkel).
 - **Farbcodierung pro Tag:** Samstag pink/orange (Mallorca), Sonntag messing
   (Blasmusik), Montag türkis (Ausklang) – siehe `THEMES`.
-- **Alle Grafiken sind Inline-SVG**, inklusive Titelbild und Specials. Es gibt
-  kein einziges Bild-Asset im kritischen Ladepfad.
+- **Schlicht statt dekoriert:** der Hero trägt die Seite über Typografie,
+  Countdown und die drei Tageskarten – ohne große Illustration.
+- **Grafiken sind Inline-SVG** (Icons, Specials). Einziges Bild ist das
+  DJ-Logo, und das lädt `loading="lazy"` weit unterhalb des ersten Bildschirms.
 
 ## Performance- und Datenschutz-Entscheidungen
 
@@ -131,3 +136,21 @@ src/
   der Seite ist deshalb als Tipp für den Festsonntag formuliert.
 - **Impressum und Datenschutzerklärung** fehlen noch. Für eine öffentliche
   Vereinsseite in Deutschland sind sie in der Regel Pflicht.
+- **Eintritt am Sonntag und Montag** ist nirgends angegeben. Die Seite macht
+  dazu bewusst keine Aussage – der Eintrittshinweis gilt ausdrücklich nur für
+  den Samstag.
+
+## Von mir formulierte Texte – bitte gegenlesen
+
+Die Programmzeiten und Kapellen stammen von den Flyern. Folgende Beschreibungen
+habe ich dagegen selbst formuliert; sie sind plausibel, aber nicht durch eine
+Quelle belegt:
+
+- Sonntag: „Warme Küche für den großen Hunger“, „Große Auswahl an
+  selbstgebackenen Kuchen“, „Auch am Abend wird durchgehend bewirtet“
+- Montag: „Der Klassiker zum Feierabend“ (zu Wurstsalat & Vesper)
+- „Bei jedem Wetter“ im Block *Gut zu wissen*
+- Die Uhrzeiten der Bewirtung stehen bewusst als „mittags“, „nachmittags“ und
+  „abends“ – konkrete Zeiten lagen nicht vor.
+
+Alles davon steht in `src/data/festival.js` und ist in einer Minute geändert.
