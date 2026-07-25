@@ -1,94 +1,100 @@
-import { EVENT, HIGHLIGHT, VENUE } from '../data/festival.js'
-import { ArrowDownIcon, ClockIcon, PinIcon, TicketIcon } from './icons.jsx'
-
-function InfoTile({ icon: Icon, label, children }) {
-  return (
-    <div className="card flex items-start gap-3 p-3.5 text-left">
-      <Icon className="mt-0.5 size-5 shrink-0 text-berry-500" />
-      <div className="min-w-0">
-        <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-ink-soft">
-          {label}
-        </p>
-        <p className="mt-0.5 text-sm font-semibold leading-snug text-ink">
-          {children}
-        </p>
-      </div>
-    </div>
-  )
-}
+import { DAYS, EVENT, VENUE } from '../data/festival.js'
+import HeroScene from './HeroScene.jsx'
+import { ArrowDownIcon, BarnIcon, PinIcon } from './icons.jsx'
 
 export default function Hero() {
   return (
     <header
       id="top"
-      className="relative flex min-h-[100svh] flex-col overflow-hidden"
+      className="relative flex min-h-[100svh] flex-col overflow-hidden bg-night text-sand-50"
     >
-      {/* Dezente Sonnenuntergangs-Stimmung, rein per CSS-Gradient */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-sand-100 via-sand-50 to-sand-50" />
-        <div className="absolute -top-32 left-1/2 size-[34rem] -translate-x-1/2 rounded-full bg-sunset-400/25 blur-3xl" />
-        <div className="absolute -right-24 top-24 size-72 rounded-full bg-berry-400/20 blur-3xl" />
-        <div className="absolute -left-20 top-72 size-64 rounded-full bg-lagoon-400/15 blur-3xl" />
+      {/* Sonnenuntergangs-Licht als Farbverlauf – kein Bild, kein Request */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="absolute -left-1/4 -top-1/4 size-[38rem] rounded-full bg-berry-500/35 blur-[90px]" />
+        <div className="absolute -right-1/3 top-0 size-[32rem] rounded-full bg-sunset-500/30 blur-[90px]" />
+        <div className="absolute -bottom-1/4 left-1/4 size-[30rem] rounded-full bg-lagoon-500/25 blur-[90px]" />
+        <div className="grain absolute inset-0 opacity-[0.07]" />
+        {/* Weicher Übergang in den hellen Seitenbereich */}
+        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-sand-50" />
       </div>
 
-      <div className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center px-5 py-14 text-center sm:py-20">
-        <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-lagoon-600">
+      {/* Titelbild: Sonnenuntergang, Schuppen, Palmen */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-[7%] flex justify-center"
+      >
+        <HeroScene className="w-[122%] max-w-[32rem] sm:max-w-[38rem]" />
+      </div>
+
+      {/* Veranstalter sitzt oben, der Titelblock unten – wie auf einem Plakat */}
+      <div className="relative mx-auto w-full max-w-lg px-5 pt-7">
+        <p className="flex items-center gap-2 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-sand-200/75">
+          <BarnIcon className="size-4 text-sunset-300" />
           {EVENT.organizer.name}
         </p>
+      </div>
 
-        <h1 className="mt-4">
-          <span className="block text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-            {EVENT.title}
+      <div className="relative mx-auto flex w-full max-w-lg flex-1 flex-col justify-end px-5 pb-12 pt-8">
+        {/* Titel */}
+        <h1>
+          <span className="display block text-[2.9rem] text-sand-50 sm:text-6xl">
+            Menninger
           </span>
-          <span className="text-sunset-gradient mt-1 block text-[2.5rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
-            {EVENT.subtitle}
+          <span className="display block bg-gradient-to-r from-sunset-300 via-sunset-400 to-berry-400 bg-clip-text text-[3.3rem] text-transparent sm:text-7xl">
+            Schuppenfest
           </span>
         </h1>
 
-        <div className="mx-auto mt-5 flex w-full max-w-[17rem] flex-col items-center gap-0.5 rounded-3xl bg-ink px-5 py-3 text-sm font-bold text-sand-50 sm:w-auto sm:max-w-none sm:flex-row sm:gap-3 sm:rounded-full sm:py-2.5 sm:text-base">
-          <span>
-            {HIGHLIGHT.day}, {HIGHLIGHT.date}
-          </span>
-          <span
-            aria-hidden
-            className="hidden h-4 w-px bg-sand-200/30 sm:block"
-          />
-          <span className="text-sunset-400">Einlass {HIGHLIGHT.doorsOpen}</span>
-        </div>
-
-        <div className="mt-6 grid gap-2.5 sm:grid-cols-2">
-          <InfoTile icon={TicketIcon} label="Eintritt">
-            {HIGHLIGHT.admissionFree}, danach {HIGHLIGHT.admissionPaid}
-          </InfoTile>
-          <InfoTile icon={PinIcon} label="Ort">
-            {VENUE.name}, {VENUE.street}
-            <span className="block font-normal text-ink-soft">
-              {VENUE.city}
+        {/* Datum + Ort */}
+        <div className="mt-5 flex flex-col gap-2.5">
+          <p className="display inline-flex w-fit items-center rounded-lg bg-sand-50 px-3 py-1.5 text-lg text-night sm:text-xl">
+            {EVENT.dateRange}
+          </p>
+          <p className="flex items-start gap-2 text-sm font-medium text-sand-200/85">
+            <PinIcon className="mt-0.5 size-4 shrink-0 text-lagoon-400" />
+            <span>
+              {VENUE.name}, {VENUE.street}
+              <span className="block text-sand-200/60">{VENUE.city}</span>
             </span>
-          </InfoTile>
+          </p>
         </div>
 
-        <div className="mt-7 flex flex-col gap-2.5 sm:flex-row sm:justify-center">
+        {/* Drei Tage auf einen Blick */}
+        <ul className="mt-7 grid grid-cols-3 gap-2">
+          {DAYS.map((day) => (
+            <li key={day.id}>
+              <a
+                href={`#${day.id}`}
+                className="flex h-full flex-col gap-1 rounded-2xl border border-white/12 bg-white/8 p-3 backdrop-blur-sm transition hover:border-white/25 hover:bg-white/12"
+              >
+                <span className="text-[0.62rem] font-bold uppercase tracking-[0.14em] text-sand-200/60">
+                  {day.weekdayShort} {day.dayNumber}.09.
+                </span>
+                <span className="text-[0.8rem] font-bold leading-tight text-sand-50">
+                  {day.shortTitle}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        {/* Aktionen */}
+        <div className="mt-6 flex gap-2.5">
           <a
             href="#programm"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-berry-500 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-berry-500/25 transition hover:bg-berry-600 active:scale-[0.98]"
+            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-sand-50 px-5 py-3.5 text-sm font-bold text-night transition hover:bg-white active:scale-[0.98]"
           >
-            Programm ansehen
+            Programm
             <ArrowDownIcon className="size-4" />
           </a>
           <a
             href="#anfahrt"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-bold text-ink ring-1 ring-ink/10 transition hover:bg-sand-100 active:scale-[0.98]"
+            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-white/20 px-5 py-3.5 text-sm font-bold text-sand-50 transition hover:bg-white/10 active:scale-[0.98]"
           >
-            <PinIcon className="size-4 text-lagoon-500" />
+            <PinIcon className="size-4 text-lagoon-400" />
             Anfahrt
           </a>
         </div>
-
-        <p className="mt-7 flex items-center justify-center gap-2 text-xs font-medium text-ink-soft">
-          <ClockIcon className="size-4 text-lagoon-500" />
-          Drei Tage Fest: {EVENT.dateRange}
-        </p>
       </div>
     </header>
   )

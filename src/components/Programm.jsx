@@ -1,123 +1,104 @@
-import { useRef, useState } from 'react'
-import { DAYS } from '../data/festival.js'
-import { MusicIcon } from './icons.jsx'
+import { DAYS, EVENT, THEMES } from '../data/festival.js'
+import Reveal from './Reveal.jsx'
+import { ArrowDownIcon, MusicIcon } from './icons.jsx'
 
-export default function Programm() {
-  const [activeId, setActiveId] = useState(DAYS[0].id)
-  const tabRefs = useRef({})
-
-  const activeIndex = DAYS.findIndex((day) => day.id === activeId)
-  const activeDay = DAYS[activeIndex]
-
-  /** Pfeiltasten-Navigation zwischen den Tagen. */
-  function handleKeyDown(event) {
-    const offset =
-      event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0
-    if (!offset) return
-
-    event.preventDefault()
-    const next = DAYS[(activeIndex + offset + DAYS.length) % DAYS.length]
-    setActiveId(next.id)
-    tabRefs.current[next.id]?.focus()
-  }
+function DayCard({ day, index }) {
+  const theme = THEMES[day.theme]
 
   return (
-    <section id="programm" className="px-5 py-12 sm:py-16">
-      <div className="mx-auto max-w-xl">
-        <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-lagoon-600">
-          Drei Tage Programm
-        </p>
-        <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-          Zeitplan
-        </h2>
-
-        {/* Tag-Auswahl */}
-        <div
-          role="tablist"
-          aria-label="Festtage"
-          onKeyDown={handleKeyDown}
-          className="mt-6 grid grid-cols-3 gap-1 rounded-2xl bg-white/70 p-1 ring-1 ring-ink/5"
-        >
-          {DAYS.map((day) => {
-            const isActive = day.id === activeId
-            return (
-              <button
-                key={day.id}
-                ref={(node) => {
-                  tabRefs.current[day.id] = node
-                }}
-                role="tab"
-                type="button"
-                id={`tab-${day.id}`}
-                aria-selected={isActive}
-                aria-controls={`panel-${day.id}`}
-                tabIndex={isActive ? 0 : -1}
-                onClick={() => setActiveId(day.id)}
-                className={`rounded-xl px-2 py-2.5 text-sm font-bold transition ${
-                  isActive
-                    ? 'bg-ink text-sand-50 shadow-sm'
-                    : 'text-ink-soft hover:bg-sand-100'
-                }`}
-              >
-                {day.tab}
-              </button>
-            )
-          })}
+    <Reveal as="article" id={day.id} delay={index * 90} className="card overflow-hidden scroll-mt-24">
+      {/* Kopf mit Datum und Tagesthema */}
+      <div className={`flex items-center gap-4 px-5 py-4 ${theme.softBg}`}>
+        <div className="shrink-0 text-center leading-none">
+          <span
+            className={`block text-[0.66rem] font-bold uppercase tracking-[0.16em] ${theme.accentText}`}
+          >
+            {day.weekdayShort}
+          </span>
+          <span className={`display mt-1 block text-[2.6rem] ${theme.accentText}`}>
+            {day.dayNumber}
+          </span>
+          <span className="mt-1 block text-[0.6rem] font-semibold text-ink-soft">
+            {day.monthLabel}
+          </span>
         </div>
 
-        {/* Programm des gewählten Tages */}
-        <div
-          role="tabpanel"
-          id={`panel-${activeDay.id}`}
-          aria-labelledby={`tab-${activeDay.id}`}
-          tabIndex={0}
-          className="card mt-4 p-5 sm:p-6"
-        >
-          <p className="text-[0.7rem] font-bold uppercase tracking-[0.14em] text-berry-500">
-            {activeDay.weekday}, {activeDay.date}
+        <span aria-hidden className="h-16 w-px shrink-0 bg-ink/10" />
+
+        <div className="min-w-0">
+          <h3 className="display text-[1.6rem] text-ink">{day.title}</h3>
+          <p className="mt-1 text-[0.8rem] font-medium leading-snug text-ink-soft">
+            {day.subtitle}
           </p>
-          <h3 className="mt-1.5 text-xl font-extrabold leading-tight tracking-tight text-ink">
-            {activeDay.headline}
-          </h3>
-          <p className="mt-1 text-sm text-ink-soft">{activeDay.lead}</p>
+        </div>
+      </div>
 
-          <ol className="mt-5 space-y-0">
-            {activeDay.items.map((item, index) => {
-              const isLast = index === activeDay.items.length - 1
-              return (
-                <li key={item.time + item.title} className="flex gap-3.5">
-                  {/* Zeitachse */}
-                  <div
-                    aria-hidden
-                    className="flex flex-col items-center pt-1.5"
-                  >
-                    <span className="size-2.5 shrink-0 rounded-full bg-gradient-to-br from-sunset-400 to-berry-500" />
-                    {!isLast && (
-                      <span className="w-px flex-1 bg-gradient-to-b from-berry-400/40 to-berry-400/10" />
-                    )}
-                  </div>
+      {/* Programmpunkte */}
+      <ol className="px-5 py-5">
+        {day.items.map((item, itemIndex) => {
+          const isLast = itemIndex === day.items.length - 1
+          return (
+            <li key={item.time + item.title} className="flex gap-3.5">
+              <div aria-hidden className="flex flex-col items-center pt-1.5">
+                <span className={`size-2.5 shrink-0 rounded-full ${theme.dot}`} />
+                {!isLast && <span className="w-px flex-1 bg-ink/10" />}
+              </div>
 
-                  <div className={isLast ? 'pb-0' : 'pb-5'}>
-                    <p className="text-[0.7rem] font-bold uppercase tracking-[0.1em] text-berry-500">
-                      {item.time}
-                    </p>
-                    <p className="mt-0.5 text-[0.95rem] font-bold leading-snug text-ink">
-                      {item.title}
-                    </p>
-                    {item.ensemble && (
-                      <p className="mt-1 flex items-center gap-1.5 text-xs text-ink-soft">
-                        <MusicIcon className="size-3.5 shrink-0 text-lagoon-500" />
-                        {item.ensemble}
-                      </p>
-                    )}
-                    {item.note && (
-                      <p className="mt-1 text-xs text-ink-soft">{item.note}</p>
-                    )}
-                  </div>
-                </li>
-              )
-            })}
-          </ol>
+              <div className={isLast ? '' : 'pb-5'}>
+                <p
+                  className={`text-[0.7rem] font-bold uppercase tracking-[0.1em] ${theme.accentText}`}
+                >
+                  {item.time}
+                </p>
+                <p className="mt-0.5 text-[0.95rem] font-bold leading-snug text-ink">
+                  {item.title}
+                </p>
+                {item.ensemble && (
+                  <p className="mt-1 flex items-center gap-1.5 text-xs text-ink-soft">
+                    <MusicIcon className="size-3.5 shrink-0 text-ink-soft/60" />
+                    {item.ensemble}
+                  </p>
+                )}
+                {item.note && (
+                  <p className="mt-1 text-xs text-ink-soft">{item.note}</p>
+                )}
+              </div>
+            </li>
+          )
+        })}
+      </ol>
+
+      {/* Der Samstagabend hat einen eigenen Block weiter unten */}
+      {day.theme === 'party' && (
+        <a
+          href="#mallorca"
+          className="flex items-center justify-between gap-2 border-t border-ink/8 px-5 py-3.5 text-sm font-bold text-berry-500 transition hover:bg-berry-500/6"
+        >
+          Alle Infos zur Mallorca Party
+          <ArrowDownIcon className="size-4" />
+        </a>
+      )}
+    </Reveal>
+  )
+}
+
+export default function Programm() {
+  return (
+    <section id="programm" className="px-5 py-14 sm:py-20">
+      <div className="mx-auto max-w-lg">
+        <Reveal>
+          <p className="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-ink-soft">
+            {EVENT.claim}
+          </p>
+          <h2 className="display mt-2 text-[2.4rem] text-ink sm:text-5xl">
+            Das Programm
+          </h2>
+        </Reveal>
+
+        <div className="mt-7 flex flex-col gap-4">
+          {DAYS.map((day, index) => (
+            <DayCard key={day.id} day={day} index={index} />
+          ))}
         </div>
       </div>
     </section>

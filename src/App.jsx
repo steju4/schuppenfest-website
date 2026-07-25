@@ -1,18 +1,19 @@
 import Footer from './components/Footer.jsx'
 import Hero from './components/Hero.jsx'
 import Location from './components/Location.jsx'
-import PartyHighlight from './components/PartyHighlight.jsx'
+import PartyNight from './components/PartyNight.jsx'
 import Programm from './components/Programm.jsx'
-import StickyBar from './components/StickyBar.jsx'
+import StickyNav from './components/StickyNav.jsx'
 
 export default function App() {
   return (
     <>
-      <StickyBar />
+      <StickyNav />
       <Hero />
       <main>
-        <PartyHighlight />
+        {/* Erst das ganze Fest (drei Tage), dann der Samstagabend im Detail */}
         <Programm />
+        <PartyNight />
         <Location />
       </main>
       <Footer />

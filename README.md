@@ -1,9 +1,13 @@
 # Menninger Schuppenfest 2026 – Landingpage
 
-Mobile-first Landingpage zum Menninger Schuppenfest vom **19. bis 21. September
+Mobile-first Landingpage zum **Menninger Schuppenfest vom 19. bis 21. September
 2026**, veranstaltet von der Musikkapelle Menningen e.V. Die Seite ist für den
-Aufruf per QR-Code vom Flyer gebaut: alles Wichtige (Datum, Ort, Eintritt) steht
-ohne Scrollen im ersten Bildschirm.
+Aufruf per QR-Code vom Flyer gebaut.
+
+Die Hierarchie folgt dem Gesamtflyer: **Das Schuppenfest ist das Fest**, die
+Mallorca Party ist der Samstagabend darin. Der Hero zeigt deshalb das Fest mit
+allen drei Tagen; der Samstagabend bekommt weiter unten einen eigenen,
+gestalterisch abgesetzten Block – so wie er auch einen eigenen Flyer hat.
 
 ## Tech-Stack
 
@@ -38,65 +42,82 @@ automatisch:
 daraus – für Programmänderungen muss also kein Komponenten-Code angefasst
 werden.
 
-| Konstante   | Inhalt                                              |
-| ----------- | --------------------------------------------------- |
-| `EVENT`     | Titel, Zeitraum, Veranstalter                       |
-| `VENUE`     | Adresse und Koordinaten (Pin auf der Karte)         |
-| `HIGHLIGHT` | Kurzinfos für Hero und Sticky-Bar                   |
-| `DJ`        | Name, Slogan, Pfad zum Logo                         |
-| `SPECIALS`  | Die drei Highlight-Cards                            |
-| `NOTICES`   | Hinweis zum Party-Pass                              |
-| `DAYS`      | Programm je Festtag (Basis für den Zeitplan)        |
-| `TRAVEL`    | Anfahrt-Hinweis Biberbahn                           |
+| Konstante | Inhalt                                                        |
+| --------- | ------------------------------------------------------------- |
+| `EVENT`   | Titel, Zeitraum, Claim, Schlusssatz, Veranstalter             |
+| `VENUE`   | Adresse und Koordinaten (Pin auf der Karte)                   |
+| `DAYS`    | Programm je Festtag – Basis für Hero-Chips, Zeitplan, Footer  |
+| `THEMES`  | Farbidentität je Tag (Samstag pink, Sonntag messing, Montag türkis) |
+| `PARTY`   | Samstagabend: DJ, Einlass, Eintritt, Specials, Party-Pass     |
+| `TRAVEL`  | Anfahrt-Hinweis Biberbahn                                     |
 
 Bei den Programmpunkten gilt: `ensemble` ist der ausgeschriebene Kapellenname
 (wird mit Noten-Icon angezeigt), `note` ein einfacher Zusatzhinweis.
+`shortTitle` ist die Kurzform für die engen Tages-Chips in Hero und Footer.
 
-## DJ-Logo nachtragen
+## DJ-Logo austauschen
 
-Der DJ-Block zeigt momentan einen gestalteten **Platzhalter**. Sobald das echte
-Logo unter
+Der DJ-Block zeigt derzeit eine **in SVG nachgebaute Sperrmarke**
+(`src/components/DjLogo.jsx`): Kopfhörerbügel mit orangen Hörmuscheln, „DJ“ im
+Bügel, darunter „HASAMOHR“ und der Claim – Farben und Aufbau entsprechen dem
+Original, die Schrift ist Anton statt der Original-Poster-Type. Es ist also eine
+Annäherung, kein Faksimile.
+
+Sobald die echte Logodatei unter
 
 ```
 public/dj-hasamohr.png
 ```
 
-liegt, wird es automatisch angezeigt – **ohne Code-Änderung**. Bei einem anderen
-Dateinamen oder Format einfach `DJ.logo` in `src/data/festival.js` anpassen.
-Fehlt die Datei, bleibt der Platzhalter stehen; die Seite sieht also in keinem
-Fall kaputt aus.
+liegt, wird **automatisch sie** angezeigt – ohne Code-Änderung. Bei anderem
+Dateinamen oder Format nur `PARTY.dj.logo` in `src/data/festival.js` anpassen.
+Fehlt die Datei, bleibt die SVG-Sperrmarke stehen; die Seite sieht also in
+keinem Fall unfertig aus.
 
 ## Komponenten
 
 ```
 src/
 ├── App.jsx                     Seitenaufbau
-├── index.css                   Design-Tokens, Font, Basis-Styles
+├── index.css                   Schriften, Design-Tokens, Utilities
 ├── data/festival.js            alle Inhalte
 └── components/
-    ├── StickyBar.jsx           Quick-Access-Leiste (Datum + Ort) beim Scrollen
-    ├── Hero.jsx                erster Bildschirm: Datum, Ort, Eintritt
-    ├── PartyHighlight.jsx      Samstag: Mallorca Party, DJ, Specials
-    ├── Programm.jsx            Zeitplan mit Tabs je Festtag
+    ├── StickyNav.jsx           Quick-Access-Leiste mit Sprung zu Sa/So/Mo
+    ├── Hero.jsx                Titelbereich: Fest, Datum, Ort, drei Tage
+    ├── HeroScene.jsx           Titelbild-SVG: Sonnenuntergang, Schuppen, Palmen
+    ├── Programm.jsx            Zeitplan: drei Tageskarten mit Farbidentität
+    ├── PartyNight.jsx          Samstagabend: Mallorca Party, DJ, Specials
     ├── Location.jsx            Adresse, Karte, Anfahrt
-    ├── Footer.jsx              Veranstalter und Abschluss
-    ├── DjLogo.jsx              Logo mit Platzhalter-Fallback
-    └── icons.jsx               Inline-SVG-Icons
+    ├── Footer.jsx              Schlusssatz und Veranstalter
+    ├── DjLogo.jsx              DJ-Sperrmarke mit Auto-Swap auf die echte Datei
+    ├── SpecialArt.jsx          farbige Illustrationen der Specials
+    ├── Reveal.jsx              sanftes Einblenden beim Scrollen
+    └── icons.jsx               Linien-Icons als Inline-SVG
 ```
+
+## Gestaltung
+
+- **Schriften:** Anton als Poster-Display für Titel und Datums-Ziffern, Outfit
+  für Fließtext.
+- **Rhythmus:** dunkle und helle Abschnitte wechseln sich ab (Hero dunkel →
+  Programm hell → Mallorca Party dunkel → Anfahrt hell → Footer dunkel).
+- **Farbcodierung pro Tag:** Samstag pink/orange (Mallorca), Sonntag messing
+  (Blasmusik), Montag türkis (Ausklang) – siehe `THEMES`.
+- **Alle Grafiken sind Inline-SVG**, inklusive Titelbild und Specials. Es gibt
+  kein einziges Bild-Asset im kritischen Ladepfad.
 
 ## Performance- und Datenschutz-Entscheidungen
 
-- **Schrift selbst gehostet:** Outfit (Variable, SIL OFL 1.1) liegt als 32-kB-
-  woff2 in `public/fonts/`. Kein Request an Google Fonts, kein
-  render-blockierendes Stylesheet.
+- **Schriften selbst gehostet** in `public/fonts/` (Anton 19 kB, Outfit 32 kB,
+  beide woff2, SIL Open Font License 1.1). Kein Request an Google Fonts.
 - **Karte erst auf Klick:** Das Google-Maps-Embed wird erst nach Klick auf
   „Karte laden“ eingebettet. Das spart beim ersten Aufruf einige hundert
   Kilobyte und es geht keine Anfrage an Google, bevor der Gast die Karte sehen
   will. Adresse und die Links „Route starten“ / „In Google Maps öffnen“
   funktionieren unabhängig davon.
-- **Keine Icon-Library:** alle Icons sind Inline-SVG (`src/components/icons.jsx`).
-- **Keine Bilder im kritischen Pfad:** Hintergrund und Farbverläufe sind reines
-  CSS.
+- **Keine Icon-Library, keine Animationsbibliothek** – Scroll-Effekte laufen
+  über einen IntersectionObserver und respektieren
+  `prefers-reduced-motion`.
 
 ## Offene Punkte
 
@@ -108,3 +129,5 @@ src/
 - **Biberbahn:** Sie fährt 2026 nur an Sonntagen und einzelnen Feiertagen
   (Quelle: [biberbahn.de](https://www.biberbahn.de/#fahrplan)). Der Hinweis auf
   der Seite ist deshalb als Tipp für den Festsonntag formuliert.
+- **Impressum und Datenschutzerklärung** fehlen noch. Für eine öffentliche
+  Vereinsseite in Deutschland sind sie in der Regel Pflicht.

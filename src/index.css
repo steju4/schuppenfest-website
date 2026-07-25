@@ -1,9 +1,32 @@
 @import 'tailwindcss';
 
 /* ---------------------------------------------------------------
-   Outfit (Variable, SIL Open Font License 1.1) selbst gehostet:
-   keine Anfrage an Google-Server, ein einziger 32-kB-Download.
+   Schriften selbst gehostet (kein Google-Request):
+   Anton  = Poster-Display für Titel und Datums-Ziffern
+   Outfit = Fließtext (Variable, 400–800)
    --------------------------------------------------------------- */
+@font-face {
+  font-family: 'Anton';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/anton-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Anton';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/anton-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF,
+    U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
 @font-face {
   font-family: 'Outfit';
   font-style: normal;
@@ -27,47 +50,59 @@
 }
 
 /* ---------------------------------------------------------------
-   Design-Tokens: warme Sonnenuntergangstöne, dezent eingesetzt.
+   Design-Tokens
    --------------------------------------------------------------- */
 @theme {
   --font-sans:
     'Outfit', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
-    'Helvetica Neue', sans-serif;
+    sans-serif;
+  --font-display: 'Anton', 'Outfit', ui-sans-serif, system-ui, sans-serif;
 
-  --color-ink: #24193a;
-  --color-ink-soft: #5d5273;
+  /* Grundtöne */
+  --color-night: #150d24;
+  --color-night-soft: #241638;
+  --color-ink: #1d1330;
+  --color-ink-soft: #5c5175;
 
-  --color-sand-50: #fffaf4;
-  --color-sand-100: #fdf1e4;
-  --color-sand-200: #f7e3cf;
+  --color-sand-50: #fffbf6;
+  --color-sand-100: #fdf2e6;
+  --color-sand-200: #f6e2ce;
 
-  --color-sunset-400: #ff9a5a;
+  /* Samstag – Mallorca */
+  --color-berry-400: #ec4a83;
+  --color-berry-500: #de1f68;
+  --color-berry-600: #b3154f;
+  --color-sunset-300: #ffc07a;
+  --color-sunset-400: #ff9a4d;
   --color-sunset-500: #f97316;
 
-  --color-berry-400: #ec4a83;
-  --color-berry-500: #d81f6a;
-  --color-berry-600: #b0154f;
+  /* Sonntag – Blasmusik */
+  --color-brass-400: #f0b429;
+  --color-brass-500: #d99413;
+  --color-brass-600: #a9700a;
 
+  /* Montag – Feierabend */
   --color-lagoon-400: #2bb3b8;
   --color-lagoon-500: #0f9aa0;
-  --color-lagoon-600: #0b7b81;
+  --color-lagoon-600: #0b7278;
+
+  /* DJ-Hasamohr-Logofarben */
+  --color-hasa-dark: #26443c;
+  --color-hasa-amber: #f0a93f;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    /* Sticky-Bar überdeckt Anker-Sprünge nicht */
-    scroll-padding-top: 4.5rem;
+    scroll-padding-top: 5.5rem;
     -webkit-text-size-adjust: 100%;
   }
 
   body {
     @apply bg-sand-50 text-ink font-sans antialiased;
-    /* Verhindert horizontales Wackeln durch dekorative Glows */
     overflow-x: hidden;
   }
 
-  /* Fokus nur für Tastatur sichtbar, aber deutlich */
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-berry-500;
   }
@@ -85,10 +120,45 @@
   }
 }
 
-@utility card {
-  @apply rounded-3xl bg-white/75 ring-1 ring-ink/5 backdrop-blur-sm;
+/* ---------------------------------------------------------------
+   Utilities
+   --------------------------------------------------------------- */
+
+/** Poster-Schrift: eng, in Grossbuchstaben gesetzt */
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 0.92;
+  text-transform: uppercase;
 }
 
-@utility text-sunset-gradient {
-  @apply bg-gradient-to-br from-sunset-500 via-berry-500 to-berry-600 bg-clip-text text-transparent;
+/** Feine Filmkorn-Textur – ein Inline-SVG, kein zusätzlicher Request */
+@utility grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+@utility card {
+  @apply rounded-3xl bg-white ring-1 ring-ink/5 shadow-[0_2px_18px_-8px_rgba(29,19,48,0.18)];
+}
+
+/* Scroll-Reveal: Startzustand, `is-visible` wird per Observer gesetzt */
+@utility reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }

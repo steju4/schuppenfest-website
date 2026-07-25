@@ -6,8 +6,11 @@
 
 export const EVENT = {
   title: 'Menninger Schuppenfest',
-  subtitle: 'Mallorca Party',
+  year: '2026',
   dateRange: '19. – 21. September 2026',
+  dateRangeShort: '19.–21.09.2026',
+  claim: 'Drei Tage feiern im Menninger Schuppen',
+  closing: 'Die Musikkapelle Menningen freut sich auf Euch!',
   organizer: {
     name: 'Musikkapelle Menningen e.V.',
     url: 'https://www.mk-menningen.de/',
@@ -24,51 +27,29 @@ export const VENUE = {
   lng: 9.1569,
 }
 
-/** Kurzinfos für Hero und Sticky-Bar – das Wichtigste auf einen Blick. */
-export const HIGHLIGHT = {
-  day: 'Samstag',
-  date: '19.09.2026',
-  doorsOpen: 'ab 20 Uhr',
-  admissionFree: 'frei bis 20:30 Uhr',
-  admissionPaid: '7 €',
-}
-
-export const DJ = {
-  name: 'DJ Hasamohr',
-  tagline: 'Der Party DJ vom Ländle',
-  /** Logo in public/ ablegen – die Komponente zeigt sonst den Platzhalter. */
-  logo: '/dj-hasamohr.png',
-}
-
-export const SPECIALS = [
-  { icon: 'tower', title: '3-Liter-Säulen', note: 'Für die ganze Runde' },
-  { icon: 'stein', title: 'Mischen & Bier', note: 'Im Masskrug' },
-  // Non-breaking hyphen: bricht sauber nach „Special“ statt mitten im Wort.
-  { icon: 'shirt', title: 'Special T‑Shirts', note: 'Nur am Fest' },
-]
-
-export const NOTICES = {
-  partyPass: 'Einlass unter 18 Jahren nur mit Party-Pass.',
-}
-
 /**
  * Programm je Festtag.
+ * `theme` steuert die Farbidentität des Tages (siehe THEMES unten).
  * Pro Programmpunkt: `time`, `title` und optional
- *  - `ensemble`: ausgeschriebener Name der Kapelle (wird mit Noten-Icon gezeigt)
- *  - `note`: einfacher Zusatzhinweis ohne Icon
+ *  - `ensemble`: ausgeschriebener Name der Kapelle (mit Noten-Icon)
+ *  - `note`: einfacher Zusatzhinweis
  */
 export const DAYS = [
   {
     id: 'samstag',
-    tab: 'Sa 19.09.',
+    theme: 'party',
     weekday: 'Samstag',
-    date: '19.09.2026',
-    headline: 'Mallorca Party',
-    lead: 'Mit DJ Hasamohr im Menninger Schuppen.',
+    weekdayShort: 'Sa',
+    dayNumber: '19',
+    monthLabel: '09.2026',
+    dateLabel: '19.09.2026',
+    title: 'Mallorca Party',
+    shortTitle: 'Mallorca Party',
+    subtitle: 'mit DJ Hasamohr',
     items: [
       {
         time: 'ab 20 Uhr',
-        title: 'Einlass',
+        title: 'Einlass & Party-Start',
         note: 'Mallorca Party mit DJ Hasamohr',
       },
       {
@@ -80,11 +61,15 @@ export const DAYS = [
   },
   {
     id: 'sonntag',
-    tab: 'So 20.09.',
+    theme: 'brass',
     weekday: 'Sonntag',
-    date: '20.09.2026',
-    headline: 'Frühschoppen & Blasmusik',
-    lead: 'Drei Kapellen von mittags bis abends.',
+    weekdayShort: 'So',
+    dayNumber: '20',
+    monthLabel: '09.2026',
+    dateLabel: '20.09.2026',
+    title: 'Frühschoppen',
+    shortTitle: 'Frühschoppen',
+    subtitle: 'Blasmusik von mittags bis abends',
     items: [
       {
         time: 'ab 11:30 Uhr',
@@ -105,11 +90,15 @@ export const DAYS = [
   },
   {
     id: 'montag',
-    tab: 'Mo 21.09.',
+    theme: 'lagoon',
     weekday: 'Montag',
-    date: '21.09.2026',
-    headline: 'Feierabendhock & Festausklang',
-    lead: 'Gemütlicher Abschluss zum Feierabend.',
+    weekdayShort: 'Mo',
+    dayNumber: '21',
+    monthLabel: '09.2026',
+    dateLabel: '21.09.2026',
+    title: 'Feierabendhock',
+    shortTitle: 'Feierabend',
+    subtitle: 'Gemütlicher Festausklang',
     items: [
       {
         time: 'ab 17:30 Uhr',
@@ -124,6 +113,61 @@ export const DAYS = [
     ],
   },
 ]
+
+/** Farb- und Stilklassen je Tages-Theme. */
+export const THEMES = {
+  party: {
+    label: 'Party',
+    accentText: 'text-berry-500',
+    accentBg: 'bg-berry-500',
+    softBg: 'bg-berry-500/8',
+    ring: 'ring-berry-500/20',
+    gradient: 'from-sunset-400 to-berry-500',
+    dot: 'bg-berry-500',
+  },
+  brass: {
+    label: 'Blasmusik',
+    accentText: 'text-brass-600',
+    accentBg: 'bg-brass-500',
+    softBg: 'bg-brass-400/10',
+    ring: 'ring-brass-500/20',
+    gradient: 'from-brass-400 to-sunset-500',
+    dot: 'bg-brass-500',
+  },
+  lagoon: {
+    label: 'Ausklang',
+    accentText: 'text-lagoon-600',
+    accentBg: 'bg-lagoon-500',
+    softBg: 'bg-lagoon-500/8',
+    ring: 'ring-lagoon-500/20',
+    gradient: 'from-lagoon-400 to-lagoon-600',
+    dot: 'bg-lagoon-500',
+  },
+}
+
+/** Der Samstagabend hat einen eigenen Flyer – und einen eigenen Block. */
+export const PARTY = {
+  title: 'Mallorca Party',
+  kicker: 'Samstagabend',
+  lead: 'Palmen, Party-Hits und Sangria-Stimmung im Menninger Schuppen.',
+  doorsOpen: 'ab 20 Uhr',
+  admissionFree: 'frei bis 20:30 Uhr',
+  admissionPaid: '7 €',
+  partyPass: 'Einlass unter 18 Jahren nur mit Party-Pass',
+  dj: {
+    name: 'DJ Hasamohr',
+    // Schreibweise wie auf Flyer und Logo („usm Ländle“, nicht „vom Ländle“)
+    tagline: 'Der Party DJ usm Ländle',
+    /** Echtes Logo hier ablegen – sonst greift die SVG-Sperrmarke. */
+    logo: '/dj-hasamohr.png',
+  },
+  specials: [
+    { icon: 'tower', title: '3-Liter-Säulen', note: 'Für die ganze Runde' },
+    { icon: 'stein', title: 'Mischen & Bier', note: 'Im Masskrug' },
+    // Non-breaking hyphen: bricht nach „Special“ statt mitten im Wort.
+    { icon: 'shirt', title: 'Special T‑Shirts', note: 'Nur am Fest' },
+  ],
+}
 
 export const TRAVEL = {
   biberbahn: {

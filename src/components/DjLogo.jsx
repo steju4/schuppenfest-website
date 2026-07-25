@@ -1,41 +1,95 @@
 import { useState } from 'react'
-import { DJ } from '../data/festival.js'
-import { HeadphonesIcon } from './icons.jsx'
+import { PARTY } from '../data/festival.js'
 
 /**
- * Zeigt das DJ-Logo aus `public/` an.
+ * Nachgebaute Sperrmarke von DJ Hasamohr: Kopfhörerbügel mit orangen
+ * Hörmuscheln, „DJ“ im Bügel, darunter der Name und der Claim.
  *
- * Solange die Datei (siehe DJ.logo in src/data/festival.js) nicht vorhanden
- * ist, wird automatisch ein gestalteter Platzhalter gerendert – die Seite
- * sieht also auch ohne Logo fertig aus. Sobald du das Logo unter
- * `public/dj-hasamohr.png` ablegst, erscheint es ohne Code-Änderung.
+ * Sie ist eine SVG-Annäherung an das Original (Farben und Aufbau stimmen,
+ * die Schrift ist Anton statt der Original-Poster-Type). Sobald die echte
+ * Logodatei unter `public/dj-hasamohr.png` liegt, wird automatisch sie
+ * angezeigt – ohne Code-Änderung. Anderer Name oder Format? Dann nur
+ * `PARTY.dj.logo` in src/data/festival.js anpassen.
  */
-export default function DjLogo() {
-  const [hasLogo, setHasLogo] = useState(true)
+function LogoMark({ light }) {
+  const dark = light ? '#f4efe6' : '#26443c'
 
-  if (hasLogo) {
+  return (
+    <div className="flex flex-col items-center">
+      <svg
+        viewBox="0 0 240 132"
+        className="h-auto w-full max-w-[15rem]"
+        role="img"
+        aria-label={`${PARTY.dj.name} – ${PARTY.dj.tagline}`}
+      >
+        {/* Kopfhörerbügel */}
+        <path
+          d="M92 48V40a28 28 0 0 1 56 0v8"
+          fill="none"
+          stroke={dark}
+          strokeWidth="7"
+          strokeLinecap="round"
+        />
+        {/* Hörmuscheln */}
+        <rect x="84" y="38" width="16" height="26" rx="8" fill="#f0a93f" />
+        <rect x="140" y="38" width="16" height="26" rx="8" fill="#f0a93f" />
+
+        {/* DJ – sitzt im Bügel */}
+        <text
+          x="120"
+          y="62"
+          textAnchor="middle"
+          fill={dark}
+          style={{ font: '38px Anton, sans-serif', letterSpacing: '0.02em' }}
+        >
+          DJ
+        </text>
+
+        {/* HASAMOHR */}
+        <text
+          x="120"
+          y="102"
+          textAnchor="middle"
+          fill="#f0a93f"
+          style={{ font: '42px Anton, sans-serif', letterSpacing: '0.005em' }}
+        >
+          HASAMOHR
+        </text>
+
+        {/* Claim */}
+        <text
+          x="120"
+          y="122"
+          textAnchor="middle"
+          fill={dark}
+          style={{
+            font: '600 11.5px Outfit, sans-serif',
+            letterSpacing: '0.09em',
+          }}
+        >
+          DER PARTY DJ USM LÄNDLE
+        </text>
+      </svg>
+    </div>
+  )
+}
+
+export default function DjLogo({ light = false }) {
+  const [hasFile, setHasFile] = useState(true)
+
+  if (hasFile) {
     return (
       <img
-        src={DJ.logo}
-        alt={`Logo ${DJ.name}`}
-        width="320"
-        height="160"
+        src={PARTY.dj.logo}
+        alt={`Logo ${PARTY.dj.name}`}
+        width="480"
+        height="216"
         loading="lazy"
-        onError={() => setHasLogo(false)}
-        className="mx-auto h-24 w-auto object-contain sm:h-28"
+        onError={() => setHasFile(false)}
+        className="mx-auto h-auto w-full max-w-[15rem]"
       />
     )
   }
 
-  return (
-    <div className="mx-auto flex h-24 w-full max-w-[16rem] flex-col items-center justify-center rounded-2xl border border-dashed border-berry-400/40 bg-white/60 px-4 sm:h-28">
-      <HeadphonesIcon className="size-6 text-berry-500" />
-      <p className="mt-1.5 text-lg font-extrabold uppercase leading-none tracking-tight text-ink">
-        DJ Hasamohr
-      </p>
-      <p className="mt-1 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-ink-soft">
-        {DJ.tagline}
-      </p>
-    </div>
-  )
+  return <LogoMark light={light} />
 }
