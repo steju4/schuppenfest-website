@@ -116,6 +116,11 @@ src/
   einfarbig wirkt.
 - **Schlicht statt dekoriert:** der Hero trägt die Seite über Typografie,
   Countdown und die drei Tageskarten – ohne große Illustration.
+- **Wegweiser zur Mallorca Party:** Die Samstagskarte endet in einem farbigen
+  Banner, das zum Detailblock weiter unten führt. Es ist bewusst das
+  auffälligste Element im Programm, weil dort die meistgesuchten Infos
+  stehen (DJ, Specials, Eintritt) und ein reiner Textlink dafür übersehen
+  wurde.
 - **Grafiken sind Inline-SVG** (Icons, Specials). Einziges Bild ist das
   DJ-Logo, und das lädt `loading="lazy"` weit unterhalb des ersten Bildschirms.
 

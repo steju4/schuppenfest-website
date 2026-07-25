@@ -142,6 +142,22 @@
   @apply rounded-3xl bg-white ring-1 ring-ink/5 shadow-[0_2px_18px_-8px_rgba(29,19,48,0.18)];
 }
 
+/* Sanfter Stupser nach unten – Hinweis, dass weiter unten noch etwas kommt.
+   Die reduced-motion-Regel weiter oben stellt die Animation still. */
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+@utility animate-nudge {
+  animation: nudge 2.2s ease-in-out infinite;
+}
+
 /* Scroll-Reveal: Startzustand, `is-visible` wird per Observer gesetzt */
 @utility reveal {
   opacity: 0;

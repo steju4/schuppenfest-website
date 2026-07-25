@@ -106,14 +106,25 @@ function DayCard({ day, index }) {
         ))}
       </ol>
 
-      {/* Der Samstagabend hat einen eigenen Block weiter unten */}
+      {/* Der Samstagabend hat einen eigenen Block weiter unten. Als farbiges
+          Banner, damit niemand übersieht, dass dort die Hauptinfos stehen. */}
       {day.theme === 'party' && (
         <a
           href="#mallorca"
-          className="flex items-center justify-between gap-2 border-t border-ink/8 px-5 py-3.5 text-sm font-bold text-berry-500 transition hover:bg-berry-500/6"
+          className="flex items-center gap-3.5 bg-gradient-to-r from-sunset-500 via-berry-500 to-berry-600 px-5 py-4 text-white transition hover:brightness-110 active:scale-[0.99]"
         >
-          Alle Infos zur Mallorca Party
-          <ArrowDownIcon className="size-4" />
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white/20">
+            <DiscIcon className="size-5" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[0.95rem] font-extrabold leading-tight">
+              Alle Infos zur Mallorca Party
+            </span>
+            <span className="mt-0.5 block text-[0.75rem] leading-snug text-white/85">
+              DJ Hasamohr, Specials und Eintritt
+            </span>
+          </span>
+          <ArrowDownIcon className="animate-nudge size-5 shrink-0" />
         </a>
       )}
     </Reveal>
