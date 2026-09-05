@@ -1,4 +1,5 @@
 import { DAYS, EVENT, THEMES } from '../data/festival.js'
+import useToday from '../lib/useToday.js'
 import Reveal from './Reveal.jsx'
 import { ArrowDownIcon, DiscIcon, MusicIcon, PlateIcon } from './icons.jsx'
 
@@ -49,7 +50,7 @@ function Item({ item, theme, isLast }) {
   )
 }
 
-function DayCard({ day, index }) {
+function DayCard({ day, index, isToday }) {
   const theme = THEMES[day.theme]
   const hasFood = day.items.some((item) => item.kind === 'food')
 
@@ -58,7 +59,9 @@ function DayCard({ day, index }) {
       as="article"
       id={day.id}
       delay={index * 90}
-      className="card overflow-hidden scroll-mt-24"
+      className={`card overflow-hidden scroll-mt-24 ${
+        isToday ? `ring-2 ${theme.todayRing}` : ''
+      }`}
     >
       {/* Kopf mit Datum und Tagesthema */}
       <div className={`flex items-center gap-4 px-5 py-4 ${theme.softBg}`}>
@@ -81,6 +84,14 @@ function DayCard({ day, index }) {
         <span aria-hidden className="h-16 w-px shrink-0 bg-ink/10" />
 
         <div className="min-w-0">
+          {isToday && (
+            <p
+              className={`mb-1.5 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.62rem] font-bold uppercase tracking-[0.14em] text-white ${theme.accentBg}`}
+            >
+              <span className="size-1.5 animate-pulse rounded-full bg-white" />
+              Heute
+            </p>
+          )}
           <h3 className="display text-[1.6rem] text-ink">{day.title}</h3>
           <p className="mt-1 text-[0.8rem] font-medium leading-snug text-ink-soft">
             {day.subtitle}
@@ -110,7 +121,7 @@ function DayCard({ day, index }) {
           Banner, damit niemand übersieht, dass dort die Hauptinfos stehen. */}
       {day.theme === 'party' && (
         <a
-          href="#mallorca"
+          href="#malle"
           className="flex items-center gap-3.5 bg-gradient-to-r from-sunset-500 via-berry-500 to-berry-600 px-5 py-4 text-white transition hover:brightness-110 active:scale-[0.99]"
         >
           <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white/20">
@@ -118,7 +129,7 @@ function DayCard({ day, index }) {
           </span>
           <span className="min-w-0 flex-1">
             <span className="block text-[0.95rem] font-extrabold leading-tight">
-              Alle Infos zur Mallorca Party
+              Alle Infos zur Malle-Party
             </span>
             <span className="mt-0.5 block text-[0.75rem] leading-snug text-white/85">
               DJ Hasamohr, Specials und Eintritt
@@ -132,6 +143,8 @@ function DayCard({ day, index }) {
 }
 
 export default function Programm() {
+  const today = useToday()
+
   return (
     <section id="programm" className="px-5 py-14 sm:py-20">
       <div className="mx-auto max-w-lg">
@@ -146,7 +159,12 @@ export default function Programm() {
 
         <div className="mt-7 flex flex-col gap-4">
           {DAYS.map((day, index) => (
-            <DayCard key={day.id} day={day} index={index} />
+            <DayCard
+              key={day.id}
+              day={day}
+              index={index}
+              isToday={day.date === today}
+            />
           ))}
         </div>
       </div>

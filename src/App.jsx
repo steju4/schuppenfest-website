@@ -15,8 +15,8 @@ export default function App() {
         {/* Erst das ganze Fest (drei Tage), dann der Samstagabend im Detail */}
         <Programm />
         <PartyNight />
-        <Location />
         <Facts />
+        <Location />
       </main>
       <Footer />
     </>

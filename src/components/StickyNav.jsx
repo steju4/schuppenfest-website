@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react'
-import { DAYS, EVENT, THEMES } from '../data/festival.js'
+import { EVENT, NAV, THEMES } from '../data/festival.js'
 import { PinIcon } from './icons.jsx'
 
 /**
- * Quick-Access-Leiste: erscheint nach dem Hero und bietet Sprungmarken zu
- * den drei Festtagen sowie zur Anfahrt. Der Tag, der gerade im Blick ist,
- * wird hervorgehoben.
+ * Quick-Access-Leiste: erscheint nach dem Hero und bietet Sprungmarken zu den
+ * Abschnitten der Seite. Der Abschnitt, der gerade im Blick ist, wird
+ * hervorgehoben – die Malle-Party ist dabei ein eigener Punkt, weil sie ein
+ * eigener Abschnitt ist und sonst nirgends angezeigt würde.
  */
 export default function StickyNav() {
   const [visible, setVisible] = useState(false)
-  const [activeDay, setActiveDay] = useState(null)
+  const [activeId, setActiveId] = useState(null)
+  const [progress, setProgress] = useState(0)
 
   // Einblenden, sobald der Hero oben aus dem Viewport gescrollt ist
   useEffect(() => {
@@ -24,15 +26,11 @@ export default function StickyNav() {
     return () => observer.disconnect()
   }, [])
 
-  // Aktiven Tag mitverfolgen. Der Mallorca-Block gehört zum Samstag.
+  // Aktiven Abschnitt mitverfolgen
   useEffect(() => {
-    const sectionDay = new Map()
-    DAYS.forEach((day) => sectionDay.set(day.id, day.id))
-    sectionDay.set('mallorca', 'samstag')
-
-    const sections = [...sectionDay.keys()]
-      .map((id) => document.getElementById(id))
-      .filter(Boolean)
+    const sections = NAV.map((entry) => document.getElementById(entry.id)).filter(
+      Boolean,
+    )
     if (!sections.length) return
 
     const observer = new IntersectionObserver(
@@ -40,12 +38,23 @@ export default function StickyNav() {
         const inView = entries
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-        if (inView) setActiveDay(sectionDay.get(inView.target.id))
+        if (inView) setActiveId(inView.target.id)
       },
-      { rootMargin: '-30% 0px -45% 0px', threshold: [0, 0.25, 0.5] },
+      { rootMargin: '-25% 0px -45% 0px', threshold: [0, 0.25, 0.5] },
     )
     sections.forEach((section) => observer.observe(section))
     return () => observer.disconnect()
+  }, [])
+
+  // Lesefortschritt als feiner Balken unter der Leiste
+  useEffect(() => {
+    function onScroll() {
+      const total = document.documentElement.scrollHeight - window.innerHeight
+      setProgress(total > 0 ? Math.min(1, window.scrollY / total) : 0)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return (
@@ -57,38 +66,41 @@ export default function StickyNav() {
     >
       <nav
         aria-label="Schnellzugriff"
-        className="mx-auto flex max-w-lg items-center gap-2 px-4 py-2"
+        className="mx-auto flex max-w-lg items-center gap-2 px-3 py-2 sm:px-4"
       >
         <a
           href="#top"
           tabIndex={visible ? 0 : -1}
-          className="mr-auto min-w-0 leading-tight"
+          aria-label="Nach oben"
+          className="mr-auto hidden min-w-0 leading-tight sm:block"
         >
           <span className="display block truncate text-[0.95rem] text-ink">
-            {EVENT.title.replace('Menninger ', '')}
+            Schuppenfest
           </span>
           <span className="block text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-ink-soft">
             {EVENT.dateRangeShort}
           </span>
         </a>
 
-        <ul className="flex items-center gap-1">
-          {DAYS.map((day) => {
-            const isActive = activeDay === day.id
-            const theme = THEMES[day.theme]
+        <ul className="mx-auto flex items-center gap-1 sm:mx-0">
+          {NAV.map((entry) => {
+            const isActive = activeId === entry.id
+            const theme = THEMES[entry.theme]
             return (
-              <li key={day.id}>
+              <li key={entry.id}>
                 <a
-                  href={`#${day.id}`}
+                  href={`#${entry.id}`}
                   tabIndex={visible ? 0 : -1}
                   aria-current={isActive ? 'true' : undefined}
-                  className={`flex size-9 items-center justify-center rounded-full text-[0.78rem] font-bold transition ${
+                  className={`flex h-9 items-center justify-center rounded-full text-[0.76rem] font-bold transition ${
+                    entry.wide ? 'px-3.5' : 'w-9'
+                  } ${
                     isActive
                       ? theme.navActive
                       : 'bg-ink/6 text-ink-soft hover:bg-ink/12'
                   }`}
                 >
-                  {day.weekdayShort}
+                  {entry.label}
                 </a>
               </li>
             )
@@ -99,11 +111,18 @@ export default function StickyNav() {
           href="#anfahrt"
           tabIndex={visible ? 0 : -1}
           aria-label="Zur Anfahrt"
-          className="flex size-9 shrink-0 items-center justify-center rounded-full bg-berry-500 text-white transition hover:bg-berry-600"
+          className="flex size-9 shrink-0 items-center justify-center rounded-full bg-ink text-sand-50 transition hover:bg-ink-soft"
         >
           <PinIcon className="size-4" />
         </a>
       </nav>
+
+      {/* Lesefortschritt */}
+      <div
+        aria-hidden
+        className="h-0.5 origin-left bg-gradient-to-r from-sunset-400 to-berry-500 transition-transform duration-150"
+        style={{ transform: `scaleX(${progress})` }}
+      />
     </div>
   )
 }

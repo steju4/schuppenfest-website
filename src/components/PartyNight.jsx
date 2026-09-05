@@ -2,7 +2,8 @@ import { DAYS, PARTY } from '../data/festival.js'
 import DjLogo from './DjLogo.jsx'
 import Reveal from './Reveal.jsx'
 import { specialArt } from './SpecialArt.jsx'
-import { ClockIcon, PersonIcon, TicketIcon } from './icons.jsx'
+import SectionEdge from './SectionEdge.jsx'
+import { PersonIcon } from './icons.jsx'
 
 const saturday = DAYS.find((day) => day.theme === 'party')
 
@@ -30,31 +31,44 @@ function PalmFrond({ className }) {
   )
 }
 
-function Fact({ icon: Icon, label, value, hint }) {
+/** Einlass und Eintritt als Ticket – das Thema des Abends in einem Block. */
+function Ticket() {
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-white/12 bg-white/8 p-3.5 backdrop-blur-sm">
-      <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-sunset-400/20">
-        <Icon className="size-4.5 text-sunset-300" />
-      </span>
-      <div className="min-w-0">
-        <p className="text-[0.66rem] font-bold uppercase tracking-[0.14em] text-sand-200/60">
-          {label}
-        </p>
-        <p className="text-[0.9rem] font-bold leading-snug text-sand-50">
-          {value}
-          {hint && <span className="font-medium text-sand-200/70"> · {hint}</span>}
-        </p>
+    <div className="overflow-hidden rounded-3xl bg-sand-50 text-ink shadow-xl shadow-night/30">
+      <div className="grid grid-cols-2 divide-x divide-dashed divide-ink/15">
+        <div className="px-3 py-4 text-center">
+          <p className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-ink-soft">
+            {PARTY.ticket.doorsLabel}
+          </p>
+          <p className="display mt-1.5 text-[1.6rem] text-ink">
+            {PARTY.ticket.doorsValue}
+          </p>
+        </div>
+        <div className="px-3 py-4 text-center">
+          <p className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-ink-soft">
+            {PARTY.ticket.freeLabel}
+          </p>
+          <p className="display mt-1.5 text-[1.6rem] text-berry-500">
+            {PARTY.ticket.freeValue}
+          </p>
+        </div>
       </div>
+      <p className="border-t border-dashed border-ink/15 bg-sand-100 px-4 py-2.5 text-center text-[0.8rem] font-bold text-ink-soft">
+        Danach {PARTY.admissionPaid} Eintritt
+      </p>
     </div>
   )
 }
 
 export default function PartyNight() {
   return (
-    <section
-      id="mallorca"
-      className="relative overflow-hidden bg-night-soft py-14 text-sand-50 sm:py-20"
-    >
+    <div className="relative">
+      <SectionEdge />
+      <SectionEdge flip />
+      <section
+        id="malle"
+        className="relative overflow-hidden bg-night-soft py-14 text-sand-50 sm:py-20"
+      >
       {/* Tropische Lichtstimmung */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div className="absolute -left-1/4 top-0 size-[30rem] rounded-full bg-berry-500/40 blur-[80px]" />
@@ -76,15 +90,9 @@ export default function PartyNight() {
           </p>
         </Reveal>
 
-        {/* Fakten */}
-        <Reveal delay={80} className="mt-6 grid gap-2.5">
-          <Fact icon={ClockIcon} label="Einlass" value={PARTY.doorsOpen} />
-          <Fact
-            icon={TicketIcon}
-            label="Eintritt"
-            value={PARTY.admissionFree}
-            hint={`danach ${PARTY.admissionPaid}`}
-          />
+        {/* Einlass und Eintritt */}
+        <Reveal delay={80} className="mt-6">
+          <Ticket />
         </Reveal>
 
         {/* DJ */}
@@ -138,7 +146,8 @@ export default function PartyNight() {
             {PARTY.partyPass}
           </p>
         </Reveal>
-      </div>
-    </section>
+        </div>
+      </section>
+    </div>
   )
 }

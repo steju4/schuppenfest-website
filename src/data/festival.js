@@ -11,8 +11,9 @@ export const EVENT = {
   dateRangeShort: '19.–21.09.2026',
   claim: 'Drei Tage feiern im Menninger Schuppen',
   closing: 'Die Musikkapelle Menningen freut sich auf Euch!',
-  /** Beginn des Fests – Basis für den Countdown (Samstag, 20 Uhr). */
+  /** Beginn und Ende des Fests – Basis für Countdown und „Heute“-Markierung. */
   startsAt: '2026-09-19T20:00:00+02:00',
+  endsAt: '2026-09-21T23:59:00+02:00',
   organizer: {
     name: 'Musikkapelle Menningen e.V.',
     url: 'https://www.mk-menningen.de/',
@@ -47,15 +48,16 @@ export const DAYS = [
     dayNumber: '19',
     monthLabel: '09.2026',
     dateLabel: '19.09.2026',
-    title: 'Mallorca Party',
-    shortTitle: 'Mallorca Party',
+    date: '2026-09-19',
+    title: 'Malle-Party',
+    shortTitle: 'Malle-Party',
     subtitle: 'mit DJ Hasamohr',
     items: [
       {
         time: 'ab 20 Uhr',
         title: 'Einlass & Party-Start',
         kind: 'party',
-        note: 'Mallorca Party mit DJ Hasamohr',
+        note: 'Malle-Party mit DJ Hasamohr',
       },
       {
         time: 'bis 20:30 Uhr',
@@ -73,6 +75,7 @@ export const DAYS = [
     dayNumber: '20',
     monthLabel: '09.2026',
     dateLabel: '20.09.2026',
+    date: '2026-09-20',
     title: 'Festsonntag',
     shortTitle: 'Festsonntag',
     subtitle: 'Blasmusik und Bewirtung von mittags bis abends',
@@ -101,7 +104,7 @@ export const DAYS = [
       },
       {
         time: 'ab 17:30 Uhr',
-        title: 'Unterhaltung mit der MK Buchheim',
+        title: 'Blasmusik mit der MK Buchheim',
         ensemble: 'Musikkapelle Eintracht Buchheim',
       },
       {
@@ -120,23 +123,24 @@ export const DAYS = [
     dayNumber: '21',
     monthLabel: '09.2026',
     dateLabel: '21.09.2026',
+    date: '2026-09-21',
     title: 'Feierabendhock',
     shortTitle: 'Feierabend\u00ADhock',
     subtitle: 'Gemütlicher Festausklang',
     items: [
       {
-        time: 'ab 17:30 Uhr',
+        time: 'ab 18:00 Uhr',
         title: 'Feierabendhock mit der Jugendkapelle Meßkirch',
         ensemble: 'Jugendkapelle Meßkirch',
       },
       {
-        time: 'ab 17:30 Uhr',
+        time: 'ab 18:00 Uhr',
         title: 'Wurstsalat',
         kind: 'food',
         note: 'Der Klassiker zum Feierabend',
       },
       {
-        time: 'ab 18:30 Uhr',
+        time: 'ab 19:00 Uhr',
         title: 'Festausklang mit der MK Sentenhart',
         ensemble: 'Musikkapelle Sentenhart',
       },
@@ -155,6 +159,8 @@ export const THEMES = {
     chip: 'border-berry-400/35 bg-berry-500/14 hover:border-berry-400/60 hover:bg-berry-500/22',
     chipLabel: 'text-berry-400',
     navActive: 'bg-berry-500 text-white',
+    accentBg: 'bg-berry-500',
+    todayRing: 'ring-berry-500/40',
   },
   brass: {
     label: 'Blasmusik',
@@ -164,6 +170,8 @@ export const THEMES = {
     chip: 'border-brass-400/35 bg-brass-400/14 hover:border-brass-400/60 hover:bg-brass-400/22',
     chipLabel: 'text-brass-400',
     navActive: 'bg-brass-500 text-white',
+    accentBg: 'bg-brass-500',
+    todayRing: 'ring-brass-500/40',
   },
   lagoon: {
     label: 'Ausklang',
@@ -173,17 +181,27 @@ export const THEMES = {
     chip: 'border-lagoon-400/35 bg-lagoon-500/14 hover:border-lagoon-400/60 hover:bg-lagoon-500/22',
     chipLabel: 'text-lagoon-400',
     navActive: 'bg-lagoon-500 text-white',
+    accentBg: 'bg-lagoon-500',
+    todayRing: 'ring-lagoon-500/40',
   },
 }
 
 /** Der Samstagabend hat einen eigenen Flyer – und einen eigenen Block. */
 export const PARTY = {
-  title: 'Mallorca Party',
+  id: 'malle',
+  title: 'Malle-Party',
   kicker: 'Samstagabend',
   lead: 'Party-Hits, kühle Getränke und Urlaubsstimmung im Menninger Schuppen.',
   doorsOpen: 'ab 20 Uhr',
   admissionFree: 'frei bis 20:30 Uhr',
   admissionPaid: '7 €',
+  /** Kurzform für die Ticket-Karte, Wortlaut wie auf dem Flyer. */
+  ticket: {
+    doorsLabel: 'Einlass ab',
+    doorsValue: '20 Uhr',
+    freeLabel: 'Eintritt frei',
+    freeValue: 'bis 20:30 Uhr',
+  },
   partyPass: 'Einlass unter 18 Jahren nur mit Party-Pass',
   dj: {
     name: 'DJ Hasamohr',
@@ -214,6 +232,18 @@ export const PARTY = {
   ],
 }
 
+/**
+ * Sprungmarken der Kopfleiste, in der Reihenfolge der Seite.
+ * Die Malle-Party ist ein eigener Abschnitt und deshalb ein eigener Punkt –
+ * sonst zeigt die Leiste dort nichts an.
+ */
+export const NAV = [
+  { id: 'samstag', label: 'Sa', theme: 'party' },
+  { id: 'sonntag', label: 'So', theme: 'brass' },
+  { id: 'montag', label: 'Mo', theme: 'lagoon' },
+  { id: 'malle', label: 'Malle', theme: 'party', wide: true },
+]
+
 /** Kompakter Infoblock „Gut zu wissen“. */
 export const FACTS = [
   {
@@ -226,7 +256,7 @@ export const FACTS = [
     icon: 'person',
     color: 'sunset',
     title: 'Unter 18 Jahren',
-    text: 'Zur Mallorca Party am Samstag ist der Einlass unter 18 Jahren nur mit Party-Pass möglich.',
+    text: 'Zur Malle-Party am Samstag ist der Einlass unter 18 Jahren nur mit Party-Pass möglich.',
   },
   {
     icon: 'plate',

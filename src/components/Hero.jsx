@@ -1,9 +1,12 @@
 import { DAYS, EVENT, THEMES, VENUE } from '../data/festival.js'
-import Countdown from './Countdown.jsx'
+import useToday from '../lib/useToday.js'
+import FestStatus from './FestStatus.jsx'
 import QuickActions from './QuickActions.jsx'
 import { ArrowDownIcon, BarnIcon, PinIcon } from './icons.jsx'
 
 export default function Hero() {
+  const today = useToday()
+
   return (
     <header
       id="top"
@@ -50,18 +53,21 @@ export default function Hero() {
         </p>
 
         <div className="mt-7">
-          <Countdown />
+          <FestStatus />
         </div>
 
         {/* Drei Tage auf einen Blick */}
         <ul className="mt-7 grid grid-cols-3 gap-2">
           {DAYS.map((day) => {
             const theme = THEMES[day.theme]
+            const isToday = day.date === today
             return (
               <li key={day.id}>
                 <a
                   href={`#${day.id}`}
-                  className={`flex h-full flex-col gap-1 rounded-2xl border p-3 transition ${theme.chip}`}
+                  className={`flex h-full flex-col gap-1 rounded-2xl border p-3 transition ${theme.chip} ${
+                    isToday ? 'ring-2 ring-sunset-300/60' : ''
+                  }`}
                 >
                   <span
                     className={`text-[0.62rem] font-bold uppercase tracking-[0.14em] ${theme.chipLabel}`}

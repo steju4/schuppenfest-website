@@ -5,7 +5,7 @@ Mobile-first Landingpage zum **Menninger Schuppenfest vom 19. bis 21. September
 Aufruf per QR-Code vom Flyer gebaut.
 
 Die Hierarchie folgt dem Gesamtflyer: **Das Schuppenfest ist das Fest**, die
-Mallorca Party ist der Samstagabend darin. Der Hero zeigt deshalb das Fest mit
+Malle-Party ist der Samstagabend darin. Der Hero zeigt deshalb das Fest mit
 allen drei Tagen; der Samstagabend bekommt weiter unten einen eigenen,
 gestalterisch abgesetzten Block – so wie er auch einen eigenen Flyer hat.
 
@@ -49,6 +49,7 @@ werden.
 | `DAYS`    | Programm je Festtag – Basis für Hero-Chips, Zeitplan, Footer  |
 | `THEMES`  | Farbidentität je Tag – Tageskarten, Hero-/Footer-Kacheln, aktive Sticky-Nav |
 | `PARTY`   | Samstagabend: DJ, Einlass, Eintritt, Specials, Party-Pass     |
+| `NAV`     | Sprungmarken der Kopfleiste – inkl. eigenem Punkt für die Malle-Party |
 | `FACTS`   | Kacheln im Block „Gut zu wissen“                              |
 | `TRAVEL`  | Anfahrt-Hinweis Biberbahn                                     |
 
@@ -86,29 +87,58 @@ src/
 ├── index.css                   Schriften, Design-Tokens, Utilities
 ├── data/festival.js            alle Inhalte
 ├── lib/calendar.js             erzeugt die .ics-Datei zum Termin merken
+├── lib/useToday.js             heutiges Datum, minütlich aktualisiert
 └── components/
-    ├── StickyNav.jsx           Quick-Access-Leiste mit Sprung zu Sa/So/Mo
-    ├── Hero.jsx                Titelbereich: Fest, Datum, Ort, Countdown
-    ├── Countdown.jsx           Restzeit bis zum Festbeginn
+    ├── StickyNav.jsx           Kopfleiste: Sa/So/Mo/Malle + Lesefortschritt
+    ├── Hero.jsx                Titelbereich: Fest, Datum, Ort, Status
+    ├── FestStatus.jsx          Countdown davor, Tagesprogramm währenddessen
     ├── QuickActions.jsx        Termin merken (.ics) und Teilen
     ├── Programm.jsx            Zeitplan: drei Tageskarten mit Farbidentität
-    ├── PartyNight.jsx          Samstagabend: Mallorca Party, DJ, Specials
+    ├── PartyNight.jsx          Samstagabend: Malle-Party, DJ, Specials
     ├── Location.jsx            Adresse, Karte, Anfahrt
     ├── Facts.jsx               „Gut zu wissen“
     ├── Footer.jsx              Schlusssatz und Veranstalter
+    ├── SectionEdge.jsx         weiche Kante zwischen hell und dunkel
     ├── DjLogo.jsx              DJ-Logo mit SVG-Fallback
     ├── SpecialArt.jsx          farbige Illustrationen der Specials
     ├── Reveal.jsx              sanftes Einblenden beim Scrollen
     └── icons.jsx               Linien-Icons als Inline-SVG
 ```
 
+## Stand der Inhalte
+
+Eingearbeitet ist der **Flyer-Stand vom September 2026** (A4 Gesamtflyer + A6
+Party-Flyer). Gegenüber der ersten Fassung geändert:
+
+- Die Party heißt **Malle-Party** (Schreibweise mit Bindestrich wie auf beiden
+  Flyern), vorher „Mallorca Party“.
+- **Montag beginnt später:** Feierabendhock ab 18:00 Uhr (vorher 17:30),
+  Festausklang ab 19:00 Uhr (vorher 18:30).
+- Sonntag 17:30 Uhr heißt jetzt **„Blasmusik mit der MK Buchheim“**
+  (vorher „Unterhaltung“).
+- „Danach 7 € Eintritt“ steht inzwischen auch auf dem Flyer.
+
+## Lebendige Zustände
+
+Die Seite verhält sich abhängig vom Datum – ohne Backend, alles im Browser
+gerechnet:
+
+- **Vor dem Fest:** Countdown mit Tagen, Stunden, Minuten.
+- **Während des Fests:** Der Countdown weicht einem Panel „Heute · Sonntag“ mit
+  den nächsten Programmpunkten, die passende Tageskarte bekommt einen Rahmen
+  und ein „Heute“-Abzeichen, und die Kachel im Hero wird hervorgehoben.
+- **Nach dem Fest:** Der Block verschwindet still.
+
+Getestet wird das, indem man in `useToday.js` bzw. `FestStatus.jsx` das Datum
+vorübergehend fest verdrahtet – oder im Browser die Systemzeit vorstellt.
+
 ## Gestaltung
 
 - **Schriften:** Anton als Poster-Display für Titel und Datums-Ziffern, Outfit
   für Fließtext.
 - **Rhythmus:** dunkle und helle Abschnitte wechseln sich ab (Hero dunkel →
-  Programm hell → Mallorca Party dunkel → Anfahrt hell → Footer dunkel).
-- **Farbcodierung pro Tag:** Samstag pink/orange (Mallorca), Sonntag messing
+  Programm hell → Malle-Party dunkel → Anfahrt hell → Footer dunkel).
+- **Farbcodierung pro Tag:** Samstag pink/orange (Malle-Party), Sonntag messing
   (Blasmusik), Montag türkis (Ausklang) – siehe `THEMES`. Sie zieht sich durch
   Tageskarten, die Kacheln in Hero und Footer und den aktiven Punkt der
   Sticky-Nav. Zusätzlich haben die Kacheln in „Gut zu wissen“ und die
@@ -116,7 +146,10 @@ src/
   einfarbig wirkt.
 - **Schlicht statt dekoriert:** der Hero trägt die Seite über Typografie,
   Countdown und die drei Tageskarten – ohne große Illustration.
-- **Wegweiser zur Mallorca Party:** Die Samstagskarte endet in einem farbigen
+- **Weiche Kanten:** Zwischen hellen und dunklen Abschnitten sitzt eine
+  geschwungene Kante (`SectionEdge`), statt einer harten Linie.
+- **Menninger Wappen** im Footer, aus dem Flyer freigestellt.
+- **Wegweiser zur Malle-Party:** Die Samstagskarte endet in einem farbigen
   Banner, das zum Detailblock weiter unten führt. Es ist bewusst das
   auffälligste Element im Programm, weil dort die meistgesuchten Infos
   stehen (DJ, Specials, Eintritt) und ein reiner Textlink dafür übersehen
@@ -159,8 +192,13 @@ Die Programmzeiten und Kapellen stammen von den Flyern. Folgende Beschreibungen
 habe ich dagegen selbst formuliert; sie sind plausibel, aber nicht durch eine
 Quelle belegt:
 
-- Sonntag: „Warme Küche für den großen Hunger“, „Große Auswahl an
-  selbstgebackenen Kuchen“, „Auch am Abend wird durchgehend bewirtet“
+- Sonntag: „Warme Küche für den großen Hunger“ und „Große Auswahl an
+  selbstgebackenen Kuchen“ – der Flyer nennt nur „Reichhaltiger Mittagstisch
+  sowie Kaffee und Kuchen“, die Ausschmückung ist von mir.
+- **Sonntag „Abendessen“** steht auf keinem Flyer, sondern beruht auf der
+  mündlichen Angabe, dass auch abends bewirtet wird.
+- **Montag „Wurstsalat“** steht ebenfalls auf keinem Flyer, sondern beruht auf
+  der mündlichen Angabe.
 - Montag: „Der Klassiker zum Feierabend“ (zu Wurstsalat)
 - „Bei jedem Wetter“ im Block *Gut zu wissen*
 - Die Uhrzeiten der Bewirtung stehen bewusst als „mittags“, „nachmittags“ und
