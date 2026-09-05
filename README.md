@@ -4,10 +4,12 @@ Mobile-first Landingpage zum **Menninger Schuppenfest vom 19. bis 21. September
 2026**, veranstaltet von der Musikkapelle Menningen e.V. Die Seite ist für den
 Aufruf per QR-Code vom Flyer gebaut.
 
+> **Gestaltungsvariante „Editorial“.** Dieser Branch ist ein vollständiger
+> Neuentwurf mit denselben Inhalten – andere Schrift, andere Farbwelt, anderer
+> Aufbau. Die andere Fassung liegt auf `claude/malle-party-relaunch`.
+
 Die Hierarchie folgt dem Gesamtflyer: **Das Schuppenfest ist das Fest**, die
-Malle-Party ist der Samstagabend darin. Der Hero zeigt deshalb das Fest mit
-allen drei Tagen; der Samstagabend bekommt weiter unten einen eigenen,
-gestalterisch abgesetzten Block – so wie er auch einen eigenen Flyer hat.
+Malle-Party ist der Samstagabend darin.
 
 ## Tech-Stack
 
@@ -47,9 +49,9 @@ werden.
 | `EVENT`   | Titel, Zeitraum, Claim, Schlusssatz, Veranstalter             |
 | `VENUE`   | Adresse und Koordinaten (Pin auf der Karte)                   |
 | `DAYS`    | Programm je Festtag – Basis für Hero-Chips, Zeitplan, Footer  |
-| `THEMES`  | Farbidentität je Tag – Tageskarten, Hero-/Footer-Kacheln, aktive Sticky-Nav |
+| `THEMES`  | Farbwelt je Tag – Farbtafel, Datumsziffer, Punkt in der Dock-Leiste |
 | `PARTY`   | Samstagabend: DJ, Einlass, Eintritt, Specials, Party-Pass     |
-| `NAV`     | Sprungmarken der Kopfleiste – inkl. eigenem Punkt für die Malle-Party |
+| `NAV`     | Sprungmarken der Dock-Leiste – inkl. eigenem Punkt für die Malle-Party |
 | `FACTS`   | Kacheln im Block „Gut zu wissen“                              |
 | `TRAVEL`  | Anfahrt-Hinweis Biberbahn                                     |
 
@@ -88,17 +90,18 @@ src/
 ├── data/festival.js            alle Inhalte
 ├── lib/calendar.js             erzeugt die .ics-Datei zum Termin merken
 ├── lib/useToday.js             heutiges Datum, minütlich aktualisiert
+├── lib/useParallax.js          sanfter Versatz beim Scrollen
 └── components/
-    ├── StickyNav.jsx           Kopfleiste: Sa/So/Mo/Malle + Lesefortschritt
-    ├── Hero.jsx                Titelbereich: Fest, Datum, Ort, Status
+    ├── Dock.jsx                schwebende Leiste unten mit Abschnittsanzeige
+    ├── ScrollProgress.jsx      Fortschrittslinie oben
+    ├── Hero.jsx                Titelseite: Fest, Datum, Ort, Status
     ├── FestStatus.jsx          Countdown davor, Tagesprogramm währenddessen
     ├── QuickActions.jsx        Termin merken (.ics) und Teilen
-    ├── Programm.jsx            Zeitplan: drei Tageskarten mit Farbidentität
+    ├── Programm.jsx            drei vollflächige Tages-Farbtafeln
     ├── PartyNight.jsx          Samstagabend: Malle-Party, DJ, Specials
     ├── Location.jsx            Adresse, Karte, Anfahrt
-    ├── Facts.jsx               „Gut zu wissen“
+    ├── Facts.jsx               „Gut zu wissen“ als nummerierte Liste
     ├── Footer.jsx              Schlusssatz und Veranstalter
-    ├── SectionEdge.jsx         weiche Kante zwischen hell und dunkel
     ├── DjLogo.jsx              DJ-Logo mit SVG-Fallback
     ├── SpecialArt.jsx          farbige Illustrationen der Specials
     ├── Reveal.jsx              sanftes Einblenden beim Scrollen
@@ -134,40 +137,34 @@ vorübergehend fest verdrahtet – oder im Browser die Systemzeit vorstellt.
 
 ## Gestaltung
 
-- **Schriften:** Anton als Poster-Display für Titel und Datums-Ziffern, Outfit
-  für Fließtext.
-- **Rhythmus:** dunkle und helle Abschnitte wechseln sich ab (Hero dunkel →
-  Programm hell → Malle-Party dunkel → Anfahrt hell → Footer dunkel).
-- **Farbcodierung pro Tag:** Samstag pink/orange (Malle-Party), Sonntag messing
-  (Blasmusik), Montag türkis (Ausklang) – siehe `THEMES`. Sie zieht sich durch
-  Tageskarten, die Kacheln in Hero und Footer und den aktiven Punkt der
-  Sticky-Nav. Zusätzlich haben die Kacheln in „Gut zu wissen“ und die
-  Specials je einen eigenen gedämpften Akzent, damit die Seite nicht
-  einfarbig wirkt.
-- **Schlicht statt dekoriert:** der Hero trägt die Seite über Typografie,
-  Countdown und die drei Tageskarten – ohne große Illustration.
-- **Farbige Tageskarten:** Der Kopf jeder Tageskarte ist eine volle Fläche in
-  der Tagesfarbe mit weißer Schrift – das trägt die Farbcodierung deutlich
-  weiter als ein zart getönter Streifen.
-- **Laufband** (`Marquee`) als Trenner nach dem Hero und vor dem Footer.
-- **Textur:** Helle Abschnitte tragen ein sehr feines Punktraster und einen
-  warmen Verlauf, damit die Flächen nicht tot wirken.
-- **Weiche Kanten:** Zwischen hellen und dunklen Abschnitten sitzt eine
-  geschwungene Kante (`SectionEdge`), statt einer harten Linie. Sie liegt auf
-  `z-10`, sonst überdeckt der folgende Abschnitt sie mit seinem Hintergrund.
-- **Menninger Wappen** im Footer, aus dem Flyer freigestellt.
-- **Wegweiser zur Malle-Party:** Die Samstagskarte endet in einem farbigen
-  Banner, das zum Detailblock weiter unten führt. Es ist bewusst das
-  auffälligste Element im Programm, weil dort die meistgesuchten Infos
-  stehen (DJ, Specials, Eintritt) und ein reiner Textlink dafür übersehen
-  wurde.
-- **Grafiken sind Inline-SVG** (Icons, Specials). Einziges Bild ist das
-  DJ-Logo, und das lädt `loading="lazy"` weit unterhalb des ersten Bildschirms.
+Die Seite ist als **gesetzte Drucksache** gedacht, nicht als Kartenstapel.
+
+- **Typografie:** Instrument Serif als Display – aufrecht und kursiv im
+  Wechsel, das trägt die ganze Hierarchie. Outfit nur für Fließtext und
+  Bedienelemente. Die Auszeichnungen (`eyebrow`) laufen weit gesperrt in
+  Versalien.
+- **Farbwelt vom Papier:** Die drei Tagesfarben sind **Navy, Rostrot und
+  Waldgrün** – genau die Schilder des gedruckten A4-Flyers. Die Malle-Party
+  bringt als eigener Abschnitt ihre tropische Palette mit (Koralle, Gold,
+  Türkis), so wie sie auch einen eigenen Flyer hat.
+- **Aufbau als Farbfelder:** Jeder Festtag ist eine vollflächige Farbtafel,
+  keine Karte auf einem Hintergrund. Dazwischen liegen helle Papierflächen.
+  Der Party-Abschnitt ist der eine laute, fast schwarze Moment.
+- **Riesige Datumsziffern** liegen als Grafik hinter jedem Tag und wandern
+  beim Scrollen leicht mit (`useParallax`).
+- **Programm als Satzspiegel:** Zeit und Titel in zwei Spalten mit Haarlinien,
+  wie ein gedrucktes Programmheft. Bewirtungspunkte sind zurückgenommen
+  gesetzt, Musikpunkte fett.
+- **„Gut zu wissen“** als nummerierte Liste mit gesetzten Ziffern.
+- **Navigation unten statt oben:** eine schwebende Leiste in Daumenreichweite
+  (`Dock`), die den aktuellen Abschnitt in dessen Farbe zeigt. Oben läuft nur
+  eine feine Fortschrittslinie.
 
 ## Performance- und Datenschutz-Entscheidungen
 
-- **Schriften selbst gehostet** in `public/fonts/` (Anton 19 kB, Outfit 32 kB,
-  beide woff2, SIL Open Font License 1.1). Kein Request an Google Fonts.
+- **Schriften selbst gehostet** in `public/fonts/` (Instrument Serif aufrecht
+  21 kB und kursiv 22 kB, Outfit 32 kB, alle woff2, SIL Open Font License 1.1).
+  Kein Request an Google Fonts.
 - **Karte erst auf Klick:** Das Google-Maps-Embed wird erst nach Klick auf
   „Karte laden“ eingebettet. Das spart beim ersten Aufruf einige hundert
   Kilobyte und es geht keine Anfrage an Google, bevor der Gast die Karte sehen

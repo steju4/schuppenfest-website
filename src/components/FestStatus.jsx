@@ -34,13 +34,12 @@ function useCountUp(target) {
       return
     }
 
-    const duration = 700
+    const duration = 800
     const start = performance.now()
     let frame
 
     function step(now) {
       const t = Math.min(1, (now - start) / duration)
-      // weich auslaufend
       setShown(Math.round(target * (1 - Math.pow(1 - t, 3))))
       if (t < 1) frame = requestAnimationFrame(step)
       else done.current = true
@@ -56,13 +55,11 @@ function Unit({ value, label }) {
   const shown = useCountUp(value)
 
   return (
-    <div className="flex min-w-[3.6rem] flex-col items-center rounded-xl border border-white/15 bg-white/10 px-3 py-2 backdrop-blur-sm">
-      <span className="display text-2xl leading-none text-sand-50 tabular-nums">
+    <div className="flex items-baseline gap-1.5">
+      <span className="serif text-4xl tabular-nums text-ink sm:text-5xl">
         {String(shown).padStart(2, '0')}
       </span>
-      <span className="mt-1 text-[0.6rem] font-bold uppercase tracking-[0.12em] text-sand-200/60">
-        {label}
-      </span>
+      <span className="eyebrow text-ink-faint">{label}</span>
     </div>
   )
 }
@@ -72,33 +69,27 @@ function TodayPanel({ day }) {
   const theme = THEMES[day.theme]
 
   return (
-    <div className="rounded-2xl border border-white/15 bg-white/8 p-4 backdrop-blur-sm">
-      <p className="flex items-center gap-2 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-sunset-300">
-        <span className="size-1.5 animate-pulse rounded-full bg-sunset-400" />
+    <div className={`rounded-2xl px-5 py-4 text-paper ${theme.panel}`}>
+      <p className="eyebrow flex items-center gap-2 text-paper/70">
+        <span className="size-1.5 animate-pulse rounded-full bg-paper" />
         Heute · {day.weekday}
       </p>
-      <p className="display mt-2 text-2xl text-sand-50">{day.title}</p>
+      <p className="serif mt-2 text-3xl italic">{day.title}</p>
 
       <ul className="mt-3 space-y-1.5">
         {day.items.slice(0, 3).map((item) => (
-          <li
-            key={item.time + item.title}
-            className="flex gap-2.5 text-[0.8rem] leading-snug"
-          >
-            <span
-              className={`shrink-0 font-bold ${theme.chipLabel}`}
-              style={{ minWidth: '5.5rem' }}
-            >
+          <li key={item.time + item.title} className="flex gap-3 text-[0.82rem]">
+            <span className="w-24 shrink-0 font-semibold text-paper/60">
               {item.time}
             </span>
-            <span className="text-sand-200/85">{item.title}</span>
+            <span className="text-paper/95">{item.title}</span>
           </li>
         ))}
       </ul>
 
       <a
         href={`#${day.id}`}
-        className="mt-3 inline-block text-[0.78rem] font-bold text-sunset-300 underline decoration-sunset-300/40 decoration-2 underline-offset-4"
+        className="mt-3 inline-block text-[0.78rem] font-bold underline decoration-paper/40 decoration-2 underline-offset-4"
       >
         Ganzes Tagesprogramm
       </a>
@@ -106,9 +97,6 @@ function TodayPanel({ day }) {
   )
 }
 
-/**
- * Zeigt vor dem Fest den Countdown und während des Fests den heutigen Tag.
- */
 export default function FestStatus() {
   const [time, setTime] = useState(phase)
   const today = useToday()
@@ -125,8 +113,8 @@ export default function FestStatus() {
     if (day) return <TodayPanel day={day} />
 
     return (
-      <p className="inline-flex items-center gap-2 rounded-full border border-sunset-300/30 bg-sunset-500/15 px-4 py-2 text-sm font-bold text-sunset-300">
-        <span className="size-2 animate-pulse rounded-full bg-sunset-400" />
+      <p className="inline-flex items-center gap-2 rounded-full bg-coral-500 px-4 py-2 text-sm font-bold text-white">
+        <span className="size-2 animate-pulse rounded-full bg-white" />
         Das Schuppenfest läuft gerade!
       </p>
     )
@@ -134,10 +122,8 @@ export default function FestStatus() {
 
   return (
     <div>
-      <p className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-sand-200/55">
-        Noch bis zum Festbeginn
-      </p>
-      <div className="mt-2 flex gap-2">
+      <p className="eyebrow text-ink-faint">Noch bis zum Festbeginn</p>
+      <div className="mt-2 flex flex-wrap items-baseline gap-x-5 gap-y-1">
         <Unit value={time.days} label="Tage" />
         <Unit value={time.hours} label="Std" />
         <Unit value={time.minutes} label="Min" />

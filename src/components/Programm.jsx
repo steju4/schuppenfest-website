@@ -1,145 +1,121 @@
 import { DAYS, EVENT, THEMES } from '../data/festival.js'
+import useParallax from '../lib/useParallax.js'
 import useToday from '../lib/useToday.js'
 import Reveal from './Reveal.jsx'
-import { ArrowDownIcon, DiscIcon, MusicIcon, PlateIcon } from './icons.jsx'
+import { ArrowDownIcon, DiscIcon, PlateIcon } from './icons.jsx'
 
-/** Icon und Bezeichnung je Art von Programmpunkt. */
-const KINDS = {
-  music: { icon: MusicIcon, label: 'Musik' },
-  food: { icon: PlateIcon, label: 'Bewirtung' },
-  party: { icon: DiscIcon, label: 'Party' },
-}
-
-function Item({ item, theme, isLast }) {
-  const kind = KINDS[item.kind ?? 'music']
-  const Icon = kind.icon
-  const detail = item.ensemble ?? item.note
-  const isFood = item.kind === 'food'
-
-  return (
-    <li className="flex gap-3.5">
-      {/* Zeitachse */}
-      <div aria-hidden className="flex flex-col items-center pt-1.5">
-        <span
-          className={`size-2.5 shrink-0 rounded-full ${
-            isFood ? 'bg-ink/20' : theme.dot
-          }`}
-        />
-        {!isLast && <span className="w-px flex-1 bg-ink/10" />}
-      </div>
-
-      <div className={isLast ? '' : 'pb-5'}>
-        <p
-          className={`text-[0.7rem] font-bold uppercase tracking-[0.1em] ${
-            isFood ? 'text-ink-soft' : theme.accentText
-          }`}
-        >
-          {item.time}
-        </p>
-        <p className="mt-0.5 text-[0.95rem] font-bold leading-snug text-ink">
-          {item.title}
-        </p>
-        {detail && (
-          <p className="mt-1 flex items-start gap-1.5 text-xs leading-snug text-ink-soft">
-            <Icon className="mt-px size-3.5 shrink-0 text-ink-soft/60" />
-            {detail}
-          </p>
-        )}
-      </div>
-    </li>
-  )
-}
-
-function DayCard({ day, index, isToday }) {
+/**
+ * Ein Festtag als vollflächige Farbtafel.
+ * Die grosse Datumsziffer liegt als Grafik im Hintergrund und wandert
+ * beim Scrollen leicht mit.
+ */
+function DayPanel({ day, isToday }) {
   const theme = THEMES[day.theme]
-  const hasFood = day.items.some((item) => item.kind === 'food')
+  const [ref, offset] = useParallax(48)
 
   return (
-    <Reveal
-      as="article"
+    <section
       id={day.id}
-      delay={index * 90}
-      className={`card overflow-hidden scroll-mt-24 ${
-        isToday ? `ring-2 ${theme.todayRing}` : ''
-      }`}
+      ref={ref}
+      className={`relative overflow-hidden px-6 py-16 text-paper sm:py-20 ${theme.panel}`}
     >
-      {/* Kopf: farbiges Schild in der Tagesfarbe */}
+      {/* Riesige Datumsziffer als Hintergrundgrafik */}
       <div
-        className={`relative flex items-center gap-4 overflow-hidden px-5 py-4 text-white ${theme.headerBg}`}
+        aria-hidden
+        className="pointer-events-none absolute -right-6 top-1/2 select-none"
+        style={{ transform: `translateY(calc(-50% + ${offset}px))` }}
       >
-        <div
-          aria-hidden
-          className="dots pointer-events-none absolute inset-0 text-white/15"
-        />
+        <span className={`serif text-[17rem] leading-none sm:text-[22rem] ${theme.numeral}`}>
+          {day.dayNumber}
+        </span>
+      </div>
+      <div aria-hidden className="grain pointer-events-none absolute inset-0 opacity-[0.06]" />
 
-        <div className="relative shrink-0 text-center leading-none">
-          <span className="block text-[0.66rem] font-bold uppercase tracking-[0.16em] text-white/70">
-            {day.weekdayShort}
-          </span>
-          <span className="display mt-1 block text-[2.8rem] text-white">
-            {day.dayNumber}
-          </span>
-          <span className="mt-1 block text-[0.6rem] font-semibold text-white/65">
-            {day.monthLabel}
-          </span>
-        </div>
+      <div className="relative mx-auto max-w-xl">
+        <Reveal>
+          <p className="eyebrow flex flex-wrap items-center gap-x-3 gap-y-1 text-paper/60">
+            <span>
+              {day.weekday} · {day.dateLabel}
+            </span>
+            {isToday && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-paper px-2.5 py-1 text-ink">
+                <span className="size-1.5 animate-pulse rounded-full bg-coral-500" />
+                Heute
+              </span>
+            )}
+          </p>
 
-        <span aria-hidden className="relative h-16 w-px shrink-0 bg-white/25" />
-
-        <div className="relative min-w-0">
-          {isToday && (
-            <p className="mb-1.5 inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-[0.62rem] font-bold uppercase tracking-[0.14em] text-ink">
-              <span className="size-1.5 animate-pulse rounded-full bg-berry-500" />
-              Heute
-            </p>
-          )}
-          <h3 className="display text-[1.7rem] text-white">{day.title}</h3>
-          <p className="mt-1 text-[0.8rem] font-medium leading-snug text-white/80">
+          <h3 className="serif mt-3 text-[2.8rem] italic sm:text-6xl">
+            {day.title}
+          </h3>
+          <p className="mt-2 max-w-sm text-[0.95rem] leading-relaxed text-paper/75">
             {day.subtitle}
           </p>
-          {hasFood && (
-            <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white/20 px-2.5 py-1 text-[0.65rem] font-bold text-white">
-              <PlateIcon className="size-3" />
-              Bewirtung
-            </p>
-          )}
-        </div>
+        </Reveal>
+
+        {/* Programm als gesetzte Liste mit Haarlinien */}
+        <Reveal delay={90} as="ol" className="mt-8 border-t border-paper/20">
+          {day.items.map((item) => {
+            const isFood = item.kind === 'food'
+            const Icon = isFood ? PlateIcon : DiscIcon
+            const detail = item.ensemble ?? item.note
+
+            return (
+              <li
+                key={item.time + item.title}
+                className="grid grid-cols-[5.5rem_1fr] gap-x-4 border-b border-paper/20 py-4 sm:grid-cols-[7rem_1fr]"
+              >
+                <span
+                  className={`pt-0.5 text-[0.78rem] font-semibold ${
+                    isFood ? 'text-paper/50' : 'text-paper/85'
+                  }`}
+                >
+                  {item.time}
+                </span>
+                <div>
+                  <p
+                    className={`text-[1.02rem] leading-snug ${
+                      isFood ? 'font-medium text-paper/85' : 'font-bold text-paper'
+                    }`}
+                  >
+                    {item.title}
+                  </p>
+                  {detail && (
+                    <p className="mt-1 flex items-start gap-1.5 text-[0.8rem] text-paper/55">
+                      {isFood && <Icon className="mt-px size-3.5 shrink-0" />}
+                      {detail}
+                    </p>
+                  )}
+                </div>
+              </li>
+            )
+          })}
+        </Reveal>
+
+        {/* Wegweiser zum Party-Abschnitt */}
+        {day.theme === 'party' && (
+          <Reveal delay={60}>
+            <a
+              href="#malle"
+              className="mt-7 flex items-center gap-4 rounded-2xl bg-paper px-5 py-4 text-ink transition hover:bg-white active:scale-[0.99]"
+            >
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-coral-500 text-white">
+                <DiscIcon className="size-5" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block font-extrabold leading-tight">
+                  Alles zur Malle-Party
+                </span>
+                <span className="mt-0.5 block text-[0.78rem] text-ink-soft">
+                  DJ Hasamohr, Specials und Eintritt
+                </span>
+              </span>
+              <ArrowDownIcon className="animate-nudge size-5 shrink-0 text-coral-500" />
+            </a>
+          </Reveal>
+        )}
       </div>
-
-      {/* Programmpunkte */}
-      <ol className="px-5 py-5">
-        {day.items.map((item, itemIndex) => (
-          <Item
-            key={item.time + item.title}
-            item={item}
-            theme={theme}
-            isLast={itemIndex === day.items.length - 1}
-          />
-        ))}
-      </ol>
-
-      {/* Der Samstagabend hat einen eigenen Block weiter unten. Als farbiges
-          Banner, damit niemand übersieht, dass dort die Hauptinfos stehen. */}
-      {day.theme === 'party' && (
-        <a
-          href="#malle"
-          className="flex items-center gap-3.5 bg-gradient-to-r from-sunset-500 via-berry-500 to-berry-600 px-5 py-4 text-white transition hover:brightness-110 active:scale-[0.99]"
-        >
-          <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white/20">
-            <DiscIcon className="size-5" />
-          </span>
-          <span className="min-w-0 flex-1">
-            <span className="block text-[0.95rem] font-extrabold leading-tight">
-              Alle Infos zur Malle-Party
-            </span>
-            <span className="mt-0.5 block text-[0.75rem] leading-snug text-white/85">
-              DJ Hasamohr, Specials und Eintritt
-            </span>
-          </span>
-          <ArrowDownIcon className="animate-nudge size-5 shrink-0" />
-        </a>
-      )}
-    </Reveal>
+    </section>
   )
 }
 
@@ -147,32 +123,22 @@ export default function Programm() {
   const today = useToday()
 
   return (
-    <section id="programm" className="relative overflow-hidden px-5 py-14 sm:py-20">
-      <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="dots absolute inset-0 text-ink/[0.045]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-sand-100/70 via-transparent to-sand-100/50" />
-      </div>
-      <div className="relative mx-auto max-w-lg">
-        <Reveal>
-          <p className="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-ink-soft">
-            {EVENT.claim}
-          </p>
-          <h2 className="display mt-2 text-[2.4rem] text-ink sm:text-5xl">
-            Das Programm
+    <div id="programm">
+      {/* Überschrift auf Papier, danach die drei Farbtafeln */}
+      <div className="relative overflow-hidden bg-paper px-6 py-16 sm:py-20">
+        <div aria-hidden className="grain pointer-events-none absolute inset-0 opacity-[0.05]" />
+        <Reveal className="relative mx-auto max-w-xl">
+          <p className="eyebrow text-ink-faint">{EVENT.claim}</p>
+          <h2 className="serif mt-3 text-[3rem] text-ink sm:text-[4rem]">
+            Drei Tage,
+            <span className="block italic text-coral-500">drei Abende.</span>
           </h2>
         </Reveal>
-
-        <div className="mt-7 flex flex-col gap-4">
-          {DAYS.map((day, index) => (
-            <DayCard
-              key={day.id}
-              day={day}
-              index={index}
-              isToday={day.date === today}
-            />
-          ))}
-        </div>
       </div>
-    </section>
+
+      {DAYS.map((day) => (
+        <DayPanel key={day.id} day={day} isToday={day.date === today} />
+      ))}
+    </div>
   )
 }

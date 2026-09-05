@@ -148,44 +148,43 @@ export const DAYS = [
   },
 ]
 
-/** Farb- und Stilklassen je Tages-Theme. */
+/**
+ * Farbwelt je Festtag – Navy, Rostrot und Waldgrün stammen von den
+ * Schildern des gedruckten A4-Flyers.
+ */
 export const THEMES = {
   party: {
-    label: 'Party',
-    accentText: 'text-berry-500',
-    softBg: 'bg-berry-500/8',
-    dot: 'bg-berry-500',
-    // Kachel auf dunklem Grund (Hero, Footer)
-    chip: 'border-berry-400/35 bg-berry-500/14 hover:border-berry-400/60 hover:bg-berry-500/22',
-    chipLabel: 'text-berry-400',
-    navActive: 'bg-berry-500 text-white',
-    accentBg: 'bg-berry-500',
-    todayRing: 'ring-berry-500/40',
-    headerBg: 'bg-gradient-to-br from-berry-600 to-berry-700',
+    label: 'Samstagabend',
+    panel: 'bg-navy-600',
+    panelDeep: 'bg-navy-700',
+    gradient: 'from-navy-600 to-navy-700',
+    numeral: 'text-navy-400/25',
+    accent: 'text-navy-400',
+    onPaper: 'text-navy-600',
+    dot: 'bg-navy-400',
+    dockActive: 'bg-navy-600',
   },
   brass: {
-    label: 'Blasmusik',
-    accentText: 'text-brass-600',
-    softBg: 'bg-brass-400/12',
-    dot: 'bg-brass-500',
-    chip: 'border-brass-400/35 bg-brass-400/14 hover:border-brass-400/60 hover:bg-brass-400/22',
-    chipLabel: 'text-brass-400',
-    navActive: 'bg-brass-500 text-white',
-    accentBg: 'bg-brass-500',
-    todayRing: 'ring-brass-500/40',
-    headerBg: 'bg-gradient-to-br from-brass-600 to-brass-700',
+    label: 'Ganztags',
+    panel: 'bg-rust-600',
+    panelDeep: 'bg-rust-700',
+    gradient: 'from-rust-600 to-rust-700',
+    numeral: 'text-rust-400/25',
+    accent: 'text-rust-400',
+    onPaper: 'text-rust-600',
+    dot: 'bg-rust-400',
+    dockActive: 'bg-rust-600',
   },
   lagoon: {
     label: 'Ausklang',
-    accentText: 'text-lagoon-600',
-    softBg: 'bg-lagoon-500/8',
-    dot: 'bg-lagoon-500',
-    chip: 'border-lagoon-400/35 bg-lagoon-500/14 hover:border-lagoon-400/60 hover:bg-lagoon-500/22',
-    chipLabel: 'text-lagoon-400',
-    navActive: 'bg-lagoon-500 text-white',
-    accentBg: 'bg-lagoon-500',
-    todayRing: 'ring-lagoon-500/40',
-    headerBg: 'bg-gradient-to-br from-lagoon-600 to-lagoon-700',
+    panel: 'bg-forest-600',
+    panelDeep: 'bg-forest-700',
+    gradient: 'from-forest-600 to-forest-700',
+    numeral: 'text-forest-400/25',
+    accent: 'text-forest-400',
+    onPaper: 'text-forest-600',
+    dot: 'bg-forest-400',
+    dockActive: 'bg-forest-600',
   },
 }
 
@@ -215,20 +214,20 @@ export const PARTY = {
   specials: [
     {
       icon: 'tower',
-      tint: 'sunset',
+      tint: 'coral',
       title: '3-Liter-Säulen',
       note: 'Für die ganze Runde',
     },
     {
       icon: 'stein',
-      tint: 'brass',
+      tint: 'gold',
       title: 'Mischen & Bier',
       note: 'Im Masskrug',
     },
     // Non-breaking hyphen: bricht nach „Special“ statt mitten im Wort.
     {
       icon: 'shirt',
-      tint: 'lagoon',
+      tint: 'teal',
       title: 'Special T‑Shirts',
       note: 'Nur am Fest',
     },
@@ -236,9 +235,8 @@ export const PARTY = {
 }
 
 /**
- * Sprungmarken der Kopfleiste, in der Reihenfolge der Seite.
- * Die Malle-Party ist ein eigener Abschnitt und deshalb ein eigener Punkt –
- * sonst zeigt die Leiste dort nichts an.
+ * Sprungmarken der schwebenden Leiste am unteren Rand,
+ * in der Reihenfolge der Seite.
  */
 export const NAV = [
   { id: 'samstag', label: 'Sa', theme: 'party' },
@@ -251,25 +249,25 @@ export const NAV = [
 export const FACTS = [
   {
     icon: 'ticket',
-    color: 'berry',
+    color: 'coral',
     title: 'Eintritt',
     text: 'Am Samstag ist der Eintritt bis 20:30 Uhr frei, danach kostet er 7 €.',
   },
   {
     icon: 'person',
-    color: 'sunset',
+    color: 'gold',
     title: 'Unter 18 Jahren',
     text: 'Zur Malle-Party am Samstag ist der Einlass unter 18 Jahren nur mit Party-Pass möglich.',
   },
   {
     icon: 'plate',
-    color: 'brass',
+    color: 'rust',
     title: 'Bewirtung',
     text: 'Am Sonntag gibt es Mittagstisch, Kaffee & Kuchen und Abendessen, am Montag Wurstsalat.',
   },
   {
     icon: 'barn',
-    color: 'lagoon',
+    color: 'forest',
     title: 'Bei jedem Wetter',
     text: 'Gefeiert wird im Menninger Schuppen – das Fest findet also auch bei Regen statt.',
   },

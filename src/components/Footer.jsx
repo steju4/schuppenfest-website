@@ -1,82 +1,77 @@
 import { DAYS, EVENT, THEMES, VENUE } from '../data/festival.js'
 import Reveal from './Reveal.jsx'
-import { BarnIcon, ExternalIcon } from './icons.jsx'
+import { ExternalIcon } from './icons.jsx'
 
 export default function Footer() {
   return (
-    <div className="relative">
-      <footer className="relative overflow-hidden bg-night px-5 pb-10 pt-16 text-sand-50">
+    <footer className="relative overflow-hidden bg-ink px-6 pb-32 pt-16 text-paper sm:pb-28">
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-32 left-1/2 size-[26rem] -translate-x-1/2 rounded-full bg-berry-500/25 blur-[80px]" />
-        <div className="absolute -bottom-24 right-0 size-64 rounded-full bg-sunset-500/20 blur-[80px]" />
+        <div className="absolute -top-28 left-1/2 size-[24rem] -translate-x-1/2 rounded-full bg-coral-500/20 blur-[90px]" />
         <div className="grain absolute inset-0 opacity-[0.07]" />
       </div>
 
-      <Reveal className="relative mx-auto max-w-lg text-center">
-        <BarnIcon className="mx-auto size-8 text-sunset-300" />
-
-        <p className="display mt-5 text-[2rem] leading-[1.05] text-sand-50 sm:text-4xl">
-          {EVENT.closing}
+      <Reveal className="relative mx-auto max-w-xl">
+        <p className="serif text-[2.4rem] leading-[1.05] sm:text-[3.2rem]">
+          Die Musikkapelle Menningen
+          <span className="block italic text-gold-400">freut sich auf Euch!</span>
         </p>
 
-        {/* Die drei Tage nochmal kompakt */}
-        <ul className="mt-7 grid grid-cols-3 gap-2">
+        {/* Die drei Tage nochmal in ihren Farben */}
+        <ul className="mt-9 grid grid-cols-3 gap-2">
           {DAYS.map((day) => {
             const theme = THEMES[day.theme]
             return (
-              <li
-                key={day.id}
-                className={`rounded-xl border px-2.5 py-2 text-left ${theme.chip}`}
-              >
-                <span
-                  className={`block text-[0.6rem] font-bold uppercase tracking-[0.12em] ${theme.chipLabel}`}
+              <li key={day.id}>
+                <a
+                  href={`#${day.id}`}
+                  className={`block rounded-xl px-3 py-2.5 transition hover:brightness-125 ${theme.panel}`}
                 >
-                  {day.weekdayShort} {day.dayNumber}.09.
-                </span>
-                <span className="block hyphens-auto break-words text-[0.7rem] font-bold leading-tight text-sand-50">
-                  {day.shortTitle}
-                </span>
+                  <span className="block text-[0.6rem] font-bold uppercase tracking-[0.14em] text-paper/60">
+                    {day.weekdayShort} {day.dayNumber}.09.
+                  </span>
+                  <span className="mt-0.5 block hyphens-auto break-words text-[0.74rem] font-bold">
+                    {day.shortTitle}
+                  </span>
+                </a>
               </li>
             )
           })}
         </ul>
 
-        <p className="mx-auto mt-7 max-w-xs text-sm leading-relaxed text-sand-200/75">
-          {VENUE.name}, {VENUE.street}
-          <br />
-          {VENUE.city}
-        </p>
+        <div className="mt-10 border-t border-paper/15 pt-6">
+          <div className="flex items-start justify-between gap-6">
+            <div>
+              <p className="eyebrow text-paper/50">Veranstalter</p>
+              <a
+                href={EVENT.organizer.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1.5 inline-flex items-center gap-1.5 font-bold transition hover:text-gold-400"
+              >
+                {EVENT.organizer.name}
+                <ExternalIcon className="size-3.5" />
+              </a>
+              <p className="mt-3 text-sm leading-relaxed text-paper/60">
+                {VENUE.name}, {VENUE.street}
+                <br />
+                {VENUE.city}
+              </p>
+            </div>
+            <img
+              src="/wappen-menningen.png"
+              alt="Wappen von Menningen"
+              width="320"
+              height="380"
+              loading="lazy"
+              className="h-16 w-auto shrink-0"
+            />
+          </div>
 
-        <div className="mx-auto mt-8 h-px w-20 bg-sand-200/20" />
-
-        {/* Menninger Wappen – vom Festflyer übernommen */}
-        <img
-          src="/wappen-menningen.png"
-          alt="Wappen von Menningen"
-          width="320"
-          height="380"
-          loading="lazy"
-          className="mx-auto mt-6 h-12 w-auto"
-        />
-
-        <p className="mt-4 text-[0.66rem] font-bold uppercase tracking-[0.18em] text-sand-200/55">
-          Veranstalter
-        </p>
-        <a
-          href={EVENT.organizer.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-1.5 inline-flex items-center gap-1.5 text-base font-bold transition hover:text-sunset-300"
-        >
-          {EVENT.organizer.name}
-          <ExternalIcon className="size-3.5" />
-        </a>
-
-        <p className="mt-8 text-xs text-sand-200/45">
-          Änderungen im Programm vorbehalten.
-        </p>
-        </Reveal>
-      </footer>
-    </div>
+          <p className="mt-8 text-xs text-paper/40">
+            Änderungen im Programm vorbehalten.
+          </p>
+        </div>
+      </Reveal>
+    </footer>
   )
 }
