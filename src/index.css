@@ -1,113 +1,95 @@
 @import 'tailwindcss';
 
 /* ---------------------------------------------------------------
-   Schriften selbst gehostet (kein Google-Request):
-   Anton  = Poster-Display für Titel und Datums-Ziffern
-   Outfit = Fließtext (Variable, 400–800)
+   Schriften selbst gehostet, kein Google-Request.
+   Bricolage Grotesque = Display, variabel (Grösse + Gewicht)
+   Instrument Sans     = Fliesstext und Bedienelemente
    --------------------------------------------------------------- */
 @font-face {
-  font-family: 'Anton';
+  font-family: 'Bricolage Grotesque';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300 800;
   font-display: swap;
-  src: url('/fonts/anton-latin.woff2') format('woff2');
+  src: url('/fonts/bricolage-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
     U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-  font-family: 'Anton';
+  font-family: 'Bricolage Grotesque';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300 800;
   font-display: swap;
-  src: url('/fonts/anton-latin-ext.woff2') format('woff2');
+  src: url('/fonts/bricolage-latin-ext.woff2') format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
     U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF,
     U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
-  font-family: 'Outfit';
+  font-family: 'Instrument Sans';
   font-style: normal;
-  font-weight: 400 800;
+  font-weight: 400 700;
   font-display: swap;
-  src: url('/fonts/outfit-latin.woff2') format('woff2');
+  src: url('/fonts/instrument-sans-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
     U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: 'Outfit';
-  font-style: normal;
-  font-weight: 400 800;
-  font-display: swap;
-  src: url('/fonts/outfit-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
-    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF,
-    U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 /* ---------------------------------------------------------------
-   Design-Tokens
+   Farben: kontrastreich, ein Akzent pro Tag.
    --------------------------------------------------------------- */
 @theme {
   --font-sans:
-    'Outfit', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Instrument Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    Roboto, sans-serif;
+  --font-display:
+    'Bricolage Grotesque', 'Instrument Sans', ui-sans-serif, system-ui,
     sans-serif;
-  --font-display: 'Anton', 'Outfit', ui-sans-serif, system-ui, sans-serif;
 
-  /* Grundtöne */
-  --color-night: #150d24;
-  --color-night-soft: #241638;
-  --color-ink: #1d1330;
-  --color-ink-soft: #5c5175;
+  --color-bone: #f0ede6;
+  --color-bone-dim: #e2ddd2;
+  --color-ink: #0f1012;
+  --color-ink-2: #1a1c20;
+  --color-ink-3: #2a2d33;
+  --color-mute: #6f747d;
 
-  --color-sand-50: #fffbf6;
-  --color-sand-100: #fdf2e6;
-  --color-sand-200: #f6e2ce;
+  /* Samstag / Malle */
+  --color-punch-400: #ff7a5e;
+  --color-punch-500: #ff4d2e;
+  --color-punch-600: #e03510;
 
-  /* Samstag – Malle-Party */
-  --color-berry-400: #ec4a83;
-  --color-berry-500: #de1f68;
-  --color-berry-600: #b3154f;
-  --color-berry-700: #8a0f3d;
-  --color-sunset-300: #ffc07a;
-  --color-sunset-400: #ff9a4d;
-  --color-sunset-500: #f97316;
+  /* Sonntag */
+  --color-sun-400: #ffd84d;
+  --color-sun-500: #ffc400;
+  --color-sun-600: #d9a300;
 
-  /* Sonntag – Blasmusik */
-  --color-brass-400: #f0b429;
-  --color-brass-500: #d99413;
-  --color-brass-600: #a9700a;
-  --color-brass-700: #7c5207;
+  /* Montag */
+  --color-jade-400: #4de3a8;
+  --color-jade-500: #12c98a;
+  --color-jade-600: #059a68;
 
-  /* Montag – Feierabend */
-  --color-lagoon-400: #2bb3b8;
-  --color-lagoon-500: #0f9aa0;
-  --color-lagoon-600: #0b7278;
-  --color-lagoon-700: #08565b;
-
-  /* DJ-Hasamohr-Logofarben */
-  --color-hasa-dark: #26443c;
-  --color-hasa-amber: #f0a93f;
+  /* Zusatz */
+  --color-sky-400: #7cc4ff;
+  --color-sky-500: #3aa0ff;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5.5rem;
+    scroll-padding-top: 1.5rem;
     -webkit-text-size-adjust: 100%;
   }
 
   body {
-    @apply bg-sand-50 text-ink font-sans antialiased;
+    @apply bg-bone text-ink font-sans antialiased;
     overflow-x: hidden;
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-berry-500;
+    @apply outline-2 outline-offset-2 outline-punch-500;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -118,7 +100,6 @@
     *::before,
     *::after {
       animation-duration: 0.01ms !important;
-      /* ohne das liefen Laufband und Farbschleier endlos weiter */
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
@@ -129,84 +110,32 @@
    Utilities
    --------------------------------------------------------------- */
 
-/** Poster-Schrift: eng, in Grossbuchstaben gesetzt */
+/** Display-Grotesk, eng und fett */
 @utility display {
   font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  line-height: 0.92;
-  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 0.88;
 }
 
-/** Feine Filmkorn-Textur – ein Inline-SVG, kein zusätzlicher Request */
+/** Kleine Auszeichnung */
+@utility label {
+  @apply text-[0.65rem] font-bold uppercase tracking-[0.16em];
+}
+
+/** Grundform aller Kacheln */
+@utility tile {
+  @apply relative overflow-hidden rounded-[1.4rem];
+}
+
 @utility grain {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
 }
 
-@utility card {
-  @apply rounded-3xl bg-white ring-1 ring-ink/5 shadow-[0_2px_18px_-8px_rgba(29,19,48,0.18)];
-}
-
-/* Laufband: der Inhalt liegt zweimal nebeneinander, die halbe Strecke
-   ergibt dadurch eine nahtlose Schleife. */
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@utility animate-marquee {
-  animation: marquee 34s linear infinite;
-}
-
-/* Langsam wandernde Farbschleier im Hero – reine Transform-Animation */
-@keyframes drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(4%, -3%, 0) scale(1.12);
-  }
-}
-
-@utility animate-drift {
-  animation: drift 18s ease-in-out infinite;
-}
-
-@utility animate-drift-slow {
-  animation: drift 26s ease-in-out infinite reverse;
-}
-
-/* Feines Punktraster, damit die hellen Flächen nicht tot wirken */
-@utility dots {
-  background-image: radial-gradient(currentColor 1px, transparent 1px);
-  background-size: 22px 22px;
-}
-
-/* Sanfter Stupser nach unten – Hinweis, dass weiter unten noch etwas kommt.
-   Die reduced-motion-Regel weiter oben stellt die Animation still. */
-@keyframes nudge {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(3px);
-  }
-}
-
-@utility animate-nudge {
-  animation: nudge 2.2s ease-in-out infinite;
-}
-
-/* Scroll-Reveal: Startzustand, `is-visible` wird per Observer gesetzt */
+/* Kacheln fahren beim Scrollen hoch */
 @utility reveal {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(26px) scale(0.985);
   transition:
     opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
@@ -222,4 +151,31 @@
     opacity: 1;
     transform: none;
   }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee 26s linear infinite;
+}
+
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+@utility animate-nudge {
+  animation: nudge 2.2s ease-in-out infinite;
 }

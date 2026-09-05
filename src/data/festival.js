@@ -148,44 +148,37 @@ export const DAYS = [
   },
 ]
 
-/** Farb- und Stilklassen je Tages-Theme. */
+/**
+ * Farbwelt je Festtag. Jede Kachel eines Tages trägt diese Farbe voll,
+ * darum sind die Werte hier ganze Flächen und keine Tönungen.
+ */
 export const THEMES = {
   party: {
-    label: 'Party',
-    accentText: 'text-berry-500',
-    softBg: 'bg-berry-500/8',
-    dot: 'bg-berry-500',
-    // Kachel auf dunklem Grund (Hero, Footer)
-    chip: 'border-berry-400/35 bg-berry-500/14 hover:border-berry-400/60 hover:bg-berry-500/22',
-    chipLabel: 'text-berry-400',
-    navActive: 'bg-berry-500 text-white',
-    accentBg: 'bg-berry-500',
-    todayRing: 'ring-berry-500/40',
-    headerBg: 'bg-gradient-to-br from-berry-600 to-berry-700',
+    label: 'Samstagabend',
+    fill: 'bg-punch-500',
+    fillSoft: 'bg-punch-400',
+    on: 'text-ink',
+    text: 'text-punch-500',
+    ring: 'ring-punch-500',
+    dot: 'bg-punch-500',
   },
   brass: {
-    label: 'Blasmusik',
-    accentText: 'text-brass-600',
-    softBg: 'bg-brass-400/12',
-    dot: 'bg-brass-500',
-    chip: 'border-brass-400/35 bg-brass-400/14 hover:border-brass-400/60 hover:bg-brass-400/22',
-    chipLabel: 'text-brass-400',
-    navActive: 'bg-brass-500 text-white',
-    accentBg: 'bg-brass-500',
-    todayRing: 'ring-brass-500/40',
-    headerBg: 'bg-gradient-to-br from-brass-600 to-brass-700',
+    label: 'Ganztags',
+    fill: 'bg-sun-500',
+    fillSoft: 'bg-sun-400',
+    on: 'text-ink',
+    text: 'text-sun-600',
+    ring: 'ring-sun-500',
+    dot: 'bg-sun-500',
   },
   lagoon: {
     label: 'Ausklang',
-    accentText: 'text-lagoon-600',
-    softBg: 'bg-lagoon-500/8',
-    dot: 'bg-lagoon-500',
-    chip: 'border-lagoon-400/35 bg-lagoon-500/14 hover:border-lagoon-400/60 hover:bg-lagoon-500/22',
-    chipLabel: 'text-lagoon-400',
-    navActive: 'bg-lagoon-500 text-white',
-    accentBg: 'bg-lagoon-500',
-    todayRing: 'ring-lagoon-500/40',
-    headerBg: 'bg-gradient-to-br from-lagoon-600 to-lagoon-700',
+    fill: 'bg-jade-500',
+    fillSoft: 'bg-jade-400',
+    on: 'text-ink',
+    text: 'text-jade-600',
+    ring: 'ring-jade-500',
+    dot: 'bg-jade-500',
   },
 }
 
@@ -215,31 +208,27 @@ export const PARTY = {
   specials: [
     {
       icon: 'tower',
-      tint: 'sunset',
+      tint: 'punch',
       title: '3-Liter-Säulen',
       note: 'Für die ganze Runde',
     },
     {
       icon: 'stein',
-      tint: 'brass',
+      tint: 'sun',
       title: 'Mischen & Bier',
       note: 'Im Masskrug',
     },
     // Non-breaking hyphen: bricht nach „Special“ statt mitten im Wort.
     {
       icon: 'shirt',
-      tint: 'lagoon',
+      tint: 'jade',
       title: 'Special T‑Shirts',
       note: 'Nur am Fest',
     },
   ],
 }
 
-/**
- * Sprungmarken der Kopfleiste, in der Reihenfolge der Seite.
- * Die Malle-Party ist ein eigener Abschnitt und deshalb ein eigener Punkt –
- * sonst zeigt die Leiste dort nichts an.
- */
+/** Sprungmarken der schwebenden Leiste, in der Reihenfolge der Seite. */
 export const NAV = [
   { id: 'samstag', label: 'Sa', theme: 'party' },
   { id: 'sonntag', label: 'So', theme: 'brass' },
@@ -251,25 +240,25 @@ export const NAV = [
 export const FACTS = [
   {
     icon: 'ticket',
-    color: 'berry',
+    color: 'punch',
     title: 'Eintritt',
     text: 'Am Samstag ist der Eintritt bis 20:30 Uhr frei, danach kostet er 7 €.',
   },
   {
     icon: 'person',
-    color: 'sunset',
+    color: 'sky',
     title: 'Unter 18 Jahren',
     text: 'Zur Malle-Party am Samstag ist der Einlass unter 18 Jahren nur mit Party-Pass möglich.',
   },
   {
     icon: 'plate',
-    color: 'brass',
+    color: 'sun',
     title: 'Bewirtung',
     text: 'Am Sonntag gibt es Mittagstisch, Kaffee & Kuchen und Abendessen, am Montag Wurstsalat.',
   },
   {
     icon: 'barn',
-    color: 'lagoon',
+    color: 'jade',
     title: 'Bei jedem Wetter',
     text: 'Gefeiert wird im Menninger Schuppen – das Fest findet also auch bei Regen statt.',
   },
