@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import Facts from './components/Facts.jsx'
 import Footer from './components/Footer.jsx'
 import Hero from './components/Hero.jsx'
@@ -22,6 +23,10 @@ export default function App() {
       </main>
       <Marquee variant="calm" />
       <Footer />
+      {/* Vercel Web Analytics: zählt Besuche und Seitenaufrufe.
+          Die Seite ist mit Vite gebaut, deshalb der /react-Einstiegspunkt –
+          der /next-Pfad aus der Vercel-Anleitung passt hier nicht. */}
+      <Analytics />
     </>
   )
 }

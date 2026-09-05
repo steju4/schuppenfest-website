@@ -35,6 +35,20 @@ automatisch:
 | Build Command    | `npm run build` |
 | Output Directory | `dist`          |
 
+## Besucherzahlen (Vercel Web Analytics)
+
+`@vercel/analytics` ist eingebunden – die `<Analytics />`-Komponente steht in
+`src/App.jsx`.
+
+**Wichtig:** Die Anleitung im Vercel-Dashboard zeigt standardmässig den
+Next.js-Pfad `@vercel/analytics/next`. Dieses Projekt läuft mit **Vite**,
+deshalb ist der richtige Einstiegspunkt `@vercel/analytics/react`.
+
+Damit Zahlen ankommen, muss Web Analytics im Vercel-Projekt zusätzlich
+eingeschaltet sein (Projekt → Analytics → Enable). Erst dann liefert Vercel
+das Skript unter `/_vercel/insights/script.js` aus; lokal läuft dieser Aufruf
+ins Leere, das ist normal und kein Fehler.
+
 ## Inhalte pflegen
 
 **Alle Texte, Zeiten und Programmpunkte stehen in
