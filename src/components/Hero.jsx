@@ -1,9 +1,12 @@
 import { DAYS, EVENT, THEMES, VENUE } from '../data/festival.js'
-import Countdown from './Countdown.jsx'
+import useToday from '../lib/useToday.js'
+import FestStatus from './FestStatus.jsx'
 import QuickActions from './QuickActions.jsx'
 import { ArrowDownIcon, BarnIcon, PinIcon } from './icons.jsx'
 
 export default function Hero() {
+  const today = useToday()
+
   return (
     <header
       id="top"
@@ -12,10 +15,10 @@ export default function Hero() {
       {/* Ruhiger Farbverlauf statt Illustration */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-b from-night-soft via-night to-night" />
-        <div className="absolute -right-40 -top-40 size-[34rem] rounded-full bg-berry-500/18 blur-[110px]" />
-        <div className="absolute -bottom-48 -left-32 size-[30rem] rounded-full bg-lagoon-500/12 blur-[110px]" />
+        <div className="animate-drift absolute -right-40 -top-40 size-[34rem] rounded-full bg-berry-500/20 blur-[110px]" />
+        <div className="animate-drift-slow absolute -bottom-48 -left-32 size-[30rem] rounded-full bg-lagoon-500/14 blur-[110px]" />
+        <div className="animate-drift absolute -left-24 top-1/3 size-[22rem] rounded-full bg-sunset-500/10 blur-[100px]" />
         <div className="grain absolute inset-0 opacity-[0.05]" />
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-sand-50" />
       </div>
 
       {/* Veranstalter */}
@@ -50,18 +53,21 @@ export default function Hero() {
         </p>
 
         <div className="mt-7">
-          <Countdown />
+          <FestStatus />
         </div>
 
         {/* Drei Tage auf einen Blick */}
         <ul className="mt-7 grid grid-cols-3 gap-2">
           {DAYS.map((day) => {
             const theme = THEMES[day.theme]
+            const isToday = day.date === today
             return (
               <li key={day.id}>
                 <a
                   href={`#${day.id}`}
-                  className={`flex h-full flex-col gap-1 rounded-2xl border p-3 transition ${theme.chip}`}
+                  className={`flex h-full flex-col gap-1 rounded-2xl border p-3 transition ${theme.chip} ${
+                    isToday ? 'ring-2 ring-sunset-300/60' : ''
+                  }`}
                 >
                   <span
                     className={`text-[0.62rem] font-bold uppercase tracking-[0.14em] ${theme.chipLabel}`}

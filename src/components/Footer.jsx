@@ -4,7 +4,8 @@ import { BarnIcon, ExternalIcon } from './icons.jsx'
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-night px-5 pb-10 pt-16 text-sand-50">
+    <div className="relative">
+      <footer className="relative overflow-hidden bg-night px-5 pb-10 pt-16 text-sand-50">
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div className="absolute -top-32 left-1/2 size-[26rem] -translate-x-1/2 rounded-full bg-berry-500/25 blur-[80px]" />
         <div className="absolute -bottom-24 right-0 size-64 rounded-full bg-sunset-500/20 blur-[80px]" />
@@ -48,7 +49,17 @@ export default function Footer() {
 
         <div className="mx-auto mt-8 h-px w-20 bg-sand-200/20" />
 
-        <p className="mt-6 text-[0.66rem] font-bold uppercase tracking-[0.18em] text-sand-200/55">
+        {/* Menninger Wappen – vom Festflyer übernommen */}
+        <img
+          src="/wappen-menningen.png"
+          alt="Wappen von Menningen"
+          width="320"
+          height="380"
+          loading="lazy"
+          className="mx-auto mt-6 h-12 w-auto"
+        />
+
+        <p className="mt-4 text-[0.66rem] font-bold uppercase tracking-[0.18em] text-sand-200/55">
           Veranstalter
         </p>
         <a
@@ -64,7 +75,8 @@ export default function Footer() {
         <p className="mt-8 text-xs text-sand-200/45">
           Änderungen im Programm vorbehalten.
         </p>
-      </Reveal>
-    </footer>
+        </Reveal>
+      </footer>
+    </div>
   )
 }
