@@ -7,7 +7,9 @@ export default function SectionEdge({ color = 'text-night-soft', flip = false })
   return (
     <div
       aria-hidden
-      className={`pointer-events-none absolute inset-x-0 ${
+      // z-10: der folgende Abschnitt bringt einen eigenen Hintergrund mit
+      // und wuerde die Kante sonst ueberdecken.
+      className={`pointer-events-none absolute inset-x-0 z-10 ${
         flip ? 'top-full -scale-y-100' : 'bottom-full'
       }`}
     >

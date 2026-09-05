@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { DAYS, EVENT, THEMES } from '../data/festival.js'
 import useToday from '../lib/useToday.js'
 
@@ -18,11 +18,47 @@ function phase() {
   }
 }
 
+/** Zählt beim ersten Anzeigen von 0 auf den Wert hoch. */
+function useCountUp(target) {
+  const [shown, setShown] = useState(0)
+  const done = useRef(false)
+
+  useEffect(() => {
+    if (done.current) {
+      setShown(target)
+      return
+    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      done.current = true
+      setShown(target)
+      return
+    }
+
+    const duration = 700
+    const start = performance.now()
+    let frame
+
+    function step(now) {
+      const t = Math.min(1, (now - start) / duration)
+      // weich auslaufend
+      setShown(Math.round(target * (1 - Math.pow(1 - t, 3))))
+      if (t < 1) frame = requestAnimationFrame(step)
+      else done.current = true
+    }
+    frame = requestAnimationFrame(step)
+    return () => cancelAnimationFrame(frame)
+  }, [target])
+
+  return shown
+}
+
 function Unit({ value, label }) {
+  const shown = useCountUp(value)
+
   return (
-    <div className="flex min-w-[3.6rem] flex-col items-center rounded-xl border border-white/12 bg-white/8 px-3 py-2">
-      <span className="display text-2xl leading-none text-sand-50">
-        {String(value).padStart(2, '0')}
+    <div className="flex min-w-[3.6rem] flex-col items-center rounded-xl border border-white/15 bg-white/10 px-3 py-2 backdrop-blur-sm">
+      <span className="display text-2xl leading-none text-sand-50 tabular-nums">
+        {String(shown).padStart(2, '0')}
       </span>
       <span className="mt-1 text-[0.6rem] font-bold uppercase tracking-[0.12em] text-sand-200/60">
         {label}

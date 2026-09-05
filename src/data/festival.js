@@ -161,6 +161,7 @@ export const THEMES = {
     navActive: 'bg-berry-500 text-white',
     accentBg: 'bg-berry-500',
     todayRing: 'ring-berry-500/40',
+    headerBg: 'bg-gradient-to-br from-berry-600 to-berry-700',
   },
   brass: {
     label: 'Blasmusik',
@@ -172,6 +173,7 @@ export const THEMES = {
     navActive: 'bg-brass-500 text-white',
     accentBg: 'bg-brass-500',
     todayRing: 'ring-brass-500/40',
+    headerBg: 'bg-gradient-to-br from-brass-600 to-brass-700',
   },
   lagoon: {
     label: 'Ausklang',
@@ -183,6 +185,7 @@ export const THEMES = {
     navActive: 'bg-lagoon-500 text-white',
     accentBg: 'bg-lagoon-500',
     todayRing: 'ring-lagoon-500/40',
+    headerBg: 'bg-gradient-to-br from-lagoon-600 to-lagoon-700',
   },
 }
 

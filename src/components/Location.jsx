@@ -60,8 +60,12 @@ function Map() {
 
 export default function Location() {
   return (
-    <section id="anfahrt" className="px-5 py-14 sm:py-20">
-      <div className="mx-auto max-w-lg">
+    <section id="anfahrt" className="relative overflow-hidden px-5 py-14 sm:py-20">
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="dots absolute inset-0 text-ink/[0.045]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-sand-100/70 via-transparent to-sand-100/50" />
+      </div>
+      <div className="relative mx-auto max-w-lg">
         <Reveal>
           <p className="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-ink-soft">
             So findest du uns

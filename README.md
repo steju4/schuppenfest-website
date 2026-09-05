@@ -146,8 +146,15 @@ vorübergehend fest verdrahtet – oder im Browser die Systemzeit vorstellt.
   einfarbig wirkt.
 - **Schlicht statt dekoriert:** der Hero trägt die Seite über Typografie,
   Countdown und die drei Tageskarten – ohne große Illustration.
+- **Farbige Tageskarten:** Der Kopf jeder Tageskarte ist eine volle Fläche in
+  der Tagesfarbe mit weißer Schrift – das trägt die Farbcodierung deutlich
+  weiter als ein zart getönter Streifen.
+- **Laufband** (`Marquee`) als Trenner nach dem Hero und vor dem Footer.
+- **Textur:** Helle Abschnitte tragen ein sehr feines Punktraster und einen
+  warmen Verlauf, damit die Flächen nicht tot wirken.
 - **Weiche Kanten:** Zwischen hellen und dunklen Abschnitten sitzt eine
-  geschwungene Kante (`SectionEdge`), statt einer harten Linie.
+  geschwungene Kante (`SectionEdge`), statt einer harten Linie. Sie liegt auf
+  `z-10`, sonst überdeckt der folgende Abschnitt sie mit seinem Hintergrund.
 - **Menninger Wappen** im Footer, aus dem Flyer freigestellt.
 - **Wegweiser zur Malle-Party:** Die Samstagskarte endet in einem farbigen
   Banner, das zum Detailblock weiter unten führt. Es ist bewusst das
@@ -166,9 +173,13 @@ vorübergehend fest verdrahtet – oder im Browser die Systemzeit vorstellt.
   Kilobyte und es geht keine Anfrage an Google, bevor der Gast die Karte sehen
   will. Adresse und die Links „Route starten“ / „In Google Maps öffnen“
   funktionieren unabhängig davon.
-- **Keine Icon-Library, keine Animationsbibliothek** – Scroll-Effekte laufen
-  über einen IntersectionObserver und respektieren
-  `prefers-reduced-motion`.
+- **Keine Icon-Library, keine Animationsbibliothek.** Bewegung gibt es an vier
+  Stellen, alles reines CSS bzw. ein IntersectionObserver: Einblenden beim
+  Scrollen, langsam wandernde Farbschleier im Hero, das Laufband und der
+  hochzählende Countdown.
+- **`prefers-reduced-motion`** schaltet alles davon ab. Wichtig dabei: neben
+  der Dauer wird auch `animation-iteration-count` auf 1 gesetzt, sonst würden
+  Laufband und Schleier mit 0,01 ms Dauer endlos weiterlaufen.
 
 ## Offene Punkte
 

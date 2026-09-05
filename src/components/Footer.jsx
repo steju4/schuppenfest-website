@@ -1,12 +1,10 @@
 import { DAYS, EVENT, THEMES, VENUE } from '../data/festival.js'
 import Reveal from './Reveal.jsx'
-import SectionEdge from './SectionEdge.jsx'
 import { BarnIcon, ExternalIcon } from './icons.jsx'
 
 export default function Footer() {
   return (
     <div className="relative">
-      <SectionEdge color="text-night" />
       <footer className="relative overflow-hidden bg-night px-5 pb-10 pt-16 text-sand-50">
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div className="absolute -top-32 left-1/2 size-[26rem] -translate-x-1/2 rounded-full bg-berry-500/25 blur-[80px]" />

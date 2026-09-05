@@ -72,6 +72,7 @@
   --color-berry-400: #ec4a83;
   --color-berry-500: #de1f68;
   --color-berry-600: #b3154f;
+  --color-berry-700: #8a0f3d;
   --color-sunset-300: #ffc07a;
   --color-sunset-400: #ff9a4d;
   --color-sunset-500: #f97316;
@@ -80,11 +81,13 @@
   --color-brass-400: #f0b429;
   --color-brass-500: #d99413;
   --color-brass-600: #a9700a;
+  --color-brass-700: #7c5207;
 
   /* Montag – Feierabend */
   --color-lagoon-400: #2bb3b8;
   --color-lagoon-500: #0f9aa0;
   --color-lagoon-600: #0b7278;
+  --color-lagoon-700: #08565b;
 
   /* DJ-Hasamohr-Logofarben */
   --color-hasa-dark: #26443c;
@@ -115,6 +118,8 @@
     *::before,
     *::after {
       animation-duration: 0.01ms !important;
+      /* ohne das liefen Laufband und Farbschleier endlos weiter */
+      animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
   }
@@ -140,6 +145,46 @@
 
 @utility card {
   @apply rounded-3xl bg-white ring-1 ring-ink/5 shadow-[0_2px_18px_-8px_rgba(29,19,48,0.18)];
+}
+
+/* Laufband: der Inhalt liegt zweimal nebeneinander, die halbe Strecke
+   ergibt dadurch eine nahtlose Schleife. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee 34s linear infinite;
+}
+
+/* Langsam wandernde Farbschleier im Hero – reine Transform-Animation */
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4%, -3%, 0) scale(1.12);
+  }
+}
+
+@utility animate-drift {
+  animation: drift 18s ease-in-out infinite;
+}
+
+@utility animate-drift-slow {
+  animation: drift 26s ease-in-out infinite reverse;
+}
+
+/* Feines Punktraster, damit die hellen Flächen nicht tot wirken */
+@utility dots {
+  background-image: radial-gradient(currentColor 1px, transparent 1px);
+  background-size: 22px 22px;
 }
 
 /* Sanfter Stupser nach unten – Hinweis, dass weiter unten noch etwas kommt.

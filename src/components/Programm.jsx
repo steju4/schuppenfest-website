@@ -63,41 +63,42 @@ function DayCard({ day, index, isToday }) {
         isToday ? `ring-2 ${theme.todayRing}` : ''
       }`}
     >
-      {/* Kopf mit Datum und Tagesthema */}
-      <div className={`flex items-center gap-4 px-5 py-4 ${theme.softBg}`}>
-        <div className="shrink-0 text-center leading-none">
-          <span
-            className={`block text-[0.66rem] font-bold uppercase tracking-[0.16em] ${theme.accentText}`}
-          >
+      {/* Kopf: farbiges Schild in der Tagesfarbe */}
+      <div
+        className={`relative flex items-center gap-4 overflow-hidden px-5 py-4 text-white ${theme.headerBg}`}
+      >
+        <div
+          aria-hidden
+          className="dots pointer-events-none absolute inset-0 text-white/15"
+        />
+
+        <div className="relative shrink-0 text-center leading-none">
+          <span className="block text-[0.66rem] font-bold uppercase tracking-[0.16em] text-white/70">
             {day.weekdayShort}
           </span>
-          <span
-            className={`display mt-1 block text-[2.6rem] ${theme.accentText}`}
-          >
+          <span className="display mt-1 block text-[2.8rem] text-white">
             {day.dayNumber}
           </span>
-          <span className="mt-1 block text-[0.6rem] font-semibold text-ink-soft">
+          <span className="mt-1 block text-[0.6rem] font-semibold text-white/65">
             {day.monthLabel}
           </span>
         </div>
 
-        <span aria-hidden className="h-16 w-px shrink-0 bg-ink/10" />
+        <span aria-hidden className="relative h-16 w-px shrink-0 bg-white/25" />
 
-        <div className="min-w-0">
+        <div className="relative min-w-0">
           {isToday && (
-            <p
-              className={`mb-1.5 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.62rem] font-bold uppercase tracking-[0.14em] text-white ${theme.accentBg}`}
-            >
-              <span className="size-1.5 animate-pulse rounded-full bg-white" />
+            <p className="mb-1.5 inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-[0.62rem] font-bold uppercase tracking-[0.14em] text-ink">
+              <span className="size-1.5 animate-pulse rounded-full bg-berry-500" />
               Heute
             </p>
           )}
-          <h3 className="display text-[1.6rem] text-ink">{day.title}</h3>
-          <p className="mt-1 text-[0.8rem] font-medium leading-snug text-ink-soft">
+          <h3 className="display text-[1.7rem] text-white">{day.title}</h3>
+          <p className="mt-1 text-[0.8rem] font-medium leading-snug text-white/80">
             {day.subtitle}
           </p>
           {hasFood && (
-            <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white/70 px-2.5 py-1 text-[0.65rem] font-bold text-ink-soft">
+            <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white/20 px-2.5 py-1 text-[0.65rem] font-bold text-white">
               <PlateIcon className="size-3" />
               Bewirtung
             </p>
@@ -146,8 +147,12 @@ export default function Programm() {
   const today = useToday()
 
   return (
-    <section id="programm" className="px-5 py-14 sm:py-20">
-      <div className="mx-auto max-w-lg">
+    <section id="programm" className="relative overflow-hidden px-5 py-14 sm:py-20">
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="dots absolute inset-0 text-ink/[0.045]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-sand-100/70 via-transparent to-sand-100/50" />
+      </div>
+      <div className="relative mx-auto max-w-lg">
         <Reveal>
           <p className="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-ink-soft">
             {EVENT.claim}

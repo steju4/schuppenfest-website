@@ -10,18 +10,22 @@ const ICONS = {
   barn: BarnIcon,
 }
 
-/** Jede Kachel bekommt einen eigenen, gedämpften Akzent. */
+/** Jede Kachel bekommt eine eigene Akzentfarbe. */
 const COLORS = {
-  berry: 'bg-berry-500/10 text-berry-500',
-  sunset: 'bg-sunset-500/12 text-sunset-500',
-  brass: 'bg-brass-400/15 text-brass-600',
-  lagoon: 'bg-lagoon-500/10 text-lagoon-600',
+  berry: { tile: 'bg-berry-500', bar: 'bg-berry-500' },
+  sunset: { tile: 'bg-sunset-500', bar: 'bg-sunset-500' },
+  brass: { tile: 'bg-brass-500', bar: 'bg-brass-500' },
+  lagoon: { tile: 'bg-lagoon-500', bar: 'bg-lagoon-500' },
 }
 
 export default function Facts() {
   return (
-    <section id="infos" className="px-5 py-14 sm:py-20">
-      <div className="mx-auto max-w-lg">
+    <section id="infos" className="relative overflow-hidden px-5 py-14 sm:py-20">
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="dots absolute inset-0 text-ink/[0.045]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-sand-100/70 via-transparent to-sand-100/50" />
+      </div>
+      <div className="relative mx-auto max-w-lg">
         <Reveal>
           <p className="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-ink-soft">
             Das Wichtigste kurz
@@ -39,10 +43,14 @@ export default function Facts() {
                 as="li"
                 key={fact.title}
                 delay={index * 70}
-                className="card flex gap-3.5 p-4"
+                className="card relative flex gap-3.5 overflow-hidden p-4 pl-5"
               >
                 <span
-                  className={`flex size-10 shrink-0 items-center justify-center rounded-full ${COLORS[fact.color]}`}
+                  aria-hidden
+                  className={`absolute inset-y-0 left-0 w-1.5 ${COLORS[fact.color].bar}`}
+                />
+                <span
+                  className={`flex size-11 shrink-0 items-center justify-center rounded-2xl text-white shadow-sm ${COLORS[fact.color].tile}`}
                 >
                   <Icon className="size-5" />
                 </span>
