@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Landingpage zum Menninger Schuppenfest 2026 der Musikkapelle Menningen e.V.",
+  "description": "Landingpage der Musikkapelle Menningen e.V.: Danke fuers Schuppenfest 2026, Save the Date 2027",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

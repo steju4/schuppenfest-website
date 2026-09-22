@@ -203,6 +203,40 @@
   animation: nudge 2.2s ease-in-out infinite;
 }
 
+/* Einblenden beim Laden – für den Hero, der beim Aufruf schon sichtbar ist
+   und deshalb nicht auf den Scroll-Observer warten kann.
+   `backwards` hält den Startzustand während der Verzögerung. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility animate-rise {
+  animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+/* Langsam wandernder Farbverlauf in den grossen Schriftzügen */
+@keyframes sheen {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@utility animate-sheen {
+  background-size: 220% 100%;
+  animation: sheen 9s ease-in-out infinite;
+}
+
 /* Scroll-Reveal: Startzustand, `is-visible` wird per Observer gesetzt */
 @utility reveal {
   opacity: 0;

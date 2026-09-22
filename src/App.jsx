@@ -1,27 +1,21 @@
 import { Analytics } from '@vercel/analytics/react'
-import Facts from './components/Facts.jsx'
 import Footer from './components/Footer.jsx'
 import Hero from './components/Hero.jsx'
-import Location from './components/Location.jsx'
 import Marquee from './components/Marquee.jsx'
-import PartyNight from './components/PartyNight.jsx'
-import Programm from './components/Programm.jsx'
-import StickyNav from './components/StickyNav.jsx'
+import SaveTheDate from './components/SaveTheDate.jsx'
+import Thanks from './components/Thanks.jsx'
 
 export default function App() {
   return (
     <>
-      <StickyNav />
       <Hero />
-      <Marquee />
+      <Marquee variant="thanks" />
       <main>
-        {/* Erst das ganze Fest (drei Tage), dann der Samstagabend im Detail */}
-        <Programm />
-        <PartyNight />
-        <Facts />
-        <Location />
+        {/* Erst der Dank fürs Fest 2026, dann der Termin für 2027 */}
+        <Thanks />
+        <Marquee variant="save" />
+        <SaveTheDate />
       </main>
-      <Marquee variant="calm" />
       <Footer />
       {/* Vercel Web Analytics: zählt Besuche und Seitenaufrufe.
           Die Seite ist mit Vite gebaut, deshalb der /react-Einstiegspunkt –

@@ -1,286 +1,135 @@
 /**
- * Zentrale Inhalte zum Menninger Schuppenfest.
- * Alle Texte, Zeiten und Programmpunkte werden ausschliesslich hier gepflegt –
- * die Komponenten lesen nur daraus.
+ * Zentrale Inhalte der Seite.
+ * Das Fest 2026 ist vorbei – die Seite dankt dafür und kündigt 2027 an.
+ * Alle Texte werden ausschliesslich hier gepflegt.
  */
 
-export const EVENT = {
-  title: 'Menninger Schuppenfest',
-  year: '2026',
-  dateRange: '19. – 21. September 2026',
-  dateRangeShort: '19.–21.09.2026',
-  claim: 'Drei Tage feiern im Menninger Schuppen',
-  closing: 'Die Musikkapelle Menningen freut sich auf Euch!',
-  /** Beginn und Ende des Fests – Basis für Countdown und „Heute“-Markierung. */
-  startsAt: '2026-09-19T20:00:00+02:00',
-  endsAt: '2026-09-21T23:59:00+02:00',
-  organizer: {
-    name: 'Musikkapelle Menningen e.V.',
-    url: 'https://www.mk-menningen.de/',
-  },
+export const ORGANIZER = {
+  name: 'Musikkapelle Menningen e.V.',
+  url: 'https://www.mk-menningen.de/',
 }
 
 export const VENUE = {
   name: 'Menninger Schuppen',
   street: 'Felsenäcker',
   city: '88605 Meßkirch-Menningen',
-  region: 'Landkreis Sigmaringen',
-  // Felsenäcker, Menningen (Quelle: OpenStreetMap)
-  lat: 48.0113,
-  lng: 9.1569,
+}
+
+/** Das Fest, das gerade vorbei ist. */
+export const PAST = {
+  year: '2026',
+  dateRange: '19. – 21. September 2026',
+  headline: 'Danke',
+  lead: 'Drei Tage Menninger Schuppenfest sind vorbei – und sie waren großartig. Danke an alle, die dabei waren.',
 }
 
 /**
- * Programm je Festtag.
- * `theme` steuert die Farbidentität des Tages (siehe THEMES unten).
- *
- * Programmpunkte haben `time`, `title` und optional:
- *  - `kind`: 'music' (Standard) | 'food' | 'party' – steuert Icon und Farbe
- *  - `ensemble`: ausgeschriebener Name der Kapelle
- *  - `note`: einfacher Zusatzhinweis
+ * Wem wir danken. Bewusst konkret statt einem allgemeinen Dankeschön.
  */
-export const DAYS = [
+export const THANKS = [
+  {
+    icon: 'people',
+    color: 'berry',
+    title: 'Euch',
+    text: 'Für drei volle Tage, gute Laune und die Stimmung, die ein Fest erst zu einem Fest macht.',
+  },
+  {
+    icon: 'music',
+    color: 'brass',
+    title: 'Den Kapellen',
+    text: 'Für Frühschoppen, Unterhaltung und Festausklang – ohne euch wäre es im Schuppen still geblieben.',
+  },
+  {
+    icon: 'disc',
+    color: 'sunset',
+    title: 'DJ Hasamohr',
+    text: 'Für einen Samstagabend, an dem der Schuppen bis in die Nacht gebebt hat.',
+  },
+  {
+    icon: 'heart',
+    color: 'lagoon',
+    title: 'Allen Helfern',
+    text: 'Fürs Aufbauen, Ausschenken, Kochen, Backen, Spülen und Aufräumen. Ihr habt das getragen.',
+  },
+]
+
+/** Was 2026 gelaufen ist – kurzer Rückblick. */
+export const RECAP = [
+  { theme: 'party', day: 'Sa', title: 'Malle-Party', note: 'mit DJ Hasamohr' },
+  { theme: 'brass', day: 'So', title: 'Festsonntag', note: 'drei Kapellen, Mittagstisch, Kuchen' },
+  { theme: 'lagoon', day: 'Mo', title: 'Feierabend\u00ADhock', note: 'Jugendkapelle und Festausklang' },
+]
+
+/** Das nächste Fest. */
+export const NEXT = {
+  year: '2027',
+  dateRange: '18. – 20. September 2027',
+  dateRangeShort: '18.–20.09.2027',
+  /** Beginn für den Countdown: Samstagabend, wie gewohnt. */
+  startsAt: '2027-09-18T20:00:00+02:00',
+  /** Ganztägiger Kalendereintrag, DTEND ist exklusiv. */
+  icsStart: '20270918',
+  icsEnd: '20270921',
+  closing: 'Bis September 2027 im Menninger Schuppen.',
+  lead: 'Gleicher Ort, gleiches Wochenende im September, gleiche drei Tage. Das Programm kommt später – der Termin steht jetzt schon.',
+}
+
+/**
+ * Die drei Tage 2027. Bewusst ohne Zeiten: es ist ein Save the Date,
+ * kein Programm. `open` markiert, was noch nicht verraten wird.
+ */
+export const NEXT_DAYS = [
   {
     id: 'samstag',
     theme: 'party',
     weekday: 'Samstag',
     weekdayShort: 'Sa',
-    dayNumber: '19',
-    monthLabel: '09.2026',
-    dateLabel: '19.09.2026',
-    date: '2026-09-19',
-    title: 'Malle-Party',
-    shortTitle: 'Malle-Party',
-    subtitle: 'mit DJ Hasamohr',
-    items: [
-      {
-        time: 'ab 20 Uhr',
-        title: 'Einlass & Party-Start',
-        kind: 'party',
-        note: 'Malle-Party mit DJ Hasamohr',
-      },
-      {
-        time: 'bis 20:30 Uhr',
-        title: 'Eintritt frei',
-        kind: 'party',
-        note: 'danach 7 € Eintritt',
-      },
-    ],
+    dayNumber: '18',
+    title: 'Partyabend',
+    note: 'Was genau, verraten wir noch nicht.',
+    open: true,
   },
   {
     id: 'sonntag',
     theme: 'brass',
     weekday: 'Sonntag',
     weekdayShort: 'So',
-    dayNumber: '20',
-    monthLabel: '09.2026',
-    dateLabel: '20.09.2026',
-    date: '2026-09-20',
+    dayNumber: '19',
     title: 'Festsonntag',
-    shortTitle: 'Festsonntag',
-    subtitle: 'Blasmusik und Bewirtung von mittags bis abends',
-    items: [
-      {
-        time: 'ab 11:30 Uhr',
-        title: 'Frühschoppen mit dem MV Emmingen',
-        ensemble: 'Musikverein Emmingen',
-      },
-      {
-        time: 'mittags',
-        title: 'Reichhaltiger Mittagstisch',
-        kind: 'food',
-        note: 'Warme Küche für den großen Hunger',
-      },
-      {
-        time: 'ab 14:30 Uhr',
-        title: 'Unterhaltung mit dem MV Heudorf/Scheer',
-        ensemble: 'Musikverein Heudorf/Scheer',
-      },
-      {
-        time: 'nachmittags',
-        title: 'Kaffee & Kuchen',
-        kind: 'food',
-        note: 'Große Auswahl an selbstgebackenen Kuchen',
-      },
-      {
-        time: 'ab 17:30 Uhr',
-        title: 'Blasmusik mit der MK Buchheim',
-        ensemble: 'Musikkapelle Eintracht Buchheim',
-      },
-      {
-        time: 'abends',
-        title: 'Abendessen',
-        kind: 'food',
-        note: 'Auch am Abend wird durchgehend bewirtet',
-      },
-    ],
+    note: 'Blasmusik und Bewirtung, wie man ihn kennt.',
   },
   {
     id: 'montag',
     theme: 'lagoon',
     weekday: 'Montag',
     weekdayShort: 'Mo',
-    dayNumber: '21',
-    monthLabel: '09.2026',
-    dateLabel: '21.09.2026',
-    date: '2026-09-21',
+    dayNumber: '20',
     title: 'Feierabendhock',
-    shortTitle: 'Feierabend\u00ADhock',
-    subtitle: 'Gemütlicher Festausklang',
-    items: [
-      {
-        time: 'ab 18:00 Uhr',
-        title: 'Feierabendhock mit der Jugendkapelle Meßkirch',
-        ensemble: 'Jugendkapelle Meßkirch',
-      },
-      {
-        time: 'ab 18:00 Uhr',
-        title: 'Wurstsalat',
-        kind: 'food',
-        note: 'Der Klassiker zum Feierabend',
-      },
-      {
-        time: 'ab 19:00 Uhr',
-        title: 'Festausklang mit der MK Sentenhart',
-        ensemble: 'Musikkapelle Sentenhart',
-      },
-    ],
+    note: 'Gemütlicher Ausklang zum Feierabend.',
   },
 ]
 
-/** Farb- und Stilklassen je Tages-Theme. */
+/** Farbwelt je Tag – unverändert aus der Festseite übernommen. */
 export const THEMES = {
   party: {
-    label: 'Party',
     accentText: 'text-berry-500',
-    softBg: 'bg-berry-500/8',
-    dot: 'bg-berry-500',
-    // Kachel auf dunklem Grund (Hero, Footer)
-    chip: 'border-berry-400/35 bg-berry-500/14 hover:border-berry-400/60 hover:bg-berry-500/22',
+    chip: 'border-berry-400/35 bg-berry-500/14',
     chipLabel: 'text-berry-400',
-    navActive: 'bg-berry-500 text-white',
-    accentBg: 'bg-berry-500',
-    todayRing: 'ring-berry-500/40',
     headerBg: 'bg-gradient-to-br from-berry-600 to-berry-700',
+    tile: 'bg-berry-500',
   },
   brass: {
-    label: 'Blasmusik',
     accentText: 'text-brass-600',
-    softBg: 'bg-brass-400/12',
-    dot: 'bg-brass-500',
-    chip: 'border-brass-400/35 bg-brass-400/14 hover:border-brass-400/60 hover:bg-brass-400/22',
+    chip: 'border-brass-400/35 bg-brass-400/14',
     chipLabel: 'text-brass-400',
-    navActive: 'bg-brass-500 text-white',
-    accentBg: 'bg-brass-500',
-    todayRing: 'ring-brass-500/40',
     headerBg: 'bg-gradient-to-br from-brass-600 to-brass-700',
+    tile: 'bg-brass-500',
   },
   lagoon: {
-    label: 'Ausklang',
     accentText: 'text-lagoon-600',
-    softBg: 'bg-lagoon-500/8',
-    dot: 'bg-lagoon-500',
-    chip: 'border-lagoon-400/35 bg-lagoon-500/14 hover:border-lagoon-400/60 hover:bg-lagoon-500/22',
+    chip: 'border-lagoon-400/35 bg-lagoon-500/14',
     chipLabel: 'text-lagoon-400',
-    navActive: 'bg-lagoon-500 text-white',
-    accentBg: 'bg-lagoon-500',
-    todayRing: 'ring-lagoon-500/40',
     headerBg: 'bg-gradient-to-br from-lagoon-600 to-lagoon-700',
-  },
-}
-
-/** Der Samstagabend hat einen eigenen Flyer – und einen eigenen Block. */
-export const PARTY = {
-  id: 'malle',
-  title: 'Malle-Party',
-  kicker: 'Samstagabend',
-  lead: 'Party-Hits, kühle Getränke und Urlaubsstimmung im Menninger Schuppen.',
-  doorsOpen: 'ab 20 Uhr',
-  admissionFree: 'frei bis 20:30 Uhr',
-  admissionPaid: '7 €',
-  /** Kurzform für die Ticket-Karte, Wortlaut wie auf dem Flyer. */
-  ticket: {
-    doorsLabel: 'Einlass ab',
-    doorsValue: '20 Uhr',
-    freeLabel: 'Eintritt frei',
-    freeValue: 'bis 20:30 Uhr',
-  },
-  partyPass: 'Einlass unter 18 Jahren nur mit Party-Pass',
-  dj: {
-    name: 'DJ Hasamohr',
-    // Schreibweise wie auf Flyer und Logo („usm Ländle“, nicht „vom Ländle“)
-    tagline: 'Der Party DJ usm Ländle',
-    logo: '/dj-hasamohr.png',
-  },
-  specials: [
-    {
-      icon: 'tower',
-      tint: 'sunset',
-      title: '3-Liter-Säulen',
-      note: 'Für die ganze Runde',
-    },
-    {
-      icon: 'stein',
-      tint: 'brass',
-      title: 'Mischen & Bier',
-      note: 'Im Masskrug',
-    },
-    // Non-breaking hyphen: bricht nach „Special“ statt mitten im Wort.
-    {
-      icon: 'shirt',
-      tint: 'lagoon',
-      title: 'Special T‑Shirts',
-      note: 'Nur am Fest',
-    },
-  ],
-}
-
-/**
- * Sprungmarken der Kopfleiste, in der Reihenfolge der Seite.
- * Die Malle-Party ist ein eigener Abschnitt und deshalb ein eigener Punkt –
- * sonst zeigt die Leiste dort nichts an.
- */
-export const NAV = [
-  { id: 'samstag', label: 'Sa', theme: 'party' },
-  { id: 'sonntag', label: 'So', theme: 'brass' },
-  { id: 'montag', label: 'Mo', theme: 'lagoon' },
-  { id: 'malle', label: 'Malle', theme: 'party', wide: true },
-]
-
-/** Kompakter Infoblock „Gut zu wissen“. */
-export const FACTS = [
-  {
-    icon: 'ticket',
-    color: 'berry',
-    title: 'Eintritt',
-    text: 'Am Samstag ist der Eintritt bis 20:30 Uhr frei, danach kostet er 7 €.',
-  },
-  {
-    icon: 'person',
-    color: 'sunset',
-    title: 'Unter 18 Jahren',
-    text: 'Zur Malle-Party am Samstag ist der Einlass unter 18 Jahren nur mit Party-Pass möglich.',
-  },
-  {
-    icon: 'plate',
-    color: 'brass',
-    title: 'Bewirtung',
-    text: 'Am Sonntag gibt es Mittagstisch, Kaffee & Kuchen und Abendessen, am Montag Wurstsalat.',
-  },
-  {
-    icon: 'barn',
-    color: 'lagoon',
-    title: 'Bei jedem Wetter',
-    text: 'Gefeiert wird im Menninger Schuppen – das Fest findet also auch bei Regen statt.',
-  },
-]
-
-export const TRAVEL = {
-  biberbahn: {
-    title: 'Mit der Biberbahn',
-    text: 'Am Festsonntag mit der Biberbahn bis zum Halt Menningen-Leitishofen – von dort ist es nur ein kurzer Fußweg zum Schuppen.',
-    hint: 'Die Biberbahn fährt 2026 nur an Sonntagen und einzelnen Feiertagen – am Samstag und Montag also nicht.',
-    linkLabel: 'Fahrplan auf biberbahn.de',
-    linkUrl: 'https://www.biberbahn.de/#fahrplan',
+    tile: 'bg-lagoon-500',
   },
 }

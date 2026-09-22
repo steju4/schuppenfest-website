@@ -1,10 +1,10 @@
-import { DAYS, EVENT, VENUE } from '../data/festival.js'
+import { NEXT, ORGANIZER, VENUE } from '../data/festival.js'
 
 /** Sonderzeichen nach RFC 5545 maskieren. */
 function escape(value) {
   return String(value)
     .replace(/\\/g, '\\\\')
-    .replace(/;/g, '\\;')
+    .replace(/;/g, '\;')
     .replace(/,/g, '\\,')
     .replace(/\r?\n/g, '\\n')
 }
@@ -24,45 +24,31 @@ function fold(line) {
   return chunks.join('\r\n ')
 }
 
-/** Programm als Fliesstext für die Termin-Beschreibung. */
-function programmeText() {
-  return DAYS.map((day) => {
-    const items = day.items
-      .map((item) => `  ${item.time}: ${item.title}`)
-      .join('\n')
-    return `${day.weekday}, ${day.dateLabel} – ${day.title}\n${items}`
-  }).join('\n\n')
-}
-
 /**
- * Ganztägiger Termin über alle drei Festtage.
+ * Ganztägiger Termin über die drei Festtage 2027.
  *
- * Bewusst ohne Uhrzeiten: für Sonntag und Montag ist kein Ende bekannt,
- * und ein erfundenes Ende im Kalender der Gäste wäre schlechter als keins.
- * DTEND ist bei ganztägigen Terminen exklusiv, daher der 22.09.
+ * Bewusst ohne Uhrzeiten: es gibt noch kein Programm, und ein erfundenes
+ * Ende im Kalender der Gäste wäre schlechter als keins.
  */
 export function buildIcs() {
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Musikkapelle Menningen e.V.//Schuppenfest 2026//DE',
+    'PRODID:-//Musikkapelle Menningen e.V.//Schuppenfest 2027//DE',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',
-    'UID:schuppenfest-2026@mk-menningen.de',
+    `UID:schuppenfest-${NEXT.year}@mk-menningen.de`,
     `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')}`,
-    'DTSTART;VALUE=DATE:20260919',
-    'DTEND;VALUE=DATE:20260922',
-    fold(`SUMMARY:${escape(`${EVENT.title} ${EVENT.year}`)}`),
-    fold(
-      `LOCATION:${escape(`${VENUE.name}, ${VENUE.street}, ${VENUE.city}`)}`,
-    ),
+    `DTSTART;VALUE=DATE:${NEXT.icsStart}`,
+    `DTEND;VALUE=DATE:${NEXT.icsEnd}`,
+    fold(`SUMMARY:${escape(`Menninger Schuppenfest ${NEXT.year}`)}`),
+    fold(`LOCATION:${escape(`${VENUE.name}, ${VENUE.street}, ${VENUE.city}`)}`),
     fold(
       `DESCRIPTION:${escape(
-        `${EVENT.claim}\n\n${programmeText()}\n\nVeranstalter: ${EVENT.organizer.name}`,
+        `${NEXT.dateRange}\n\nSamstag: Partyabend\nSonntag: Festsonntag mit Blasmusik und Bewirtung\nMontag: Feierabendhock\n\nDas genaue Programm folgt.\n\nVeranstalter: ${ORGANIZER.name}`,
       )}`,
     ),
-    `GEO:${VENUE.lat};${VENUE.lng}`,
     'END:VEVENT',
     'END:VCALENDAR',
   ]
@@ -77,7 +63,7 @@ export function downloadIcs() {
   const url = URL.createObjectURL(blob)
   const link = document.createElement('a')
   link.href = url
-  link.download = 'menninger-schuppenfest-2026.ics'
+  link.download = `menninger-schuppenfest-${NEXT.year}.ics`
   document.body.appendChild(link)
   link.click()
   link.remove()

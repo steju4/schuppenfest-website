@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { EVENT, VENUE } from '../data/festival.js'
+import { NEXT, VENUE } from '../data/festival.js'
 import { downloadIcs } from '../lib/calendar.js'
 import { CalendarIcon, CheckIcon, ShareIcon } from './icons.jsx'
 
 /**
- * Termin merken und Seite weitersagen.
- * `variant="dark"` für den dunklen Hero, `"light"` für helle Abschnitte.
+ * Termin 2027 merken und Seite weitersagen.
+ * `variant="dark"` für dunkle Abschnitte, `"light"` für helle.
  */
 export default function QuickActions({ variant = 'dark' }) {
   const [shared, setShared] = useState(false)
@@ -18,8 +18,8 @@ export default function QuickActions({ variant = 'dark' }) {
 
   async function share() {
     const data = {
-      title: `${EVENT.title} ${EVENT.year}`,
-      text: `${EVENT.claim} – ${EVENT.dateRange}, ${VENUE.name}.`,
+      title: `Menninger Schuppenfest ${NEXT.year}`,
+      text: `Save the Date: Menninger Schuppenfest ${NEXT.dateRange}, ${VENUE.name}.`,
       url: window.location.href,
     }
 
@@ -50,7 +50,7 @@ export default function QuickActions({ variant = 'dark' }) {
   }
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap justify-center gap-2">
       <button
         type="button"
         onClick={saveDate}

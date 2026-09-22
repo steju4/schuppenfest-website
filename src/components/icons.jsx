@@ -1,6 +1,5 @@
 /**
- * Linien-Icons für Bedienelemente und Fakten.
- * Bewusst ohne Icon-Library, damit kein zusätzliches Bundle geladen wird.
+ * Linien-Icons als Inline-SVG – keine Icon-Library.
  * Farbe erben alle über `currentColor`.
  */
 
@@ -14,28 +13,13 @@ const base = {
   'aria-hidden': true,
 }
 
-export function ClockIcon(props) {
+export function PeopleIcon(props) {
   return (
     <svg {...base} {...props}>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7.5V12l3 2" />
-    </svg>
-  )
-}
-
-export function TicketIcon(props) {
-  return (
-    <svg {...base} {...props}>
-      <path d="M3.5 9.5V7.5A1.5 1.5 0 0 1 5 6h14a1.5 1.5 0 0 1 1.5 1.5v2a2.5 2.5 0 0 0 0 5v2A1.5 1.5 0 0 1 19 18H5a1.5 1.5 0 0 1-1.5-1.5v-2a2.5 2.5 0 0 0 0-5Z" />
-    </svg>
-  )
-}
-
-export function PinIcon(props) {
-  return (
-    <svg {...base} {...props}>
-      <path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z" />
-      <circle cx="12" cy="10" r="2.5" />
+      <circle cx="9" cy="8" r="3.25" />
+      <path d="M3 20a6 6 0 0 1 12 0" />
+      <path d="M16 5.5a3.25 3.25 0 0 1 0 6.3" />
+      <path d="M17.5 14.5A6 6 0 0 1 21 20" />
     </svg>
   )
 }
@@ -50,73 +34,19 @@ export function MusicIcon(props) {
   )
 }
 
-export function TrainIcon(props) {
+export function DiscIcon(props) {
   return (
     <svg {...base} {...props}>
-      <rect x="5" y="3.5" width="14" height="12.5" rx="3" />
-      <path d="M5 10h14" />
-      <path d="M9.5 13.2h0.01M14.5 13.2h0.01" strokeWidth="2.25" />
-      <path d="M8 16l-2 4.5M16 16l2 4.5" />
+      <circle cx="12" cy="12" r="8.5" />
+      <circle cx="12" cy="12" r="2.25" />
     </svg>
   )
 }
 
-export function InfoIcon(props) {
+export function HeartIcon(props) {
   return (
     <svg {...base} {...props}>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 11v5.5" />
-      <path d="M12 7.75h0.01" strokeWidth="2.25" />
-    </svg>
-  )
-}
-
-export function ArrowDownIcon(props) {
-  return (
-    <svg {...base} {...props}>
-      <path d="M12 5v14" />
-      <path d="M6 13.5 12 19.5l6-6" />
-    </svg>
-  )
-}
-
-export function ExternalIcon(props) {
-  return (
-    <svg {...base} {...props}>
-      <path d="M14 4.5h5.5V10" />
-      <path d="M19.5 4.5 11 13" />
-      <path d="M18 14.5v3.5a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 18V7.5A1.5 1.5 0 0 1 6 6h3.5" />
-    </svg>
-  )
-}
-
-export function PersonIcon(props) {
-  return (
-    <svg {...base} {...props}>
-      <circle cx="12" cy="8" r="3.75" />
-      <path d="M4.5 20.5a7.5 7.5 0 0 1 15 0" />
-    </svg>
-  )
-}
-
-/** Schuppen – Motiv vom Festflyer */
-export function BarnIcon(props) {
-  return (
-    <svg {...base} {...props}>
-      <path d="M3.5 10.5 12 4.5l8.5 6v9.5h-17Z" />
-      <path d="M9 20V14h6v6" />
-      <path d="M12 4.5V2" />
-    </svg>
-  )
-}
-
-export function PlateIcon(props) {
-  return (
-    <svg {...base} {...props}>
-      <path d="M7 3v7.5a2.5 2.5 0 0 1-5 0V3" />
-      <path d="M4.5 3v18" />
-      <path d="M17 21v-8" />
-      <path d="M17 13c2.2 0 3.5-1.8 3.5-5S19.2 3 17 3s-3.5 1.8-3.5 5 1.3 5 3.5 5Z" />
+      <path d="M12 20s-7.5-4.6-7.5-9.4A4.1 4.1 0 0 1 12 8a4.1 4.1 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20Z" />
     </svg>
   )
 }
@@ -150,12 +80,50 @@ export function CheckIcon(props) {
   )
 }
 
-/** Plattenspieler – für die Party-Programmpunkte */
-export function DiscIcon(props) {
+export function ArrowDownIcon(props) {
   return (
     <svg {...base} {...props}>
-      <circle cx="12" cy="12" r="8.5" />
-      <circle cx="12" cy="12" r="2.25" />
+      <path d="M12 5v14" />
+      <path d="M6 13.5 12 19.5l6-6" />
+    </svg>
+  )
+}
+
+export function ExternalIcon(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M14 4.5h5.5V10" />
+      <path d="M19.5 4.5 11 13" />
+      <path d="M18 14.5v3.5a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 18V7.5A1.5 1.5 0 0 1 6 6h3.5" />
+    </svg>
+  )
+}
+
+export function PinIcon(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z" />
+      <circle cx="12" cy="10" r="2.5" />
+    </svg>
+  )
+}
+
+/** Schuppen – Motiv vom Festflyer */
+export function BarnIcon(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3.5 10.5 12 4.5l8.5 6v9.5h-17Z" />
+      <path d="M9 20V14h6v6" />
+      <path d="M12 4.5V2" />
+    </svg>
+  )
+}
+
+/** Sparkle für den Dank – ein kleiner Glanzpunkt */
+export function SparkIcon(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 3.5 13.7 9l5.5 1.7-5.5 1.7L12 18l-1.7-5.6L4.8 10.7 10.3 9Z" />
     </svg>
   )
 }

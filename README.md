@@ -1,13 +1,17 @@
-# Menninger Schuppenfest 2026 – Landingpage
+# Menninger Schuppenfest – Landingpage
 
-Mobile-first Landingpage zum **Menninger Schuppenfest vom 19. bis 21. September
-2026**, veranstaltet von der Musikkapelle Menningen e.V. Die Seite ist für den
-Aufruf per QR-Code vom Flyer gebaut.
+Mobile-first Landingpage der Musikkapelle Menningen e.V. Sie ist für den Aufruf
+per QR-Code vom Flyer gebaut.
 
-Die Hierarchie folgt dem Gesamtflyer: **Das Schuppenfest ist das Fest**, die
-Malle-Party ist der Samstagabend darin. Der Hero zeigt deshalb das Fest mit
-allen drei Tagen; der Samstagabend bekommt weiter unten einen eigenen,
-gestalterisch abgesetzten Block – so wie er auch einen eigenen Flyer hat.
+**Aktueller Stand (nach dem Fest 2026):** Die Seite ist ein **Dankeschön für das
+Schuppenfest 2026** und ein **Save the Date für 2027 (18. – 20. September)**.
+Das Programm 2026 ist vollständig entfernt – ein abgelaufenes Programm auf einer
+Seite, die per QR-Code vom Flyer aufgerufen wird, verwirrt mehr als es nützt.
+
+Für 2027 steht bewusst nur der Termin: Samstag Partyabend (was genau, ist noch
+offen), Sonntag Festsonntag, Montag Feierabendhock. Keine Zeiten, keine
+Kapellen, keine Preise – sobald das Programm steht, kommt es in
+`src/data/festival.js` dazu.
 
 ## Tech-Stack
 
@@ -47,51 +51,44 @@ deshalb ist der richtige Einstiegspunkt `@vercel/analytics/react`.
 Damit Zahlen ankommen, muss Web Analytics im Vercel-Projekt zusätzlich
 eingeschaltet sein (Projekt → Analytics → Enable). Erst dann liefert Vercel
 das Skript unter `/_vercel/insights/script.js` aus; lokal läuft dieser Aufruf
-ins Leere, das ist normal und kein Fehler.
+ins Leere (404 in der Konsole), das ist normal und kein Fehler.
 
 ## Inhalte pflegen
 
-**Alle Texte, Zeiten und Programmpunkte stehen in
-[`src/data/festival.js`](src/data/festival.js).** Die Komponenten lesen nur
-daraus – für Programmänderungen muss also kein Komponenten-Code angefasst
-werden.
+**Alle Texte stehen in [`src/data/festival.js`](src/data/festival.js).** Die
+Komponenten lesen nur daraus – für Textänderungen muss kein Komponenten-Code
+angefasst werden.
 
-| Konstante | Inhalt                                                        |
-| --------- | ------------------------------------------------------------- |
-| `EVENT`   | Titel, Zeitraum, Claim, Schlusssatz, Veranstalter             |
-| `VENUE`   | Adresse und Koordinaten (Pin auf der Karte)                   |
-| `DAYS`    | Programm je Festtag – Basis für Hero-Chips, Zeitplan, Footer  |
-| `THEMES`  | Farbidentität je Tag – Tageskarten, Hero-/Footer-Kacheln, aktive Sticky-Nav |
-| `PARTY`   | Samstagabend: DJ, Einlass, Eintritt, Specials, Party-Pass     |
-| `NAV`     | Sprungmarken der Kopfleiste – inkl. eigenem Punkt für die Malle-Party |
-| `FACTS`   | Kacheln im Block „Gut zu wissen“                              |
-| `TRAVEL`  | Anfahrt-Hinweis Biberbahn                                     |
+| Konstante    | Inhalt                                                          |
+| ------------ | --------------------------------------------------------------- |
+| `ORGANIZER`  | Verein und Vereinsseite                                          |
+| `VENUE`      | Adresse des Schuppens                                            |
+| `PAST`       | Fest 2026: Jahr, Zeitraum, Überschrift „Danke“, Einleitungstext  |
+| `THANKS`     | die vier Dank-Karten (Gäste, Kapellen, DJ, Helfer)               |
+| `RECAP`      | Kurzrückblick: was an den drei Tagen 2026 lief                   |
+| `NEXT`       | Fest 2027: Zeitraum, Countdown-Start, Kalenderdaten, Schlusssatz |
+| `NEXT_DAYS`  | die drei Tage 2027 – `open: true` zeigt das Abzeichen „noch geheim“ |
+| `THEMES`     | Farbidentität je Tag (pink/messing/türkis)                       |
 
-Bei den Programmpunkten gilt: `ensemble` ist der ausgeschriebene Kapellenname
-(wird mit Noten-Icon angezeigt), `note` ein einfacher Zusatzhinweis.
-`shortTitle` ist die Kurzform für die engen Tages-Kacheln in Hero und Footer.
-Lange Wörter dort mit einem weichen Trennzeichen (`\u00AD`) versehen – siehe
-„Feierabend\u00ADhock“. Das erzeugt beim Umbruch ein sauberes „Feierabend-“
-statt eines Bruchs mitten in der Silbe, unabhängig davon ob der Browser ein
-Silbentrenn-Wörterbuch für Deutsch hat.
+Lange Wörter in schmalen Kacheln bekommen ein weiches Trennzeichen (`­`) –
+siehe `Feierabend­hock` in `RECAP`. Das erzeugt beim Umbruch ein sauberes
+„Feierabend-“ statt eines Bruchs mitten in der Silbe, unabhängig davon, ob der
+Browser ein Silbentrenn-Wörterbuch für Deutsch hat.
 
-## DJ-Logo
+### Wenn das Programm 2027 feststeht
 
-Das echte Logo liegt unter `public/dj-hasamohr.png` und wird angezeigt.
+`NEXT_DAYS` um Zeiten und Kapellen erweitern und bei `samstag` das `open`-Flag
+entfernen. Sobald mehr als der Termin bekannt ist, lohnt sich wieder eine
+eigene Programm-Komponente – die Fassung von 2026 steht in der Git-Historie
+(Commit „Vercel Web Analytics einbinden“ und früher).
 
-Es wurde beim Einbau aufbereitet: auf den sichtbaren Inhalt zugeschnitten (die
-Vorlage hatte breite leere Ränder), auf 760 px Breite skaliert und auf eine
-64-Farben-Palette reduziert – **von 292 kB auf 24 kB**, ohne sichtbaren
-Qualitätsverlust.
+## Kalendereintrag
 
-Das Logo trägt gestalterisch eine **weiße Sticker-Kontur**. Auf farbigem Grund
-wirkt die wie ein Halo – deshalb steht es auf einer **weißen Karte**, dort
-verschwindet die Kontur und das Logo sieht aus wie gedacht. Die transparente
-Vorlage war also in Ordnung; sie braucht nur den passenden Untergrund.
-
-Fehlt die Datei einmal, greift automatisch eine in SVG nachgebaute Sperrmarke
-(`src/components/DjLogo.jsx`), damit die Seite nie kaputt aussieht. Anderer
-Dateiname? Nur `PARTY.dj.logo` in `src/data/festival.js` anpassen.
+`src/lib/calendar.js` erzeugt die `.ics`-Datei für „Termin merken“. Sie ist
+bewusst **ganztägig über alle drei Tage** angelegt: Es gibt noch kein Programm,
+und eine erfundene Uhrzeit im Kalender der Gäste wäre schlechter als keine.
+`DTEND` ist bei ganztägigen Terminen exklusiv – deshalb steht dort der 21.09.,
+obwohl das Fest am 20.09. endet.
 
 ## Komponenten
 
@@ -101,132 +98,67 @@ src/
 ├── index.css                   Schriften, Design-Tokens, Utilities
 ├── data/festival.js            alle Inhalte
 ├── lib/calendar.js             erzeugt die .ics-Datei zum Termin merken
-├── lib/useToday.js             heutiges Datum, minütlich aktualisiert
 └── components/
-    ├── StickyNav.jsx           Kopfleiste: Sa/So/Mo/Malle + Lesefortschritt
-    ├── Hero.jsx                Titelbereich: Fest, Datum, Ort, Status
-    ├── FestStatus.jsx          Countdown davor, Tagesprogramm währenddessen
+    ├── Hero.jsx                „Danke“, Zeitraum 2026, zwei Sprungmarken
+    ├── Marquee.jsx             Laufband als Trenner
+    ├── Thanks.jsx              Rückblick 2026 und die vier Dank-Karten
+    ├── SaveTheDate.jsx         2027: Countdown, drei Tageskarten, Aktionen
     ├── QuickActions.jsx        Termin merken (.ics) und Teilen
-    ├── Programm.jsx            Zeitplan: drei Tageskarten mit Farbidentität
-    ├── PartyNight.jsx          Samstagabend: Malle-Party, DJ, Specials
-    ├── Location.jsx            Adresse, Karte, Anfahrt
-    ├── Facts.jsx               „Gut zu wissen“
-    ├── Footer.jsx              Schlusssatz und Veranstalter
-    ├── SectionEdge.jsx         weiche Kante zwischen hell und dunkel
-    ├── DjLogo.jsx              DJ-Logo mit SVG-Fallback
-    ├── SpecialArt.jsx          farbige Illustrationen der Specials
+    ├── DjLogo.jsx              DJ-Logo im Rückblick
+    ├── Footer.jsx              Schlusssatz, Adresse, Veranstalter
     ├── Reveal.jsx              sanftes Einblenden beim Scrollen
     └── icons.jsx               Linien-Icons als Inline-SVG
 ```
 
-## Stand der Inhalte
-
-Eingearbeitet ist der **Flyer-Stand vom September 2026** (A4 Gesamtflyer + A6
-Party-Flyer). Gegenüber der ersten Fassung geändert:
-
-- Die Party heißt **Malle-Party** (Schreibweise mit Bindestrich wie auf beiden
-  Flyern), vorher „Mallorca Party“.
-- **Montag beginnt später:** Feierabendhock ab 18:00 Uhr (vorher 17:30),
-  Festausklang ab 19:00 Uhr (vorher 18:30).
-- Sonntag 17:30 Uhr heißt jetzt **„Blasmusik mit der MK Buchheim“**
-  (vorher „Unterhaltung“).
-- „Danach 7 € Eintritt“ steht inzwischen auch auf dem Flyer.
-
-## Lebendige Zustände
-
-Die Seite verhält sich abhängig vom Datum – ohne Backend, alles im Browser
-gerechnet:
-
-- **Vor dem Fest:** Countdown mit Tagen, Stunden, Minuten.
-- **Während des Fests:** Der Countdown weicht einem Panel „Heute · Sonntag“ mit
-  den nächsten Programmpunkten, die passende Tageskarte bekommt einen Rahmen
-  und ein „Heute“-Abzeichen, und die Kachel im Hero wird hervorgehoben.
-- **Nach dem Fest:** Der Block verschwindet still.
-
-Getestet wird das, indem man in `useToday.js` bzw. `FestStatus.jsx` das Datum
-vorübergehend fest verdrahtet – oder im Browser die Systemzeit vorstellt.
-
 ## Gestaltung
 
-- **Schriften:** Anton als Poster-Display für Titel und Datums-Ziffern, Outfit
-  für Fließtext.
-- **Rhythmus:** dunkle und helle Abschnitte wechseln sich ab (Hero dunkel →
-  Programm hell → Malle-Party dunkel → Anfahrt hell → Footer dunkel).
-- **Farbcodierung pro Tag:** Samstag pink/orange (Malle-Party), Sonntag messing
-  (Blasmusik), Montag türkis (Ausklang) – siehe `THEMES`. Sie zieht sich durch
-  Tageskarten, die Kacheln in Hero und Footer und den aktiven Punkt der
-  Sticky-Nav. Zusätzlich haben die Kacheln in „Gut zu wissen“ und die
-  Specials je einen eigenen gedämpften Akzent, damit die Seite nicht
-  einfarbig wirkt.
-- **Schlicht statt dekoriert:** der Hero trägt die Seite über Typografie,
-  Countdown und die drei Tageskarten – ohne große Illustration.
-- **Farbige Tageskarten:** Der Kopf jeder Tageskarte ist eine volle Fläche in
-  der Tagesfarbe mit weißer Schrift – das trägt die Farbcodierung deutlich
-  weiter als ein zart getönter Streifen.
-- **Laufband** (`Marquee`) als Trenner nach dem Hero und vor dem Footer.
-- **Textur:** Helle Abschnitte tragen ein sehr feines Punktraster und einen
-  warmen Verlauf, damit die Flächen nicht tot wirken.
-- **Weiche Kanten:** Zwischen hellen und dunklen Abschnitten sitzt eine
-  geschwungene Kante (`SectionEdge`), statt einer harten Linie. Sie liegt auf
-  `z-10`, sonst überdeckt der folgende Abschnitt sie mit seinem Hintergrund.
+- **Schriften:** Anton als Poster-Display für Titel und Ziffern, Outfit für
+  Fließtext.
+- **Rhythmus:** dunkel → hell → dunkel (Danke-Hero → Rückblick → Save the Date
+  und Footer), getrennt durch zwei Laufbänder.
+- **Zwei grosse Zahlen tragen die Seite:** das Wort „Danke“ oben und die „2027“
+  unten, beide im Farbverlauf mit langsam wanderndem Glanz (`animate-sheen`).
+  Beide sind in `clamp()` gesetzt, damit sie auch auf 320 px nicht überlaufen.
+- **Countdown:** eine einzige Zahl (Tage bis zum Fest). Mehr braucht ein Save
+  the Date nicht, und es hält die Seite ruhig.
+- **Farbcodierung pro Tag:** Samstag pink (Party), Sonntag messing (Blasmusik),
+  Montag türkis (Ausklang) – siehe `THEMES`. Sie zieht sich durch den
+  Rückblick und die Tageskarten 2027.
 - **Menninger Wappen** im Footer, aus dem Flyer freigestellt.
-- **Wegweiser zur Malle-Party:** Die Samstagskarte endet in einem farbigen
-  Banner, das zum Detailblock weiter unten führt. Es ist bewusst das
-  auffälligste Element im Programm, weil dort die meistgesuchten Infos
-  stehen (DJ, Specials, Eintritt) und ein reiner Textlink dafür übersehen
-  wurde.
-- **Grafiken sind Inline-SVG** (Icons, Specials). Einziges Bild ist das
-  DJ-Logo, und das lädt `loading="lazy"` weit unterhalb des ersten Bildschirms.
 
 ## Performance- und Datenschutz-Entscheidungen
 
 - **Schriften selbst gehostet** in `public/fonts/` (Anton 19 kB, Outfit 32 kB,
   beide woff2, SIL Open Font License 1.1). Kein Request an Google Fonts.
-- **Karte erst auf Klick:** Das Google-Maps-Embed wird erst nach Klick auf
-  „Karte laden“ eingebettet. Das spart beim ersten Aufruf einige hundert
-  Kilobyte und es geht keine Anfrage an Google, bevor der Gast die Karte sehen
-  will. Adresse und die Links „Route starten“ / „In Google Maps öffnen“
-  funktionieren unabhängig davon.
-- **Keine Icon-Library, keine Animationsbibliothek.** Bewegung gibt es an vier
+- **Keine Karte mehr:** Das Google-Maps-Embed ist mit dem Anfahrts-Block
+  entfallen. Es geht damit überhaupt keine Anfrage mehr an Google.
+- **Keine Icon-Library, keine Animationsbibliothek.** Bewegung gibt es an fünf
   Stellen, alles reines CSS bzw. ein IntersectionObserver: Einblenden beim
-  Scrollen, langsam wandernde Farbschleier im Hero, das Laufband und der
-  hochzählende Countdown.
+  Laden (`animate-rise`), Einblenden beim Scrollen (`Reveal`), wandernde
+  Farbschleier, der Glanz in den grossen Schriftzügen und die beiden Laufbänder.
 - **`prefers-reduced-motion`** schaltet alles davon ab. Wichtig dabei: neben
   der Dauer wird auch `animation-iteration-count` auf 1 gesetzt, sonst würden
   Laufband und Schleier mit 0,01 ms Dauer endlos weiterlaufen.
 
+## DJ-Logo
+
+Das Logo liegt unter `public/dj-hasamohr.png` und steht im Rückblick auf den
+Samstagabend 2026 – also klar in der Vergangenheit. Für 2027 ist bewusst nichts
+angekündigt.
+
+Es wurde beim Einbau aufbereitet: auf den sichtbaren Inhalt zugeschnitten, auf
+760 px Breite skaliert und auf eine 64-Farben-Palette reduziert – von 292 kB auf
+24 kB. Das Logo trägt eine weiße Sticker-Kontur und steht deshalb auf einer
+weißen Karte; auf farbigem Grund wirkte die Kontur wie ein Halo. Fehlt die Datei,
+blendet sich das Bild still aus (`src/components/DjLogo.jsx`).
+
 ## Offene Punkte
 
-- **Parkmöglichkeiten** sind bewusst nicht erwähnt – dazu lagen keine
-  belastbaren Infos vor.
-- **Fußweg-Distanz** vom Halt Menningen-Leitishofen ist als „kurzer Fußweg“
-  formuliert. Sobald die genaue Angabe bekannt ist, in `TRAVEL.biberbahn.text`
-  ergänzen.
-- **Biberbahn:** Sie fährt 2026 nur an Sonntagen und einzelnen Feiertagen
-  (Quelle: [biberbahn.de](https://www.biberbahn.de/#fahrplan)). Der Hinweis auf
-  der Seite ist deshalb als Tipp für den Festsonntag formuliert.
-- **Impressum und Datenschutzerklärung** fehlen noch. Für eine öffentliche
+- **Impressum und Datenschutzerklärung** fehlen weiterhin. Für eine öffentliche
   Vereinsseite in Deutschland sind sie in der Regel Pflicht.
-- **Eintritt am Sonntag und Montag** ist nirgends angegeben. Die Seite macht
-  dazu bewusst keine Aussage – der Eintrittshinweis gilt ausdrücklich nur für
-  den Samstag.
-
-## Von mir formulierte Texte – bitte gegenlesen
-
-Die Programmzeiten und Kapellen stammen von den Flyern. Folgende Beschreibungen
-habe ich dagegen selbst formuliert; sie sind plausibel, aber nicht durch eine
-Quelle belegt:
-
-- Sonntag: „Warme Küche für den großen Hunger“ und „Große Auswahl an
-  selbstgebackenen Kuchen“ – der Flyer nennt nur „Reichhaltiger Mittagstisch
-  sowie Kaffee und Kuchen“, die Ausschmückung ist von mir.
-- **Sonntag „Abendessen“** steht auf keinem Flyer, sondern beruht auf der
-  mündlichen Angabe, dass auch abends bewirtet wird.
-- **Montag „Wurstsalat“** steht ebenfalls auf keinem Flyer, sondern beruht auf
-  der mündlichen Angabe.
-- Montag: „Der Klassiker zum Feierabend“ (zu Wurstsalat)
-- „Bei jedem Wetter“ im Block *Gut zu wissen*
-- Die Uhrzeiten der Bewirtung stehen bewusst als „mittags“, „nachmittags“ und
-  „abends“ – konkrete Zeiten lagen nicht vor.
-
-Alles davon steht in `src/data/festival.js` und ist in einer Minute geändert.
+- **Alle Dank- und Rückblickstexte sind von mir formuliert** (`PAST`, `THANKS`,
+  `RECAP`, `NEXT.lead`). Sie geben wieder, was 2026 laut Flyer stattgefunden
+  hat, sind aber keine Zitate des Vereins – bitte einmal gegenlesen, bevor sie
+  live gehen.
+- **Der Partyabend 2027 ist offen gehalten** („noch geheim“). Steht fest, dass
+  es wieder eine Malle-Party gibt, gehört das in `NEXT_DAYS[0]`.

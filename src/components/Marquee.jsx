@@ -1,29 +1,28 @@
-import { DAYS, EVENT } from '../data/festival.js'
+import { NEXT, PAST } from '../data/festival.js'
 
 /**
  * Laufband als Trenner zwischen den Abschnitten.
  * Der Inhalt steht zweimal nebeneinander, damit die Schleife nahtlos ist;
  * das zweite Exemplar ist für Screenreader ausgeblendet.
  */
-export default function Marquee({ variant = 'party' }) {
+export default function Marquee({ variant = 'thanks' }) {
   const words =
-    variant === 'party'
+    variant === 'thanks'
       ? [
-          EVENT.title,
-          EVENT.dateRange,
-          ...DAYS.map((day) => day.title),
-          'Im Menninger Schuppen',
+          'Danke',
+          `Schuppenfest ${PAST.year}`,
+          'Danke an alle Helfer',
+          'Danke an alle Gäste',
         ]
       : [
-          EVENT.closing,
-          'Blasmusik',
-          'Bewirtung',
-          'Malle-Party',
-          'Feierabendhock',
+          'Save the Date',
+          NEXT.dateRangeShort,
+          `Schuppenfest ${NEXT.year}`,
+          'Im Menninger Schuppen',
         ]
 
   const background =
-    variant === 'party'
+    variant === 'thanks'
       ? 'bg-gradient-to-r from-sunset-500 via-berry-500 to-berry-600'
       : 'bg-gradient-to-r from-lagoon-600 via-lagoon-500 to-brass-500'
 

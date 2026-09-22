@@ -1,110 +1,84 @@
-import { DAYS, EVENT, THEMES, VENUE } from '../data/festival.js'
-import useToday from '../lib/useToday.js'
-import FestStatus from './FestStatus.jsx'
-import QuickActions from './QuickActions.jsx'
-import { ArrowDownIcon, BarnIcon, PinIcon } from './icons.jsx'
+import { NEXT, ORGANIZER, PAST } from '../data/festival.js'
+import { ArrowDownIcon, BarnIcon } from './icons.jsx'
 
+/**
+ * Einstieg: grosses Dankeschön für das Fest 2026.
+ * Der Hinweis auf 2027 sitzt bewusst schon hier, damit man ihn auch
+ * sieht, ohne zu scrollen.
+ */
 export default function Hero() {
-  const today = useToday()
-
   return (
     <header
       id="top"
       className="relative flex min-h-[100svh] flex-col overflow-hidden bg-night text-sand-50"
     >
-      {/* Ruhiger Farbverlauf statt Illustration */}
+      {/* Ruhige Farbschleier statt Illustration */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-b from-night-soft via-night to-night" />
-        <div className="animate-drift absolute -right-40 -top-40 size-[34rem] rounded-full bg-berry-500/20 blur-[110px]" />
-        <div className="animate-drift-slow absolute -bottom-48 -left-32 size-[30rem] rounded-full bg-lagoon-500/14 blur-[110px]" />
-        <div className="animate-drift absolute -left-24 top-1/3 size-[22rem] rounded-full bg-sunset-500/10 blur-[100px]" />
+        <div className="animate-drift absolute -right-40 -top-40 size-[34rem] rounded-full bg-berry-500/22 blur-[110px]" />
+        <div className="animate-drift-slow absolute -bottom-52 -left-32 size-[32rem] rounded-full bg-sunset-500/14 blur-[110px]" />
+        <div className="animate-drift absolute -left-24 top-1/3 size-[22rem] rounded-full bg-lagoon-500/12 blur-[100px]" />
         <div className="grain absolute inset-0 opacity-[0.05]" />
       </div>
 
-      {/* Veranstalter */}
       <div className="relative mx-auto w-full max-w-lg px-5 pt-7">
-        <p className="flex items-center gap-2 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-sand-200/70">
+        <p className="animate-rise flex items-center gap-2 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-sand-200/70">
           <BarnIcon className="size-4 text-sunset-300" />
-          {EVENT.organizer.name}
+          {ORGANIZER.name}
         </p>
       </div>
 
       <div className="relative mx-auto flex w-full max-w-lg flex-1 flex-col justify-center px-5 py-10">
-        {/* Titel */}
-        <h1>
-          <span className="display block text-[2.9rem] text-sand-50 sm:text-6xl">
-            Menninger
-          </span>
-          <span className="display block bg-gradient-to-r from-sunset-300 to-berry-400 bg-clip-text text-[3.3rem] text-transparent sm:text-7xl">
-            Schuppenfest
-          </span>
-        </h1>
-
-        {/* Datum und Ort */}
-        <p className="display mt-5 w-fit rounded-lg bg-sand-50 px-3 py-1.5 text-lg text-night sm:text-xl">
-          {EVENT.dateRange}
-        </p>
-        <p className="mt-3 flex items-start gap-2 text-sm font-medium text-sand-200/85">
-          <PinIcon className="mt-0.5 size-4 shrink-0 text-lagoon-400" />
-          <span>
-            {VENUE.name}, {VENUE.street}
-            <span className="block text-sand-200/60">{VENUE.city}</span>
-          </span>
+        <p
+          className="animate-rise text-[0.72rem] font-bold uppercase tracking-[0.22em] text-sand-200/60"
+          style={{ animationDelay: '80ms' }}
+        >
+          Menninger Schuppenfest {PAST.year}
         </p>
 
-        <div className="mt-7">
-          <FestStatus />
+        {/* Zwei Ebenen, weil sich sonst die beiden Animationen
+            (Einblenden aussen, Farbverlauf innen) gegenseitig ersetzen.
+            clamp(): „Danke“ soll gross sein, aber auf 320px nicht überlaufen. */}
+        <div className="animate-rise mt-3" style={{ animationDelay: '140ms' }}>
+          <h1
+            className="display animate-sheen bg-gradient-to-r from-sunset-300 via-berry-400 to-sunset-400 bg-clip-text text-transparent"
+            style={{ fontSize: 'clamp(4.5rem, 27vw, 8.5rem)' }}
+          >
+            {PAST.headline}
+          </h1>
         </div>
 
-        {/* Drei Tage auf einen Blick */}
-        <ul className="mt-7 grid grid-cols-3 gap-2">
-          {DAYS.map((day) => {
-            const theme = THEMES[day.theme]
-            const isToday = day.date === today
-            return (
-              <li key={day.id}>
-                <a
-                  href={`#${day.id}`}
-                  className={`flex h-full flex-col gap-1 rounded-2xl border p-3 transition ${theme.chip} ${
-                    isToday ? 'ring-2 ring-sunset-300/60' : ''
-                  }`}
-                >
-                  <span
-                    className={`text-[0.62rem] font-bold uppercase tracking-[0.14em] ${theme.chipLabel}`}
-                  >
-                    {day.weekdayShort} {day.dayNumber}.09.
-                  </span>
-                  {/* Trennung mit Bindestrich, sonst passt „Feierabendhock“
-                      nicht in die schmale Spalte */}
-                  <span className="hyphens-auto break-words text-[0.78rem] font-bold leading-tight text-sand-50">
-                    {day.shortTitle}
-                  </span>
-                </a>
-              </li>
-            )
-          })}
-        </ul>
+        <p
+          className="animate-rise display mt-5 w-fit rounded-lg bg-sand-50 px-3 py-1.5 text-base text-night sm:text-lg"
+          style={{ animationDelay: '220ms' }}
+        >
+          {PAST.dateRange}
+        </p>
 
-        {/* Aktionen */}
-        <div className="mt-6 flex gap-2.5">
+        <p
+          className="animate-rise mt-5 max-w-sm text-[0.98rem] leading-relaxed text-sand-200/85"
+          style={{ animationDelay: '300ms' }}
+        >
+          {PAST.lead}
+        </p>
+
+        <div
+          className="animate-rise mt-8 flex flex-col gap-2.5 min-[380px]:flex-row"
+          style={{ animationDelay: '380ms' }}
+        >
           <a
-            href="#programm"
+            href="#danke"
             className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-sand-50 px-5 py-3.5 text-sm font-bold text-night transition hover:bg-white active:scale-[0.98]"
           >
-            Programm
-            <ArrowDownIcon className="size-4" />
+            Rückblick
+            <ArrowDownIcon className="animate-nudge size-4" />
           </a>
           <a
-            href="#anfahrt"
+            href="#save-the-date"
             className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-white/20 px-5 py-3.5 text-sm font-bold text-sand-50 transition hover:bg-white/10 active:scale-[0.98]"
           >
-            <PinIcon className="size-4 text-lagoon-400" />
-            Anfahrt
+            Save the Date {NEXT.year}
           </a>
-        </div>
-
-        <div className="mt-3">
-          <QuickActions variant="dark" />
         </div>
       </div>
     </header>
