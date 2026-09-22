@@ -39,7 +39,7 @@ export default function SaveTheDate() {
 
       <div className="relative mx-auto max-w-lg">
         <Reveal className="text-center">
-          <p className="inline-flex items-center gap-2 rounded-full border border-white/20 px-3.5 py-1.5 text-[0.66rem] font-bold uppercase tracking-[0.2em] text-sand-200/80">
+          <p className="inline-flex items-center rounded-full border border-white/20 px-3.5 py-1.5 text-[0.66rem] font-bold uppercase tracking-[0.2em] text-sand-200/80">
             Save the Date
           </p>
 
@@ -58,79 +58,60 @@ export default function SaveTheDate() {
           <p className="display mx-auto mt-4 w-fit rounded-lg bg-sand-50 px-3.5 py-1.5 text-lg text-night sm:text-xl">
             {NEXT.dateRange}
           </p>
+        </Reveal>
 
-          <p className="mt-5 flex items-center justify-center gap-2 text-sm font-medium text-sand-200/80">
+        {/* Die drei Tage – nur Datum und Titel */}
+        <ul className="mt-8 grid gap-2.5">
+          {NEXT_DAYS.map((day, index) => (
+            <Reveal
+              as="li"
+              key={day.id}
+              delay={index * 80}
+              className="flex items-stretch overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04]"
+            >
+              {/* Farbige Datumsspalte */}
+              <div
+                className={`flex w-[5.2rem] shrink-0 flex-col items-center justify-center ${THEMES[day.theme]} px-2 py-4 text-white`}
+              >
+                <span className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-white/75">
+                  {day.weekdayShort}
+                </span>
+                <span className="display text-[2rem] leading-none">
+                  {day.dayNumber}
+                </span>
+                <span className="text-[0.6rem] font-bold uppercase tracking-[0.12em] text-white/75">
+                  Sept.
+                </span>
+              </div>
+
+              <div className="flex flex-1 flex-col justify-center px-4 py-4">
+                <span className="text-[0.66rem] font-bold uppercase tracking-[0.14em] text-sand-200/55">
+                  {day.weekday}
+                </span>
+                <h3 className="display mt-0.5 text-xl text-sand-50">{day.title}</h3>
+              </div>
+            </Reveal>
+          ))}
+        </ul>
+
+        <Reveal delay={100}>
+          <p className="mx-auto mt-8 max-w-sm text-center text-[0.95rem] leading-relaxed text-sand-200/80">
+            {NEXT.lead}
+          </p>
+
+          <p className="mt-4 flex items-center justify-center gap-2 text-center text-sm font-medium text-sand-200/75">
             <PinIcon className="size-4 shrink-0 text-lagoon-400" />
             {VENUE.name}, {VENUE.city}
           </p>
-        </Reveal>
 
-        {/* Countdown – eine Zahl, mehr braucht ein Save the Date nicht */}
-        <Reveal delay={80} className="mt-8 flex items-center justify-center gap-3">
-          <span className="display text-[3.2rem] leading-none text-sand-50 sm:text-6xl">
-            {days}
-          </span>
-          <span className="text-left text-[0.72rem] font-bold uppercase leading-tight tracking-[0.16em] text-sand-200/65">
-            Tage
-            <br />
-            bis dahin
-          </span>
-        </Reveal>
-
-        <Reveal delay={120}>
-          <p className="mx-auto mt-7 max-w-sm text-center text-[0.95rem] leading-relaxed text-sand-200/80">
-            {NEXT.lead}
+          {/* Countdown – eine Zahl, mehr braucht ein Save the Date nicht */}
+          <p className="mt-6 text-center text-[0.72rem] font-bold uppercase tracking-[0.16em] text-sand-200/55">
+            noch {days} Tage
           </p>
-        </Reveal>
 
-        {/* Die drei Tage – ohne Zeiten, es ist noch kein Programm */}
-        <ul className="mt-9 grid gap-3">
-          {NEXT_DAYS.map((day, index) => {
-            const theme = THEMES[day.theme]
-            return (
-              <Reveal
-                as="li"
-                key={day.id}
-                delay={index * 80}
-                className="overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04]"
-              >
-                <div className="flex items-stretch">
-                  {/* Farbige Datumsspalte */}
-                  <div
-                    className={`flex w-[5.2rem] shrink-0 flex-col items-center justify-center ${theme.headerBg} px-2 py-4 text-white`}
-                  >
-                    <span className="text-[0.62rem] font-bold uppercase tracking-[0.16em] text-white/75">
-                      {day.weekdayShort}
-                    </span>
-                    <span className="display text-[2rem] leading-none">
-                      {day.dayNumber}
-                    </span>
-                    <span className="text-[0.6rem] font-bold uppercase tracking-[0.12em] text-white/75">
-                      Sept.
-                    </span>
-                  </div>
-
-                  <div className="flex-1 px-4 py-4">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="display text-xl text-sand-50">{day.title}</h3>
-                      {day.open ? (
-                        <span className="rounded-full border border-sunset-300/40 bg-sunset-500/15 px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-[0.12em] text-sunset-300">
-                          noch geheim
-                        </span>
-                      ) : null}
-                    </div>
-                    <p className="mt-1 text-[0.85rem] leading-snug text-sand-200/75">
-                      {day.weekday} · {day.note}
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-            )
-          })}
-        </ul>
-
-        <Reveal delay={100} className="mt-8 flex justify-center">
-          <QuickActions />
+          <div className="mt-6">
+            <QuickActions />
+          </div>
         </Reveal>
       </div>
     </section>

@@ -46,7 +46,7 @@ export function buildIcs() {
     fold(`LOCATION:${escape(`${VENUE.name}, ${VENUE.street}, ${VENUE.city}`)}`),
     fold(
       `DESCRIPTION:${escape(
-        `${NEXT.dateRange}\n\nSamstag: Partyabend\nSonntag: Festsonntag mit Blasmusik und Bewirtung\nMontag: Feierabendhock\n\nDas genaue Programm folgt.\n\nVeranstalter: ${ORGANIZER.name}`,
+        `${NEXT.dateRange}\n\nSamstag: Partyabend\nSonntag: Festsonntag\nMontag: Feierabendhock\n\nDas Programm folgt.\n\nVeranstalter: ${ORGANIZER.name}`,
       )}`,
     ),
     'END:VEVENT',

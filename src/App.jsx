@@ -1,19 +1,15 @@
 import { Analytics } from '@vercel/analytics/react'
+import Danke from './components/Danke.jsx'
 import Footer from './components/Footer.jsx'
-import Hero from './components/Hero.jsx'
 import Marquee from './components/Marquee.jsx'
 import SaveTheDate from './components/SaveTheDate.jsx'
-import Thanks from './components/Thanks.jsx'
 
 export default function App() {
   return (
     <>
-      <Hero />
-      <Marquee variant="thanks" />
+      <Danke />
+      <Marquee />
       <main>
-        {/* Erst der Dank fürs Fest 2026, dann der Termin für 2027 */}
-        <Thanks />
-        <Marquee variant="save" />
         <SaveTheDate />
       </main>
       <Footer />

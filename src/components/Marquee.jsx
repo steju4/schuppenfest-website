@@ -1,30 +1,17 @@
-import { NEXT, PAST } from '../data/festival.js'
+import { NEXT } from '../data/festival.js'
 
 /**
- * Laufband als Trenner zwischen den Abschnitten.
+ * Laufband als Trenner zwischen Dank und Termin.
  * Der Inhalt steht zweimal nebeneinander, damit die Schleife nahtlos ist;
  * das zweite Exemplar ist für Screenreader ausgeblendet.
  */
-export default function Marquee({ variant = 'thanks' }) {
-  const words =
-    variant === 'thanks'
-      ? [
-          'Danke',
-          `Schuppenfest ${PAST.year}`,
-          'Danke an alle Helfer',
-          'Danke an alle Gäste',
-        ]
-      : [
-          'Save the Date',
-          NEXT.dateRangeShort,
-          `Schuppenfest ${NEXT.year}`,
-          'Im Menninger Schuppen',
-        ]
-
-  const background =
-    variant === 'thanks'
-      ? 'bg-gradient-to-r from-sunset-500 via-berry-500 to-berry-600'
-      : 'bg-gradient-to-r from-lagoon-600 via-lagoon-500 to-brass-500'
+export default function Marquee() {
+  const words = [
+    'Danke',
+    'Save the Date',
+    NEXT.dateRangeShort,
+    'Im Menninger Schuppen',
+  ]
 
   const strip = (hidden) => (
     <div
@@ -45,7 +32,7 @@ export default function Marquee({ variant = 'thanks' }) {
   )
 
   return (
-    <div className={`relative overflow-hidden py-2.5 ${background}`}>
+    <div className="relative overflow-hidden bg-gradient-to-r from-sunset-500 via-berry-500 to-berry-600 py-2.5">
       <div className="animate-marquee flex w-max">
         {strip(false)}
         {strip(true)}
