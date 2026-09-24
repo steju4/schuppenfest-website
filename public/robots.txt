@@ -1,0 +1,5 @@
+# Menninger Schuppenfest – alles darf indexiert werden
+User-agent: *
+Allow: /
+
+Sitemap: https://schuppenfest.vercel.app/sitemap.xml

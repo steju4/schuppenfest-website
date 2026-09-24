@@ -1,16 +1,19 @@
 import { Analytics } from '@vercel/analytics/react'
 import Danke from './components/Danke.jsx'
 import Footer from './components/Footer.jsx'
+import Hero from './components/Hero.jsx'
 import Marquee from './components/Marquee.jsx'
-import SaveTheDate from './components/SaveTheDate.jsx'
+import Termin from './components/Termin.jsx'
 
 export default function App() {
   return (
     <>
-      <Danke />
+      {/* Erst der Termin 2027, dann der Dank fürs Fest 2026 */}
+      <Hero />
       <Marquee />
       <main>
-        <SaveTheDate />
+        <Termin />
+        <Danke />
       </main>
       <Footer />
       {/* Vercel Web Analytics: zählt Besuche und Seitenaufrufe.

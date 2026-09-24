@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
-import { NEXT, NEXT_DAYS, THEMES, VENUE } from '../data/festival.js'
-import QuickActions from './QuickActions.jsx'
+import { NEXT, NEXT_DAYS, THEMES } from '../data/festival.js'
 import Reveal from './Reveal.jsx'
-import { PinIcon } from './icons.jsx'
 
 /** Volle Tage bis zum Festbeginn – nie negativ. */
 function daysUntil(iso) {
@@ -22,46 +20,30 @@ function useDaysUntil(iso) {
   return days
 }
 
-export default function SaveTheDate() {
+/** Die drei Tage 2027 – Datum und Titel, mehr steht noch nicht fest. */
+export default function Termin() {
   const days = useDaysUntil(NEXT.startsAt)
 
   return (
     <section
-      id="save-the-date"
-      className="relative overflow-hidden bg-night px-5 py-16 text-sand-50"
+      id="termin"
+      className="relative overflow-hidden bg-night px-5 py-14 text-sand-50"
     >
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-b from-night via-night-soft to-night" />
-        <div className="animate-drift absolute -left-36 top-10 size-[26rem] rounded-full bg-berry-500/18 blur-[110px]" />
+        <div className="animate-drift absolute -left-36 top-10 size-[26rem] rounded-full bg-berry-500/16 blur-[110px]" />
         <div className="animate-drift-slow absolute -right-32 bottom-0 size-[24rem] rounded-full bg-lagoon-500/16 blur-[110px]" />
         <div className="grain absolute inset-0 opacity-[0.06]" />
       </div>
 
       <div className="relative mx-auto max-w-lg">
-        <Reveal className="text-center">
-          <p className="inline-flex items-center rounded-full border border-white/20 px-3.5 py-1.5 text-[0.66rem] font-bold uppercase tracking-[0.2em] text-sand-200/80">
-            Save the Date
-          </p>
-
-          <h2 className="mt-6">
-            <span className="display block text-[1.6rem] text-sand-50 sm:text-3xl">
-              Menninger Schuppenfest
-            </span>
-            <span
-              className="display animate-sheen block bg-gradient-to-r from-sunset-300 via-berry-400 to-sunset-400 bg-clip-text text-transparent"
-              style={{ fontSize: 'clamp(4rem, 24vw, 7.5rem)' }}
-            >
-              {NEXT.year}
-            </span>
+        <Reveal>
+          <h2 className="display text-[1.9rem] text-sand-50 sm:text-4xl">
+            Die drei Tage
           </h2>
-
-          <p className="display mx-auto mt-4 w-fit rounded-lg bg-sand-50 px-3.5 py-1.5 text-lg text-night sm:text-xl">
-            {NEXT.dateRange}
-          </p>
         </Reveal>
 
-        {/* Die drei Tage – nur Datum und Titel */}
-        <ul className="mt-8 grid gap-2.5">
+        <ul className="mt-6 grid gap-2.5">
           {NEXT_DAYS.map((day, index) => (
             <Reveal
               as="li"
@@ -95,23 +77,14 @@ export default function SaveTheDate() {
         </ul>
 
         <Reveal delay={100}>
-          <p className="mx-auto mt-8 max-w-sm text-center text-[0.95rem] leading-relaxed text-sand-200/80">
+          <p className="mt-7 text-[0.95rem] leading-relaxed text-sand-200/80">
             {NEXT.lead}
           </p>
 
-          <p className="mt-4 flex items-center justify-center gap-2 text-center text-sm font-medium text-sand-200/75">
-            <PinIcon className="size-4 shrink-0 text-lagoon-400" />
-            {VENUE.name}, {VENUE.city}
-          </p>
-
-          {/* Countdown – eine Zahl, mehr braucht ein Save the Date nicht */}
-          <p className="mt-6 text-center text-[0.72rem] font-bold uppercase tracking-[0.16em] text-sand-200/55">
+          {/* Countdown – eine Zeile, mehr braucht ein Save the Date nicht */}
+          <p className="mt-5 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-sand-200/55">
             noch {days} Tage
           </p>
-
-          <div className="mt-6">
-            <QuickActions />
-          </div>
         </Reveal>
       </div>
     </section>

@@ -11,6 +11,10 @@ Alle konkreten Inhalte von 2026 (Programm, Zeiten, Kapellen, Malle-Party, DJ,
 Eintritt, Anfahrt, Karte) sind entfernt – ein abgelaufenes Programm auf einer
 Seite, die per QR-Code vom Flyer aufgerufen wird, verwirrt mehr als es nützt.
 
+Der Termin steht dabei oben: Wer den QR-Code vom Flyer scannt, sieht Datum und
+Ort, ohne zu scrollen. Darunter folgen die drei Tage, und erst danach der Dank
+fürs Fest 2026.
+
 Für 2027 steht nur der Termin und der Titel je Tag: Samstag Partyabend, Sonntag
 Festsonntag, Montag Feierabendhock. Keine Zeiten, keine Kapellen, keine Preise –
 sobald das Programm steht, kommt es in `src/data/festival.js` dazu.
@@ -94,9 +98,10 @@ src/
 ├── data/festival.js            alle Inhalte
 ├── lib/calendar.js             erzeugt die .ics-Datei zum Termin merken
 └── components/
-    ├── Danke.jsx               „Danke“, Zeitraum 2026, Dankestext
+    ├── Hero.jsx                Termin 2027: Datum, Ort, Termin merken/Teilen
     ├── Marquee.jsx             Laufband als Trenner
-    ├── SaveTheDate.jsx         2027: Datum, drei Tageskarten, Countdown, Aktionen
+    ├── Termin.jsx              die drei Tage, Einleitung, Countdown
+    ├── Danke.jsx               Dank fürs Fest 2026
     ├── QuickActions.jsx        Termin merken (.ics) und Teilen
     ├── Footer.jsx              Schlusssatz, Adresse, Veranstalter
     ├── Reveal.jsx              sanftes Einblenden beim Scrollen
@@ -107,22 +112,70 @@ src/
 
 - **Schriften:** Anton als Poster-Display für Titel und Ziffern, Outfit für
   Fließtext.
-- **Drei Abschnitte, mehr nicht:** Danke → Termin → Footer, getrennt durch ein
-  Laufband. Die ganze Seite ist rund drei Bildschirme lang.
-- **Zwei grosse Schriftzüge tragen sie:** das Wort „Danke“ oben und die „2027“
-  unten, beide im Farbverlauf mit langsam wanderndem Glanz (`animate-sheen`).
-  Beide sind in `clamp()` gesetzt, damit sie auch auf 320 px nicht überlaufen.
+- **Vier Abschnitte, mehr nicht:** Termin → die drei Tage → Danke 2026 →
+  Footer, getrennt durch ein Laufband. Die Seite ist rund vier Bildschirme lang.
+- **Die „2027“ trägt den ersten Bildschirm**, im Farbverlauf mit langsam
+  wanderndem Glanz (`animate-sheen`) und in `clamp()` gesetzt, damit sie auch
+  auf 320 px nicht überläuft. Direkt darunter steht das Datum als heller
+  Block – das ist die Information, wegen der die Seite aufgerufen wird.
 - **Countdown:** eine einzige Zeile (Tage bis zum Fest), bewusst klein.
 - **Farbe je Tag:** Samstag pink, Sonntag messing, Montag türkis – siehe
   `THEMES`.
 - **Menninger Wappen** im Footer, aus dem Flyer freigestellt.
+
+## Google und Suchmaschinen
+
+Die Seite liegt unter **https://schuppenfest.vercel.app** – das ist die
+kanonische Adresse; `schuppenfest-website.vercel.app` leitet per 307 dorthin
+um. Eingebaut ist:
+
+| Was                                   | Wo                                    |
+| ------------------------------------- | ------------------------------------- |
+| Bestätigung für die Search Console    | `index.html` (`google-site-verification`) |
+| Titel und Description mit Datum 2027  | `index.html`                          |
+| `canonical`, `robots`, `og:`, Twitter | `index.html`                          |
+| Strukturierte Daten (`Event`)         | `index.html`, JSON-LD                 |
+| Vorschaubild 1200 × 630               | `public/og-bild.png`                  |
+| Freigabe für Crawler                  | `public/robots.txt`                   |
+| Seitenverzeichnis                     | `public/sitemap.xml`                  |
+| Inhalt ohne JavaScript                | `<noscript>` in `index.html`          |
+
+**JSON-LD:** Der Block beschreibt das Fest als Veranstaltung (Name, Start- und
+Enddatum, Ort mit Adresse und Koordinaten, Veranstalter). Damit kann Google den
+Termin als Event ausspielen statt nur als Textschnipsel. Preise (`offers`) fehlen
+bewusst – die stehen noch nicht fest.
+
+**Vorschaubild:** `public/og-bild.png` ist das Bild, das WhatsApp, Facebook und
+Google beim Teilen des Links zeigen. Es wurde aus einer HTML-Vorlage in genau
+1200 × 630 px gerendert und nennt Jahr, Datum, Ort und die drei Tage – ein
+geteilter Link transportiert die Kerninfo also auch ohne Klick.
+
+### Nächste Schritte in der Search Console
+
+1. In der [Search Console](https://search.google.com/search-console) die
+   Property `https://schuppenfest.vercel.app` anlegen und die Bestätigung über
+   die HTML-Tag-Methode durchführen – der Meta-Tag ist bereits eingebaut,
+   sobald dieser Stand deployed ist.
+2. Unter **Sitemaps** `sitemap.xml` einreichen.
+3. Unter **URL-Prüfung** die Startseite einmal „Indexierung beantragen“.
+
+Bis die Seite in der Suche auftaucht, vergehen erfahrungsgemäss einige Tage bis
+Wochen. Ein eigener Domainname (z. B. eine Subdomain von `mk-menningen.de`)
+würde zusätzlich helfen – eine `vercel.app`-Adresse wird von Google
+grundsätzlich indexiert, wirkt aber weniger wie eine offizielle Vereinsseite.
+
+### Wenn sich der Termin ändert
+
+Vier Stellen: `src/data/festival.js` (die Seite selbst), `index.html` (Titel,
+Description, og-Tags, JSON-LD), `public/sitemap.xml` (`lastmod`) und
+`public/og-bild.png` (neu rendern).
 
 ## Performance- und Datenschutz-Entscheidungen
 
 - **Schriften selbst gehostet** in `public/fonts/` (Anton 19 kB, Outfit 32 kB,
   beide woff2, SIL Open Font License 1.1). Kein Request an Google Fonts.
 - **Keine Karte mehr:** Das Google-Maps-Embed ist mit dem Anfahrts-Block
-  entfallen. Es geht damit überhaupt keine Anfrage mehr an Google.
+  entfallen. Es geht damit beim Aufruf der Seite keine Anfrage an Google.
 - **Keine Icon-Library, keine Animationsbibliothek.** Bewegung gibt es an fünf
   Stellen, alles reines CSS bzw. ein IntersectionObserver: Einblenden beim
   Laden (`animate-rise`), Einblenden beim Scrollen (`Reveal`), wandernde

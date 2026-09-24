@@ -4,6 +4,11 @@
  * Bewusst knapp: kein Programm, keine Zeiten, keine Preise.
  */
 
+/** Kanonische Adresse – steht so auch in robots.txt, sitemap.xml und index.html. */
+export const SITE = {
+  url: 'https://schuppenfest.vercel.app',
+}
+
 export const ORGANIZER = {
   name: 'Musikkapelle Menningen e.V.',
   url: 'https://www.mk-menningen.de/',

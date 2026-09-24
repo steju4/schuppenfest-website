@@ -6,8 +6,9 @@ import { CalendarIcon, CheckIcon, ShareIcon } from './icons.jsx'
 /**
  * Termin 2027 merken und Seite weitersagen.
  * `variant="dark"` für dunkle Abschnitte, `"light"` für helle.
+ * `solidFirst` hebt „Termin merken“ als Hauptaktion hervor.
  */
-export default function QuickActions({ variant = 'dark' }) {
+export default function QuickActions({ variant = 'dark', solidFirst = false }) {
   const [shared, setShared] = useState(false)
   const [saved, setSaved] = useState(false)
 
@@ -15,6 +16,9 @@ export default function QuickActions({ variant = 'dark' }) {
   const style = dark
     ? 'border-white/20 text-sand-50 hover:bg-white/10'
     : 'border-ink/12 text-ink hover:bg-sand-100'
+  const primary = solidFirst
+    ? 'border-transparent bg-sand-50 text-night hover:bg-white'
+    : style
 
   async function share() {
     const data = {
@@ -50,11 +54,11 @@ export default function QuickActions({ variant = 'dark' }) {
   }
 
   return (
-    <div className="flex flex-wrap justify-center gap-2">
+    <div className="flex flex-wrap gap-2">
       <button
         type="button"
         onClick={saveDate}
-        className={`inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-[0.8rem] font-bold transition active:scale-[0.98] ${style}`}
+        className={`inline-flex items-center gap-2 rounded-full border px-5 py-3 text-[0.85rem] font-bold transition active:scale-[0.98] ${primary}`}
       >
         {saved ? (
           <CheckIcon className="size-4" />
@@ -67,7 +71,7 @@ export default function QuickActions({ variant = 'dark' }) {
       <button
         type="button"
         onClick={share}
-        className={`inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-[0.8rem] font-bold transition active:scale-[0.98] ${style}`}
+        className={`inline-flex items-center gap-2 rounded-full border px-5 py-3 text-[0.85rem] font-bold transition active:scale-[0.98] ${style}`}
       >
         {shared ? (
           <CheckIcon className="size-4" />
