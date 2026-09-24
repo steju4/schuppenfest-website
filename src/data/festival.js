@@ -37,8 +37,11 @@ export const NEXT = {
   dateRangeShort: '18.–20.09.2027',
   /** Ohne Jahr – im Hero steht das Jahr schon gross darüber. */
   dateRangeNoYear: '18. – 20. September',
-  /** Beginn für den Countdown: Samstagabend, wie gewohnt. */
-  startsAt: '2027-09-18T20:00:00+02:00',
+  /**
+   * Erster Festtag als reines Datum. Der Countdown zählt Kalendertage,
+   * keine Stunden – deshalb bewusst ohne Uhrzeit.
+   */
+  startsOn: '2027-09-18',
   /** Ganztägiger Kalendereintrag, DTEND ist exklusiv. */
   icsStart: '20270918',
   icsEnd: '20270921',

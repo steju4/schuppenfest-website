@@ -2,20 +2,31 @@ import { useEffect, useRef, useState } from 'react'
 import { NEXT } from '../data/festival.js'
 import Reveal from './Reveal.jsx'
 
-/** Volle Tage bis zum Festbeginn – nie negativ. */
-function daysUntil(iso) {
-  const diff = new Date(iso).getTime() - Date.now()
-  return Math.max(0, Math.ceil(diff / 86_400_000))
+/**
+ * Kalendertage bis zum ersten Festtag – so, wie man sie im Kalender abzählt,
+ * und nie negativ.
+ *
+ * Gerechnet wird von Mitternacht zu Mitternacht: Ein Vergleich mit einer
+ * Uhrzeit im Ziel würde angefangene Tage mitzählen und läge einen Tag zu
+ * hoch. `Math.round` fängt die Zeitumstellung ab, bei der ein Tag 23 oder
+ * 25 Stunden hat.
+ */
+function daysUntil(isoDate) {
+  const [year, month, day] = isoDate.split('-').map(Number)
+  const target = new Date(year, month - 1, day)
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  return Math.max(0, Math.round((target - today) / 86_400_000))
 }
 
-function useDaysUntil(iso) {
-  const [days, setDays] = useState(() => daysUntil(iso))
+function useDaysUntil(isoDate) {
+  const [days, setDays] = useState(() => daysUntil(isoDate))
 
   useEffect(() => {
     // Stündlich reicht: die Zahl ändert sich nur einmal am Tag
-    const id = setInterval(() => setDays(daysUntil(iso)), 60 * 60 * 1000)
+    const id = setInterval(() => setDays(daysUntil(isoDate)), 60 * 60 * 1000)
     return () => clearInterval(id)
-  }, [iso])
+  }, [isoDate])
 
   return days
 }
@@ -71,7 +82,7 @@ function useCountUp(target, ref) {
 
 /** Schmales Band: Tage bis zum Fest und der Satz zum Programm. */
 export default function Countdown() {
-  const days = useDaysUntil(NEXT.startsAt)
+  const days = useDaysUntil(NEXT.startsOn)
   const ref = useRef(null)
   const shown = useCountUp(days, ref)
 
@@ -90,7 +101,7 @@ export default function Countdown() {
             {shown}
           </span>
           <span className="mt-1 block text-[0.62rem] font-bold uppercase tracking-[0.18em] text-sand-200/60">
-            Tage
+            {days === 1 ? 'Tag' : 'Tage'}
           </span>
         </p>
         <span aria-hidden className="h-16 w-px shrink-0 bg-sand-200/20" />

@@ -71,7 +71,7 @@ angefasst werden.
 | `ORGANIZER` | Verein und Vereinsseite                                           |
 | `VENUE`     | Adresse des Schuppens                                             |
 | `THANKS`    | der Dank fürs Fest 2026: Jahr, Zeitraum, „Danke“ und zwei Sätze   |
-| `NEXT`      | Fest 2027: Zeitraum, Countdown-Start, Kalenderdaten, Schlusssatz  |
+| `NEXT`      | Fest 2027: Zeitraum, erster Festtag, Kalenderdaten, Schlusssatz   |
 | `NEXT_DAYS` | die drei Tage 2027 – Wochentag, Datum, Titel                      |
 | `THEMES`    | Farbe je Tag (pink/messing/türkis)                                |
 
@@ -81,6 +81,17 @@ angefasst werden.
 ist, lohnt sich wieder eine eigene Programm-Komponente – die vollständige
 Festseite von 2026 steht in der Git-Historie (Commit „Vercel Web Analytics
 einbinden“ und früher) und lässt sich von dort holen, statt sie neu zu bauen.
+
+## Countdown
+
+`Countdown.jsx` zählt **Kalendertage** von Mitternacht zu Mitternacht – also
+genau das, was man im Kalender abzählt und was auch Google anzeigt. Zuerst lief
+die Rechnung gegen den Festbeginn um 20 Uhr und rundete auf, damit war die Zahl
+einen Tag zu hoch. `Math.round` statt `ceil` fängt zusätzlich die
+Zeitumstellung ab, bei der ein Tag 23 oder 25 Stunden hat.
+
+Grundlage ist `NEXT.startsOn` – ein reines Datum ohne Uhrzeit, damit sich der
+Fehler nicht wieder einschleicht.
 
 ## Kalendereintrag
 
