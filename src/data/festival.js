@@ -25,6 +25,7 @@ export const THANKS = {
   year: '2026',
   dateRange: '19. – 21. September 2026',
   headline: 'Danke',
+  chip: 'Danke für 2026',
   lead: 'Drei Tage Menninger Schuppenfest sind vorbei – und sie waren großartig.',
   text: 'Danke an alle Gäste, Helfer und Musiker. Ihr habt das Fest gemacht.',
 }
@@ -34,6 +35,8 @@ export const NEXT = {
   year: '2027',
   dateRange: '18. – 20. September 2027',
   dateRangeShort: '18.–20.09.2027',
+  /** Ohne Jahr – im Hero steht das Jahr schon gross darüber. */
+  dateRangeNoYear: '18. – 20. September',
   /** Beginn für den Countdown: Samstagabend, wie gewohnt. */
   startsAt: '2027-09-18T20:00:00+02:00',
   /** Ganztägiger Kalendereintrag, DTEND ist exklusiv. */
@@ -67,7 +70,7 @@ export const NEXT_DAYS = [
     weekday: 'Montag',
     weekdayShort: 'Mo',
     dayNumber: '20',
-    title: 'Feierabendhock',
+    title: 'Feierabend\u00ADhock',
   },
 ]
 

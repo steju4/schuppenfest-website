@@ -11,9 +11,10 @@ Alle konkreten Inhalte von 2026 (Programm, Zeiten, Kapellen, Malle-Party, DJ,
 Eintritt, Anfahrt, Karte) sind entfernt – ein abgelaufenes Programm auf einer
 Seite, die per QR-Code vom Flyer aufgerufen wird, verwirrt mehr als es nützt.
 
-Der Termin steht dabei oben: Wer den QR-Code vom Flyer scannt, sieht Datum und
-Ort, ohne zu scrollen. Darunter folgen die drei Tage, und erst danach der Dank
-fürs Fest 2026.
+Der erste Bildschirm trägt beides: einen kurzen Gruss „Danke für 2026“ (der
+nach unten zum ganzen Dank führt) und darunter alles zu 2027 – Jahr, Datum, die
+drei Tage als farbige Kacheln, Ort und die Aktionen. Wer den QR-Code vom Flyer
+scannt, muss also nicht scrollen.
 
 Für 2027 steht nur der Termin und der Titel je Tag: Samstag Partyabend, Sonntag
 Festsonntag, Montag Feierabendhock. Keine Zeiten, keine Kapellen, keine Preise –
@@ -98,9 +99,10 @@ src/
 ├── data/festival.js            alle Inhalte
 ├── lib/calendar.js             erzeugt die .ics-Datei zum Termin merken
 └── components/
-    ├── Hero.jsx                Termin 2027: Datum, Ort, Termin merken/Teilen
+    ├── Hero.jsx                erster Bildschirm: Danke-Chip, 2027, Datum,
+    │                           die drei Tageskacheln, Ort, Aktionen
     ├── Marquee.jsx             Laufband als Trenner
-    ├── Termin.jsx              die drei Tage, Einleitung, Countdown
+    ├── Countdown.jsx           Band mit Tagen bis zum Fest und Einleitung
     ├── Danke.jsx               Dank fürs Fest 2026
     ├── QuickActions.jsx        Termin merken (.ics) und Teilen
     ├── Footer.jsx              Schlusssatz, Adresse, Veranstalter
@@ -112,12 +114,20 @@ src/
 
 - **Schriften:** Anton als Poster-Display für Titel und Ziffern, Outfit für
   Fließtext.
-- **Vier Abschnitte, mehr nicht:** Termin → die drei Tage → Danke 2026 →
-  Footer, getrennt durch ein Laufband. Die Seite ist rund vier Bildschirme lang.
+- **Vier Abschnitte, mehr nicht:** Hero → Countdown-Band → Danke 2026 →
+  Footer, getrennt durch ein Laufband. Die Seite ist rund drei Bildschirme lang.
 - **Die „2027“ trägt den ersten Bildschirm**, im Farbverlauf mit langsam
   wanderndem Glanz (`animate-sheen`) und in `clamp()` gesetzt, damit sie auch
-  auf 320 px nicht überläuft. Direkt darunter steht das Datum als heller
-  Block – das ist die Information, wegen der die Seite aufgerufen wird.
+  auf 320 px nicht überläuft.
+- **Das Datum sitzt leicht gekippt** (−1,5°) als heller Block darunter, wie
+  aufgeklebt – das ist die Information, wegen der die Seite aufgerufen wird.
+- **Die drei Tage sind Datumskacheln** in den Tagesfarben: Wochentag, grosse
+  Ziffer, Titel. Sie liefern Farbe und beantworten „was ist wann“ in einem
+  Blick, ohne dass ein Programm nötig wäre.
+- **Farbband über der Seite:** Ganz oben liegt ein 6 px hoher Verlauf aus den
+  drei Tagesfarben – ein ruhiger Anker, der die Farbcodierung einführt.
+- **Ab `sm` ist der Hero mittig gesetzt**, sonst klebt die schmale Spalte auf
+  dem Desktop am linken Rand.
 - **Countdown:** eine einzige Zeile (Tage bis zum Fest), bewusst klein.
 - **Farbe je Tag:** Samstag pink, Sonntag messing, Montag türkis – siehe
   `THEMES`.

@@ -71,6 +71,14 @@ export function ArrowDownIcon(props) {
   )
 }
 
+export function HeartIcon(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 20s-7.5-4.6-7.5-9.4A4.1 4.1 0 0 1 12 8a4.1 4.1 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20Z" />
+    </svg>
+  )
+}
+
 export function ExternalIcon(props) {
   return (
     <svg {...base} {...props}>

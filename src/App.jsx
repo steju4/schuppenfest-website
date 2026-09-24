@@ -1,9 +1,9 @@
 import { Analytics } from '@vercel/analytics/react'
+import Countdown from './components/Countdown.jsx'
 import Danke from './components/Danke.jsx'
 import Footer from './components/Footer.jsx'
 import Hero from './components/Hero.jsx'
 import Marquee from './components/Marquee.jsx'
-import Termin from './components/Termin.jsx'
 
 export default function App() {
   return (
@@ -12,7 +12,7 @@ export default function App() {
       <Hero />
       <Marquee />
       <main>
-        <Termin />
+        <Countdown />
         <Danke />
       </main>
       <Footer />
