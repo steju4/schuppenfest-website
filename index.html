@@ -4,6 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#150d24" />
+    <meta name="color-scheme" content="dark" />
+
+    <!-- Inline, damit der dunkle Grund schon steht, bevor das Stylesheet
+         geladen ist – sonst blitzt beim Aufruf kurz Weiss auf. -->
+    <style>
+      html {
+        background-color: #150d24;
+        color-scheme: dark;
+      }
+    </style>
 
     <!-- ------------------------------------------------------------------
          Termin geändert? Dann diese Datei mitziehen (Titel, Description,

@@ -180,6 +180,25 @@ Vier Stellen: `src/data/festival.js` (die Seite selbst), `index.html` (Titel,
 Description, og-Tags, JSON-LD), `public/sitemap.xml` (`lastmod`) und
 `public/og-bild.png` (neu rendern).
 
+## Kein weisses Aufblitzen beim Laden
+
+Die Seite ist clientseitig gerendert: Zwischen „Stylesheet da“ und „React
+gemountet“ liegen auf dem Handy ein paar hundert Millisekunden. Solange stand
+früher der helle Grundton der Seite da – sichtbar als kurzes weisses
+Aufblitzen, bevor der dunkle Hero kam.
+
+Dagegen drei Dinge:
+
+- `html` und `body` sind **dunkel** (`--color-night`), nicht mehr sandfarben.
+  Die hellen Flächen bringen ihren Hintergrund selbst mit.
+- In `index.html` steht ein **kurzer Inline-Stil** im `<head>`, der den dunklen
+  Grund setzt – der greift schon, bevor das externe Stylesheet geladen ist.
+- `color-scheme: dark` färbt zusätzlich Canvas, Scrollbalken und den
+  Overscroll-Bereich ein.
+
+Gemessen mit blockiertem JavaScript (also genau dem Zustand vor dem Mount):
+mittlere Bildhelligkeit vorher 252 von 255, jetzt 18.
+
 ## Performance- und Datenschutz-Entscheidungen
 
 - **Schriften selbst gehostet** in `public/fonts/` (Anton 19 kB, Outfit 32 kB,

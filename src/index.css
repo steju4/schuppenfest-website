@@ -99,10 +99,14 @@
     scroll-behavior: smooth;
     scroll-padding-top: 5.5rem;
     -webkit-text-size-adjust: 100%;
+    /* Der Browser faerbt Canvas, Scrollbalken und Overscroll danach ein –
+       ohne das blitzt vor dem ersten Rendern Weiss auf. */
+    color-scheme: dark;
+    @apply bg-night;
   }
 
   body {
-    @apply bg-sand-50 text-ink font-sans antialiased;
+    @apply bg-night text-sand-50 font-sans antialiased;
     overflow-x: hidden;
   }
 
