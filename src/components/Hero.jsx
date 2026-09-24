@@ -16,7 +16,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-night-soft via-night to-night" />
         <div className="animate-drift absolute -right-40 -top-44 size-[34rem] rounded-full bg-berry-500/25 blur-[110px]" />
         <div className="animate-drift-slow absolute -bottom-52 -left-36 size-[32rem] rounded-full bg-sunset-500/16 blur-[110px]" />
-        <div className="dots absolute inset-0 text-white/[0.05]" />
+        <div className="dots absolute inset-0 text-white/[0.06] [mask-image:radial-gradient(ellipse_at_50%_35%,black,transparent_72%)]" />
         <div className="grain absolute inset-0 opacity-[0.05]" />
       </div>
 
@@ -54,7 +54,14 @@ export default function Hero() {
           </span>
           {/* Zwei Ebenen, weil sich sonst die beiden Animationen
               (Einblenden aussen, Farbverlauf innen) gegenseitig ersetzen. */}
-          <span className="animate-rise block" style={{ animationDelay: '180ms' }}>
+          <span
+            className="animate-rise relative block"
+            style={{ animationDelay: '180ms' }}
+          >
+            <span
+              aria-hidden
+              className="animate-glow pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[70%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-berry-500/35 blur-[60px]"
+            />
             <span
               className="display animate-sheen block bg-gradient-to-r from-sunset-300 via-berry-400 to-sunset-400 bg-clip-text text-transparent"
               style={{ fontSize: 'clamp(4.2rem, 26vw, 8rem)' }}
@@ -64,31 +71,33 @@ export default function Hero() {
           </span>
         </h1>
 
-        {/* Das Datum – leicht gekippt, damit es wie aufgeklebt wirkt */}
         <p
-          className="animate-rise display mt-4 w-fit -rotate-[1.5deg] rounded-xl bg-sand-50 px-4 py-2 text-night shadow-[0_10px_30px_-12px_rgba(0,0,0,0.8)]"
+          className="animate-rise display mt-4 w-fit rounded-xl bg-sand-50 px-4 py-2 text-night shadow-[0_10px_30px_-12px_rgba(0,0,0,0.8)]"
           style={{ fontSize: 'clamp(1.4rem, 6.4vw, 2rem)', animationDelay: '240ms' }}
         >
           {NEXT.dateRangeNoYear}
         </p>
 
         {/* Die drei Tage als Datumskacheln in den Tagesfarben */}
-        <ul
-          className="animate-rise mt-7 grid w-full grid-cols-3 gap-2"
-          style={{ animationDelay: '300ms' }}
-        >
-          {NEXT_DAYS.map((day) => (
+        <ul className="mt-7 grid w-full grid-cols-3 gap-2">
+          {NEXT_DAYS.map((day, index) => (
             <li
               key={day.id}
-              className={`overflow-hidden rounded-2xl ${THEMES[day.theme]} px-1.5 pb-2.5 pt-3 text-center text-white shadow-[0_12px_28px_-16px_rgba(0,0,0,0.9)]`}
+              style={{ animationDelay: `${300 + index * 90}ms` }}
+              className={`animate-pop group relative overflow-hidden rounded-2xl ${THEMES[day.theme]} px-1.5 pb-2.5 pt-3 text-center text-white shadow-[0_12px_28px_-16px_rgba(0,0,0,0.9)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_34px_-14px_rgba(0,0,0,0.9)]`}
             >
-              <span className="block text-[0.6rem] font-bold uppercase tracking-[0.16em] text-white/75">
+              {/* Lichtkante von oben links – gibt den Flächen Tiefe */}
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/25 via-white/0 to-white/0"
+              />
+              <span className="relative block text-[0.6rem] font-bold uppercase tracking-[0.16em] text-white/75">
                 {day.weekdayShort}
               </span>
-              <span className="display mt-0.5 block text-[2.4rem] leading-none">
+              <span className="display relative mt-0.5 block text-[2.4rem] leading-none">
                 {day.dayNumber}
               </span>
-              <span className="mt-1.5 block hyphens-auto break-words text-[0.66rem] font-bold leading-tight">
+              <span className="relative mt-1.5 block hyphens-auto break-words text-[0.66rem] font-bold leading-tight">
                 {day.title}
               </span>
             </li>

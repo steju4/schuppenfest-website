@@ -58,14 +58,23 @@ export default function QuickActions({ variant = 'dark', solidFirst = false }) {
       <button
         type="button"
         onClick={saveDate}
-        className={`inline-flex items-center gap-2 rounded-full border px-5 py-3 text-[0.85rem] font-bold transition active:scale-[0.98] ${primary}`}
+        className={`relative inline-flex items-center gap-2 overflow-hidden rounded-full border px-5 py-3 text-[0.85rem] font-bold transition active:scale-[0.98] ${primary}`}
       >
+        {/* Lichtreflex, der alle paar Sekunden über die Hauptaktion wandert */}
+        {solidFirst ? (
+          <span
+            aria-hidden
+            className="animate-shine pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 bg-gradient-to-r from-transparent via-berry-500/25 to-transparent"
+          />
+        ) : null}
         {saved ? (
-          <CheckIcon className="size-4" />
+          <CheckIcon className="relative size-4" />
         ) : (
-          <CalendarIcon className="size-4" />
+          <CalendarIcon className="relative size-4" />
         )}
-        {saved ? 'Termin gespeichert' : 'Termin merken'}
+        <span className="relative">
+          {saved ? 'Termin gespeichert' : 'Termin merken'}
+        </span>
       </button>
 
       <button

@@ -237,6 +237,55 @@
   animation: sheen 9s ease-in-out infinite;
 }
 
+/* Weicher Lichtschein hinter der Jahreszahl – atmet langsam */
+@keyframes glow {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.09);
+  }
+}
+
+@utility animate-glow {
+  animation: glow 7s ease-in-out infinite;
+}
+
+/* Lichtreflex, der in grossen Abständen über die Hauptaktion wandert.
+   Die lange Pause am Anfang der Kurve hält ihn dezent. */
+@keyframes shine {
+  0%,
+  74% {
+    transform: translateX(-150%) skewX(-18deg);
+  }
+  100% {
+    transform: translateX(330%) skewX(-18deg);
+  }
+}
+
+@utility animate-shine {
+  animation: shine 6s ease-in-out infinite;
+}
+
+/* Tageskacheln kommen einzeln hoch – mit leichtem Überschwingen */
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility animate-pop {
+  animation: pop 0.62s cubic-bezier(0.34, 1.32, 0.64, 1) backwards;
+}
+
 /* Scroll-Reveal: Startzustand, `is-visible` wird per Observer gesetzt */
 @utility reveal {
   opacity: 0;

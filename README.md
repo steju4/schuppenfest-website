@@ -119,8 +119,8 @@ src/
 - **Die „2027“ trägt den ersten Bildschirm**, im Farbverlauf mit langsam
   wanderndem Glanz (`animate-sheen`) und in `clamp()` gesetzt, damit sie auch
   auf 320 px nicht überläuft.
-- **Das Datum sitzt leicht gekippt** (−1,5°) als heller Block darunter, wie
-  aufgeklebt – das ist die Information, wegen der die Seite aufgerufen wird.
+- **Das Datum sitzt als heller Block** direkt darunter – das ist die
+  Information, wegen der die Seite aufgerufen wird.
 - **Die drei Tage sind Datumskacheln** in den Tagesfarben: Wochentag, grosse
   Ziffer, Titel. Sie liefern Farbe und beantworten „was ist wann“ in einem
   Blick, ohne dass ein Programm nötig wäre.
@@ -186,13 +186,29 @@ Description, og-Tags, JSON-LD), `public/sitemap.xml` (`lastmod`) und
   beide woff2, SIL Open Font License 1.1). Kein Request an Google Fonts.
 - **Keine Karte mehr:** Das Google-Maps-Embed ist mit dem Anfahrts-Block
   entfallen. Es geht damit beim Aufruf der Seite keine Anfrage an Google.
-- **Keine Icon-Library, keine Animationsbibliothek.** Bewegung gibt es an fünf
-  Stellen, alles reines CSS bzw. ein IntersectionObserver: Einblenden beim
-  Laden (`animate-rise`), Einblenden beim Scrollen (`Reveal`), wandernde
-  Farbschleier, der Glanz in den grossen Schriftzügen und das Laufband.
+- **Keine Icon-Library, keine Animationsbibliothek.** Alle Effekte sind reines
+  CSS bzw. ein IntersectionObserver:
+
+  | Effekt | Wo | Utility |
+  | ------ | --- | ------- |
+  | Einblenden beim Laden | Hero | `animate-rise` |
+  | Einblenden beim Scrollen | alle Abschnitte | `Reveal` |
+  | Kacheln kommen einzeln hoch | Tageskacheln | `animate-pop` (gestaffelt) |
+  | wandernder Glanz in der Schrift | „2027“, „Danke“ | `animate-sheen` |
+  | atmender Lichtschein | hinter der „2027“ | `animate-glow` |
+  | Lichtreflex über der Hauptaktion | „Termin merken“ | `animate-shine` |
+  | wandernde Farbschleier | Hero, Countdown | `animate-drift` |
+  | Laufband | Trenner | `animate-marquee` |
+  | Stupser nach unten | Scroll-Hinweis | `animate-nudge` |
+  | hochzählende Zahl | Countdown | `useCountUp` in `Countdown.jsx` |
+
+  Das Punktraster im Hero ist zum Rand hin ausmaskiert
+  (`mask-image: radial-gradient(...)`), damit es nicht wie Tapete wirkt.
 - **`prefers-reduced-motion`** schaltet alles davon ab. Wichtig dabei: neben
   der Dauer wird auch `animation-iteration-count` auf 1 gesetzt, sonst würden
-  Laufband und Schleier mit 0,01 ms Dauer endlos weiterlaufen.
+  Laufband und Schleier mit 0,01 ms Dauer endlos weiterlaufen. Die
+  hochzählende Zahl fragt die Einstellung zusätzlich in JavaScript ab und
+  steht dann sofort auf dem Endwert.
 
 ## DJ-Logo
 
